@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "CuisineClash.sln"
+    "dotnet.defaultSolution": "Cuisine-Clash.sln"
 }
