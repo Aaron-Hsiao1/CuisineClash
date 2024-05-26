@@ -473,8 +473,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 24f5ffff
-      m_LastClickedID: -2780
+      m_SelectedIDs: 
+      m_LastClickedID: 0
       m_ExpandedIDs: 30fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1028,14 +1028,14 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Aaron\Cuisine-Clash\CuisineClash
+  m_LastProjectPath: C:\Aaron\Cuisine-Clash
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ba590000
-    m_LastClickedID: 22970
-    m_ExpandedIDs: 00000000ba59000000ca9a3bffffff7f
+    m_SelectedIDs: a2590000
+    m_LastClickedID: 22946
+    m_ExpandedIDs: 00000000a259000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1063,7 +1063,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ba590000
+    m_ExpandedIDs: 00000000a2590000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
