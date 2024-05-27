@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
 	public float moveSpeed;
 
@@ -37,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
 
 	void Update()
 	{
+		if (!IsLocalPlayer)
+		{
+			return;
+		}
+
 		grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
 
 		myInput();
@@ -50,12 +57,15 @@ public class PlayerMovement : MonoBehaviour
 		{
 			rb.drag = 0;
 		}
-		Debug.Log("Grounded " + grounded);
-		Debug.Log("can Jump " + canJump);
+
 	}
 
 	private void FixedUpdate()
 	{
+		if (!IsLocalPlayer)
+		{
+			return;
+		}
 		movePlayer();
 	}
 
@@ -104,7 +114,6 @@ public class PlayerMovement : MonoBehaviour
 	{
 		rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 		rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-		//rb.AddForce(Vector3.down * 200f, ForceMode.Force);
 	}
 
 	private void resetJump()
