@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MultiplayerTesting.unity
     guid: 5d5d21644f5a981469d32b741415632b
+  - enabled: 1
+    path: Assets/Scenes/SANDWITCHTEST.unity
+    guid: 566c47f5497ca4e05ad887472c47082a
   m_configObjects: {}
