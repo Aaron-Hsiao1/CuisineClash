@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PickUpObject : MonoBehaviour
 {
-    public GameObject ObjectOnPLayer;
+    public GameObject ObjectOnPlayer;
 
     void Start()
     {
         ObjectOnPlayer.SetActive(false);
     }
     private void OnTriggerStay(Collider other){
-        if(other.gameObject.tag -- "Player"){
+        if(other.gameObject.tag == "Player"){
             if(Input.GetKey(KeyCode.E)){
                 this.gameObject.SetActive(false);
 
