@@ -57,7 +57,6 @@ public class PlayerMovement : NetworkBehaviour
 		{
 			rb.drag = 0;
 		}
-
 	}
 
 	private void FixedUpdate()
