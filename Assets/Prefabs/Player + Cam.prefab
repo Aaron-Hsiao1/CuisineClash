@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8067760004623852202}
   - component: {fileID: 669477785488915693}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BottomRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1108890215068993285}
   - component: {fileID: 3581861544140742818}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MiddleRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 3013951101026630976}
   - component: {fileID: 2123099370915232089}
   - component: {fileID: 2738831080592395558}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 7608370789992573476}
   - component: {fileID: 3857658242763840835}
   - component: {fileID: 8350102013933926360}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1180826903895423920}
   - component: {fileID: 3716608544070159231}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TopRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,7 +479,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1309148791507815188}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CameraHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 3299184607545891857}
   - component: {fileID: 4700209654041451630}
   - component: {fileID: 7043969082750220085}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -531,7 +531,7 @@ Transform:
   m_GameObject: {fileID: 5494688447873213992}
   serializedVersion: 2
   m_LocalRotation: {x: 0.11559224, y: -0.00000003051361, z: 0.0000000035509393, w: 0.9932968}
-  m_LocalPosition: {x: 0.43836698, y: 3.67, z: -4.0632753}
+  m_LocalPosition: {x: 0.33535576, y: 3, z: 4.263811}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -660,7 +660,7 @@ GameObject:
   - component: {fileID: 1046550166720496779}
   - component: {fileID: 4632155756841999482}
   - component: {fileID: 6944437109647653982}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: eyeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -766,7 +766,7 @@ GameObject:
   - component: {fileID: 5861441605435931289}
   - component: {fileID: 1664658933557465907}
   - component: {fileID: 5482698340820086611}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlayerObj
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -903,7 +903,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8464223066724782014}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Orientation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -936,7 +936,7 @@ GameObject:
   - component: {fileID: 6900711787408160084}
   - component: {fileID: 1826043248698794286}
   - component: {fileID: 1301195319208733695}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FreeLook Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1108,7 +1108,7 @@ GameObject:
   - component: {fileID: 6917937341748915373}
   - component: {fileID: 1114126776786636269}
   - component: {fileID: 7380929755464180517}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1237,7 +1237,8 @@ GameObject:
   - component: {fileID: 6354735150898331807}
   - component: {fileID: 7888669529665992022}
   - component: {fileID: 1754305884896018813}
-  m_Layer: 0
+  - component: {fileID: -7834754548148996653}
+  m_Layer: 2
   m_Name: Player + Cam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1302,7 +1303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3579838098
+  GlobalObjectIdHash: 1895496382
   InScenePlacedSourceGlobalObjectIdHash: 1425304081
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1377,6 +1378,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7834754548148996653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039711912111513445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31cd8d9092125be45b552f17161583ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 7039711912111513445}
+  orientation: {fileID: 6623288369113248623}
 --- !u!1 &7468739856154019276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1389,7 +1404,7 @@ GameObject:
   - component: {fileID: 7284306465764820457}
   - component: {fileID: 6290318188379485523}
   - component: {fileID: 5454668109181819436}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: eye (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1495,7 +1510,7 @@ GameObject:
   - component: {fileID: 1299653157718659622}
   - component: {fileID: 5993816119912883725}
   - component: {fileID: 8964051300480909474}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1622,7 +1637,7 @@ GameObject:
   - component: {fileID: 8509521090637143780}
   - component: {fileID: 7213559399074380126}
   - component: {fileID: 2737684595089008583}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: eyeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
