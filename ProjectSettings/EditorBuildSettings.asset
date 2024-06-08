@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SANDWITCHTEST.unity
     guid: 566c47f5497ca4e05ad887472c47082a
+  - enabled: 1
+    path: Assets/Scenes/PUSHINGP.unity
+    guid: c0372e9f5e7a64a4e863687dae0aa535
   m_configObjects: {}
