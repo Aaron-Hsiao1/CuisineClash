@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Samples/Relay/1.0.5/Simple Relay Sample/SimpleRelay.unity
     guid: 207fcaccdfb642c49ba9e63f57b94b2e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MultiplayerTesting.unity
     guid: 5d5d21644f5a981469d32b741415632b
   - enabled: 1

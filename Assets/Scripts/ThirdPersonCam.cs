@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using Cinemachine;
 using Unity.VisualScripting;
+using UnityEngine.Timeline;
 
 public class ThirdPersonCam : NetworkBehaviour
 {
@@ -15,6 +16,16 @@ public class ThirdPersonCam : NetworkBehaviour
 
 	public float rotationSpeed;
 	// Start is called before the first frame update
+
+	public Transform combatLooktAt;
+
+	public CameraStyle currentStyle;
+	public enum CameraStyle
+	{
+		Basic,
+		Combat
+	}
+
 	void Start()
 	{
 		Cursor.lockState = CursorLockMode.Locked; //locks cursor
@@ -57,14 +68,28 @@ public class ThirdPersonCam : NetworkBehaviour
 		Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
 		orientation.forward = viewDir.normalized;
 
-		//rotate player object
-		float horizontalInput = Input.GetAxis("Horizontal");
-		float verticalInput = Input.GetAxis("Vertical");
-		Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-		if (inputDir != Vector3.zero)
+		if (currentStyle == CameraStyle.Basic)
 		{
-			playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+			//rotate player object
+
+			float horizontalInput = Input.GetAxis("Horizontal");
+			float verticalInput = Input.GetAxis("Vertical");
+			Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 		}
+		else if (currentStyle == CameraStyle.Combat)
+		{
+			Vector3 dirToCombatLookAt = combatLooktAt.position - new Vector3(transform.position.x, combatLooktAt.position.y, transform.position.z);
+			orientation.forward = dirToCombatLookAt.normalized;
+
+			playerObj.forward = dirToCombatLookAt.normalized;
+		}
+
+
+
+		//if (inputDir != Vector3.zero)
+		//{
+		//playerObj.forward = orientation.position;//Vector3.Slerp(playerObj.forward, dirToCombatLookAt.normalized, Time.deltaTime * rotationSpeed);
+		//}
 	}
 }

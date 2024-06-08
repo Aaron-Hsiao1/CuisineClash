@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - CanPickUp
+  - Placing Zone
   layers:
   - Default
   - TransparentFX
