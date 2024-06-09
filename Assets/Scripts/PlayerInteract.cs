@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerPickup : MonoBehaviour
+public class PlayerInteract : MonoBehaviour
 {
 	public GameObject player;
 	public GameObject orientation;
@@ -66,9 +66,7 @@ public class PlayerPickup : MonoBehaviour
 		if (Physics.Raycast(ray, out hit, 25))
 		{
 			GameObject hitObject = hit.collider.gameObject;
-			//Debug.Log("raycast hit");
-			//Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2.0f);
-			if (hitObject.CompareTag("CanPickUp") && Input.GetKeyDown(KeyCode.E) && !carrying && canPickUp)
+			if (hitObject.CompareTag("Ingredient") && Input.GetKeyDown(KeyCode.E) && !carrying && canPickUp)
 			{
 				instantiatedObject = Instantiate(hitObject, player.transform.position + offset, Quaternion.identity);
 				instantiatedObject.name = instantiatedObject.name.Replace("(Clone)", "").Trim();
@@ -76,10 +74,6 @@ public class PlayerPickup : MonoBehaviour
 				carrying = true;
 				canPickUp = false;
 			}
-		}
-		else
-		{
-			//Debug.Log("Raycast not hit");
 		}
 	}
 
@@ -91,9 +85,11 @@ public class PlayerPickup : MonoBehaviour
 		{
 			foreach (IngredientSO ingredient in ingredientList.ingredientListSO)
 			{
+				Debug.Log("fore loop runing");
 				if (ingredient.ingredientName == instantiatedObject.name)
 				{
-					ps.playerSandwich.Insert(0, ingredient.prefab);
+					Debug.Log("if rajn");
+					ps.playerSandwich.Insert(0, ingredient);
 				}
 			}
 

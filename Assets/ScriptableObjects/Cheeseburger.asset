@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 586c9f2dda4ed2e43808051c30eb6ef3, type: 3}
-  m_Name: Ingredient List
+  m_Script: {fileID: 11500000, guid: 8f49d1f1de8b5a94b853ade2ee999b53, type: 3}
+  m_Name: Cheeseburger
   m_EditorClassIdentifier: 
-  ingredientListSO:
+  recipeSO:
   - {fileID: 11400000, guid: 565fcbf2cc9cc534c8bc6787ac6bed50, type: 2}
-  - {fileID: 11400000, guid: 60a36631c6813834298d99f71959194e, type: 2}
-  - {fileID: 11400000, guid: 02bf40d93c0f66f448b3155b27efb1c6, type: 2}
   - {fileID: 11400000, guid: 1b574bffc120fda42b550da9ede1c7b5, type: 2}
+  - {fileID: 11400000, guid: 60a36631c6813834298d99f71959194e, type: 2}
+  - {fileID: 11400000, guid: 565fcbf2cc9cc534c8bc6787ac6bed50, type: 2}
+  recipeName: Cheeseburger

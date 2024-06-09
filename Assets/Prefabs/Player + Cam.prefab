@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 299134295160187202}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09252118, y: -0.00000017697015, z: 0.000000016444021, w: 0.99571073}
+  m_LocalRotation: {x: 0.09252108, y: -0, z: -0, w: 0.99571073}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -104,7 +104,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470190502936938387}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11559253, y: -0.00000047532689, z: 0.000000055315038, w: 0.99329674}
+  m_LocalRotation: {x: 0.11559224, y: -0, z: -0, w: 0.99329674}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -470,51 +470,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 5059926608584926202}
---- !u!1 &2796811440891430267
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2357446383014839499}
-  - component: {fileID: 6941892634881668888}
-  m_Layer: 0
-  m_Name: Player Sandwich
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2357446383014839499
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2796811440891430267}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.25, y: 0, z: 1.52}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5764773322451792849}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6941892634881668888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2796811440891430267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 847271dfd0580454db42a746395ecf32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSandwich: []
 --- !u!1 &2919730909083940441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,7 +955,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5494688447873213992}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.044597097, y: 0.31658345, z: 0.0149026, w: 0.94739854}
+  m_LocalRotation: {x: -0.04459554, y: 0.31655735, z: 0.014900711, w: 0.9474074}
   m_LocalPosition: {x: -2.9886024, y: 2.0404863, z: -2.824131}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1120,6 +1075,51 @@ MonoBehaviour:
   rotationSpeed: 7
   combatLooktAt: {fileID: 9038978572319560915}
   currentStyle: 1
+--- !u!1 &5495299943694403258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6253760358616215492}
+  - component: {fileID: 9130569142038306740}
+  m_Layer: 0
+  m_Name: Player Sandwich
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6253760358616215492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495299943694403258}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.25, y: 0, z: 1.52}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5764773322451792849}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9130569142038306740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495299943694403258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 847271dfd0580454db42a746395ecf32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSandwich: []
 --- !u!1 &5599912647346550058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1250,7 +1250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5984974984442394559}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.035594698, y: 0.31670836, z: 0.011894255, w: 0.94778025}
+  m_LocalRotation: {x: -0.03559352, y: 0.31668454, z: 0.011892865, w: 0.94778824}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1456,7 +1456,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6597933294330003569}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.013503784, y: 0.31687576, z: 0.0045120213, w: 0.9483602}
+  m_LocalRotation: {x: -0.01350378, y: 0.31687576, z: 0.0045120204, w: 0.9483602}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1895,7 +1895,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6795339306375799901}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.05757064, y: 0.3163529, z: 0.019238073, w: 0.9466976}
+  m_LocalRotation: {x: -0.057568546, y: 0.3163235, z: 0.019235384, w: 0.94670767}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2111,7 +2111,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2357446383014839499}
+  - {fileID: 6253760358616215492}
   - {fileID: 8464223066724782014}
   - {fileID: 6900711787408160084}
   - {fileID: 2332357388469697143}
@@ -2248,7 +2248,7 @@ MonoBehaviour:
   player: {fileID: 7039711912111513445}
   orientation: {fileID: 6623288369113248623}
   ingredientList: {fileID: 11400000, guid: 857cd9c735d7df448af6d38788be6842, type: 2}
-  ps: {fileID: 6941892634881668888}
+  ps: {fileID: 9130569142038306740}
   placeDelay: 0.1
   carrying: 0
   canPlace: 0
