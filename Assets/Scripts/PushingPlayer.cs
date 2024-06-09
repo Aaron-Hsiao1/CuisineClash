@@ -9,42 +9,46 @@ using UnityEngine.UI;
 public class PlayerPush : MonoBehaviour
 {
     // Public variables that can be adjusted in the Unity Inspector
-    public float pushForce = 10f; // Force to push the other player
-    public float pushUpForce = 5f; // Upward force to push the other player
-    public float raycastDistance = 100f; // Distance for the raycast
+    public float pushForce = 2f; // Force to push the other player
+    public float pushUpForce = 2f; // Upward force to push the other player
+    public float raycastDistance = 10f; // Distance for the raycast
+    public float pushDistanceThreshold = 3f;
 
-    void Update()
+    public GameObject playerCam;
+    
+     void Update()
     {
-        // Check if the right mouse button is pressed
+        // Check if the B key is pressed
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            // Create a ray from the main camera to the mouse position
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit; // Variable to store information about what the raycast hits
-            //Vector3 forward = transform.TransformDirection(Vector3.forward) * raycastDistance;
 
             // Perform the raycast
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, raycastDistance))
             {
-                Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2.0f);
+                
+
                 // Check if the hit object is another player
-                if (hit.collider.CompareTag("Player") && Input.GetKeyDown(KeyCode.B))
+                if (hit.collider.CompareTag("Player"))
                 {
-                    Debug.Log("raycast is hit");
-                    PushPlayer(hit.collider.gameObject);
+                    float distanceToPlayer = Vector3.Distance(transform.position, hit.collider.gameObject.transform.position);
+                    Debug.Log("Distance to player: " + distanceToPlayer);
+                    Rigidbody rb = hit.collider.gameObject.GetComponentInParent<Rigidbody>();
+                        
+                        if (rb != null)
+                        {
+                             if (distanceToPlayer <= pushDistanceThreshold)
+                            {
+                                Vector3 pushDirection = (hit.collider.gameObject.transform.position - transform.position).normalized;
+                                pushDirection.y = 0; // Neutralize the vertical component   
+                                rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+                                rb.AddForce(Vector3.up * pushUpForce, ForceMode.Impulse);
+                        }
+                    }
                 }
             }
-        
-    }
-
-    // Method to apply forces to push the other player
-    void PushPlayer(GameObject player)
-    {
-        Rigidbody rb = player.GetComponent<Rigidbody>();
-
-        if (rb != null)
-        {
-            Vector3 pushDirection = (player.transform.position - transform.position).normalized;
-            pushDirection.y = 0; // Neutralize the vertical component
-            rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
-            rb.AddForce(Vector3.up * pushUpForce, ForceMode.Impulse);
         }
     }
 }
