@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.Jobs;
 
@@ -63,7 +62,5 @@ public class SandwichMakerManager : MonoBehaviour //Manages everything about the
 		{
 			return mediumRecipeListSO.recipeListSO[UnityEngine.Random.Range(0, mediumRecipeListSO.recipeListSO.Count)];
 		}
-
-
 	}
 }

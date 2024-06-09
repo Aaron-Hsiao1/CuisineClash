@@ -17,7 +17,7 @@ public class ThirdPersonCam : NetworkBehaviour
 	public float rotationSpeed;
 	// Start is called before the first frame update
 
-	public Transform combatLooktAt;
+	public Transform combatLookAt;
 
 	public CameraStyle currentStyle;
 	public enum CameraStyle
@@ -43,7 +43,8 @@ public class ThirdPersonCam : NetworkBehaviour
 		}
 		if (IsOwner)
 		{
-			Transform cameraTarget = transform;
+			Transform cameraTarget = combatLookAt;
+			Transform cameraFollow = transform;
 			if (fL = null)
 			{
 				fL = GameObject.FindObjectOfType<CinemachineFreeLook>();
@@ -51,7 +52,7 @@ public class ThirdPersonCam : NetworkBehaviour
 			if (fL != null)
 			{
 				Debug.Log("Not null");
-				fL.Follow = cameraTarget;
+				fL.Follow = cameraFollow;
 				fL.LookAt = cameraTarget;
 			}
 		}
@@ -68,18 +69,19 @@ public class ThirdPersonCam : NetworkBehaviour
 		Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
 		orientation.forward = viewDir.normalized;
 
+		Debug.Log(currentStyle.ToString());
 
+		//rotate player object
 		if (currentStyle == CameraStyle.Basic)
 		{
-			//rotate player object
-
 			float horizontalInput = Input.GetAxis("Horizontal");
 			float verticalInput = Input.GetAxis("Vertical");
 			Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 		}
 		else if (currentStyle == CameraStyle.Combat)
 		{
-			Vector3 dirToCombatLookAt = combatLooktAt.position - new Vector3(transform.position.x, combatLooktAt.position.y, transform.position.z);
+			Debug.Log("current style: combat");
+			Vector3 dirToCombatLookAt = combatLookAt.position - new Vector3(transform.position.x, combatLookAt.position.y, transform.position.z);
 			orientation.forward = dirToCombatLookAt.normalized;
 
 			playerObj.forward = dirToCombatLookAt.normalized;

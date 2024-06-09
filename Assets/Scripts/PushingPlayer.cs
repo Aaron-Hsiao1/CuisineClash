@@ -16,22 +16,22 @@ public class PlayerPush : MonoBehaviour
     void Update()
     {
         // Check if the right mouse button is pressed
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit; // Variable to store information about what the raycast hits
-            //Vector3 forward = transform.TransformDirection(Vector3.forward) * raycastDistance;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit; // Variable to store information about what the raycast hits
+                        //Vector3 forward = transform.TransformDirection(Vector3.forward) * raycastDistance;
 
-            // Perform the raycast
-            if (Physics.Raycast(ray, out hit))
+        // Perform the raycast
+        if (Physics.Raycast(ray, out hit))
+        {
+            //Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2.0f);
+            // Check if the hit object is another player
+            if (hit.collider.CompareTag("Player") && Input.GetKeyDown(KeyCode.B))
             {
-                Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2.0f);
-                // Check if the hit object is another player
-                if (hit.collider.CompareTag("Player") && Input.GetKeyDown(KeyCode.B))
-                {
-                    Debug.Log("raycast is hit");
-                    PushPlayer(hit.collider.gameObject);
-                }
+                Debug.Log("raycast is hit");
+                PushPlayer(hit.collider.gameObject);
             }
-        
+        }
+
     }
 
     // Method to apply forces to push the other player
