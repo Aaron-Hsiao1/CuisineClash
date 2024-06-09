@@ -34,13 +34,13 @@ public class PlayerPush : MonoBehaviour
                 if (hit.collider.CompareTag("Player"))
                 {
                     float distanceToPlayer = Vector3.Distance(transform.position, hit.collider.gameObject.transform.position);
-                    Debug.Log("Distance to player: " + distanceToPlayer);
                     Rigidbody rb = hit.collider.gameObject.GetComponentInParent<Rigidbody>();
                         
                         if (rb != null)
                         {
-                             if (distanceToPlayer <= pushDistanceThreshold)
+                             if (distanceToPlayer <= pushDistanceThreshold && distanceToPlayer != 0)
                             {
+                                
                                 Vector3 pushDirection = (hit.collider.gameObject.transform.position - transform.position).normalized;
                                 pushDirection.y = 0; // Neutralize the vertical component   
                                 rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
