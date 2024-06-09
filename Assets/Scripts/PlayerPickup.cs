@@ -10,6 +10,9 @@ public class PlayerPickup : MonoBehaviour
 {
 	public GameObject player;
 	public GameObject orientation;
+	public IngredientListSO ingredientList;
+
+	public PlayerSandwich ps;
 
 	public float placeDelay = 0.1f;
 
@@ -19,11 +22,13 @@ public class PlayerPickup : MonoBehaviour
 	public bool carrying;
 	public bool canPlace;
 	public bool canPickUp;
+	public bool inPlaceZone;
 	// Start is called before the first frame update
 	void Start()
 	{
 		carrying = false;
-		canPlace = false;
+		inPlaceZone = false;
+		canPlace = true;
 		canPickUp = true;
 	}
 
@@ -66,6 +71,7 @@ public class PlayerPickup : MonoBehaviour
 			if (hitObject.CompareTag("CanPickUp") && Input.GetKeyDown(KeyCode.E) && !carrying && canPickUp)
 			{
 				instantiatedObject = Instantiate(hitObject, player.transform.position + offset, Quaternion.identity);
+				instantiatedObject.name = instantiatedObject.name.Replace("(Clone)", "").Trim();
 				Destroy(hitObject);
 				carrying = true;
 				canPickUp = false;
@@ -80,7 +86,18 @@ public class PlayerPickup : MonoBehaviour
 	public void PlaceObject()
 	{
 		Instantiate(instantiatedObject, player.transform.position + placeOffset, Quaternion.identity);
-		Destroy(instantiatedObject);
+		instantiatedObject.SetActive(false);
+		if (inPlaceZone)
+		{
+			foreach (IngredientSO ingredient in ingredientList.ingredientListSO)
+			{
+				if (ingredient.ingredientName == instantiatedObject.name)
+				{
+					ps.playerSandwich.Insert(0, ingredient.prefab);
+				}
+			}
+
+		}
 		carrying = false;
 		canPickUp = true;
 	}
@@ -96,12 +113,12 @@ public class PlayerPickup : MonoBehaviour
 	{
 		if (other.CompareTag("Placing Zone"))
 		{
-			canPlace = true;
+			inPlaceZone = true;
 		}
 	}
 	public void OnTriggerExit(Collider other)
 	{
-		canPlace = false;
+		inPlaceZone = false;
 	}
 
 }
