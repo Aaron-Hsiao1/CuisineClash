@@ -85,10 +85,8 @@ public class PlayerInteract : MonoBehaviour
 		{
 			foreach (IngredientSO ingredient in ingredientList.ingredientListSO)
 			{
-				Debug.Log("fore loop runing");
 				if (ingredient.ingredientName == instantiatedObject.name)
 				{
-					Debug.Log("if rajn");
 					ps.playerSandwich.Insert(0, ingredient);
 				}
 			}

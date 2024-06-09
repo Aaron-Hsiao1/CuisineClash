@@ -2091,6 +2091,7 @@ GameObject:
   - component: {fileID: 7888669529665992022}
   - component: {fileID: 1754305884896018813}
   - component: {fileID: -7834754548148996653}
+  - component: {fileID: 7859365303702240835}
   m_Layer: 0
   m_Name: Player + Cam
   m_TagString: Untagged
@@ -2254,6 +2255,19 @@ MonoBehaviour:
   canPlace: 0
   canPickUp: 0
   inPlaceZone: 0
+--- !u!114 &7859365303702240835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039711912111513445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7101383fce871164f896349ebe0a811b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSandwich: {fileID: 9130569142038306740}
 --- !u!1 &7394634557177857571
 GameObject:
   m_ObjectHideFlags: 0

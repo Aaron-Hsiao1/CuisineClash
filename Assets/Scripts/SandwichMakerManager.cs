@@ -2,48 +2,68 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
+using UnityEngine.Jobs;
 
 public class SandwichMakerManager : MonoBehaviour //Manages everything about the game
 {
-	public PlayerSandwich playerSandwich;
-	public RecipeListSO recipeListSO;
+	public RecipeListSO easyRecipeListSO;
+	public RecipeListSO mediumRecipeListSO;
+	public RecipeListSO hardRecipeListSO;
 
-	private RecipeSO currentRecipe;
+	public int roundNumber;
+
+	public static RecipeSO currentRecipe;
+
+	public enum recipeType
+	{
+		Easy,
+		Medium,
+		Hard
+	}
+	private recipeType currentRecipeType;
 	// Start is called before the first frame update
 	void Start()
 	{
+		if (roundNumber == 1)
+		{
+			currentRecipeType = recipeType.Easy;
+		}
+		else if (roundNumber == 2)
+		{
+			currentRecipeType = recipeType.Medium;
+		}
+		else if (roundNumber == 3)
+		{
+			currentRecipeType = recipeType.Hard;
+		}
 		currentRecipe = getRandomRecipe();
-		Debug.Log(currentRecipe.ToString());
+		Debug.Log(currentRecipe);
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.G))
-		{
-			CheckSandwich(currentRecipe, playerSandwich);
-		}
-	}
 
-	bool CheckSandwich(RecipeSO recipe, PlayerSandwich playerSandwich)
-	{
-		if (recipe.recipeSO.Count != playerSandwich.playerSandwich.Count) //i need better variable names this is getting out of hand
-		{
-			return false;
-		}
-		for (int i = 0; i < recipe.recipeSO.Count; i++)
-		{
-			if (recipe.recipeSO[i] != playerSandwich.playerSandwich[i])
-			{
-				return false;
-			}
-		}
-		return true;
 	}
 
 	private RecipeSO getRandomRecipe()
 	{
-		return recipeListSO.recipeListSO[UnityEngine.Random.Range(0, recipeListSO.recipeListSO.Count)];
+		if (currentRecipeType == recipeType.Easy)
+		{
+			return easyRecipeListSO.recipeListSO[UnityEngine.Random.Range(0, easyRecipeListSO.recipeListSO.Count)];
+		}
+		else if (currentRecipeType == recipeType.Medium)
+		{
+			return mediumRecipeListSO.recipeListSO[UnityEngine.Random.Range(0, mediumRecipeListSO.recipeListSO.Count)];
+		}
+		else
+		{
+			return mediumRecipeListSO.recipeListSO[UnityEngine.Random.Range(0, mediumRecipeListSO.recipeListSO.Count)];
+		}
+
+
 	}
 }

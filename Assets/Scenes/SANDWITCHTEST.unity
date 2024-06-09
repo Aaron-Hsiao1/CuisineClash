@@ -620,8 +620,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d829d201834ace94db51c859f459cd4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSandwich: {fileID: 0}
-  recipeListSO: {fileID: 11400000, guid: 1e262a3111eca2946a2c3d82c261d4c4, type: 2}
+  easyRecipeListSO: {fileID: 11400000, guid: 1e262a3111eca2946a2c3d82c261d4c4, type: 2}
+  mediumRecipeListSO: {fileID: 11400000, guid: 0df9215154bb961499c83220e128f31e, type: 2}
+  hardRecipeListSO: {fileID: 11400000, guid: 7e5e913cd38bb164d9e7c8148b1fb1ff, type: 2}
+  roundNumber: 1
 --- !u!4 &400585968
 Transform:
   m_ObjectHideFlags: 0

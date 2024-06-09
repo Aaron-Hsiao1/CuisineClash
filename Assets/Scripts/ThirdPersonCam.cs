@@ -11,7 +11,7 @@ public class ThirdPersonCam : NetworkBehaviour
 	public Transform orientation;
 	public Transform player;
 	public Transform playerObj;
-	public Rigidbody rb;
+	//public Rigidbody rb;
 	[SerializeField] private CinemachineFreeLook fL = null;
 
 	public float rotationSpeed;
