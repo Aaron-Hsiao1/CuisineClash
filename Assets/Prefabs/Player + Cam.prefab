@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 299134295160187202}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09252101, y: -0, z: -0, w: 0.99571073}
+  m_LocalRotation: {x: 0.09252108, y: -0, z: -0, w: 0.99571073}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -104,7 +104,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470190502936938387}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11559232, y: -0, z: -0, w: 0.99329674}
+  m_LocalRotation: {x: 0.11559224, y: -0, z: -0, w: 0.99329674}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1075,6 +1075,51 @@ MonoBehaviour:
   rotationSpeed: 7
   combatLooktAt: {fileID: 9038978572319560915}
   currentStyle: 1
+--- !u!1 &5495299943694403258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6253760358616215492}
+  - component: {fileID: 9130569142038306740}
+  m_Layer: 0
+  m_Name: Player Sandwich
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6253760358616215492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495299943694403258}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.25, y: 0, z: 1.52}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5764773322451792849}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9130569142038306740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495299943694403258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 847271dfd0580454db42a746395ecf32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSandwich: []
 --- !u!1 &5599912647346550058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1411,7 +1456,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6597933294330003569}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.01350378, y: 0.31687567, z: 0.0045120185, w: 0.94836026}
+  m_LocalRotation: {x: -0.01350378, y: 0.31687576, z: 0.0045120204, w: 0.9483602}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2046,6 +2091,7 @@ GameObject:
   - component: {fileID: 7888669529665992022}
   - component: {fileID: 1754305884896018813}
   - component: {fileID: -7834754548148996653}
+  - component: {fileID: 7859365303702240835}
   m_Layer: 0
   m_Name: Player + Cam
   m_TagString: Untagged
@@ -2066,6 +2112,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6253760358616215492}
   - {fileID: 8464223066724782014}
   - {fileID: 6900711787408160084}
   - {fileID: 2332357388469697143}
@@ -2201,10 +2248,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 7039711912111513445}
   orientation: {fileID: 6623288369113248623}
+  ingredientList: {fileID: 11400000, guid: 857cd9c735d7df448af6d38788be6842, type: 2}
+  ps: {fileID: 9130569142038306740}
   placeDelay: 0.1
   carrying: 0
   canPlace: 0
   canPickUp: 0
+  inPlaceZone: 0
+--- !u!114 &7859365303702240835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039711912111513445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7101383fce871164f896349ebe0a811b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSandwich: {fileID: 9130569142038306740}
 --- !u!1 &7394634557177857571
 GameObject:
   m_ObjectHideFlags: 0
