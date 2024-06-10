@@ -24,7 +24,7 @@ public class PlayerPush : MonoBehaviour
             // Create a ray from the main camera to the mouse position
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit; // Variable to store information about what the raycast hits
-
+            Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red, 2.0f);
             // Perform the raycast
             if (Physics.Raycast(ray, out hit, raycastDistance))
             {
