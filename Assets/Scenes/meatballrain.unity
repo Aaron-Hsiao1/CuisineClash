@@ -711,10 +711,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meatballPrefab: {fileID: 3907690987197342273, guid: b2f955cc353da4dde86e8adbf64e2f4b, type: 3}
-  spawnAreaWidth: 10
-  spawnAreaLength: 10
-  spawnHeight: 10
-  spawnInterval: 1
+  spawnAreaWidth: 50
+  spawnAreaLength: 50
+  spawnHeight: 50
+  spawnInterval: 0.002
 --- !u!4 &1864813750
 Transform:
   m_ObjectHideFlags: 0
