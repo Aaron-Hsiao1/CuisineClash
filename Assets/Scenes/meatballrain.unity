@@ -714,7 +714,7 @@ MonoBehaviour:
   spawnAreaWidth: 50
   spawnAreaLength: 50
   spawnHeight: 50
-  spawnInterval: 0.002
+  spawnInterval: 0.0002
 --- !u!4 &1864813750
 Transform:
   m_ObjectHideFlags: 0
