@@ -711,7 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meatballPrefab: {fileID: 5296849320027281342, guid: 118841ecfc49a44009e9f8c38abc7c31, type: 3}
-  indicatorPrefab: {fileID: 1744989249640168232, guid: f5ddbcedc3c13433fab6b987aeb30141, type: 3}
+  indicatorPrefab: {fileID: 1744989249640168232, guid: 9a22d573ac1444ccfb9337bc4e182dc3, type: 3}
   spawnAreaWidth: 50
   spawnAreaLength: 50
   spawnHeight: 50

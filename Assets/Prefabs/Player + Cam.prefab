@@ -2185,6 +2185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pushForce: 75
   pushUpForce: 5
+  rb: {fileID: 6774906967980962924}
 --- !u!1 &7394634557177857571
 GameObject:
   m_ObjectHideFlags: 0
