@@ -7,6 +7,7 @@ public class Indicator : MonoBehaviour
     {
         if (trigger.gameObject.CompareTag("Meatball"))
         {
+            Debug.Log("Stinky");
             Destroy(gameObject);
         }
     }
