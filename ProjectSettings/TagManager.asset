@@ -8,6 +8,7 @@ TagManager:
   - Placing Zone
   - Ground
   - Meatball
+  - DeathZone
   layers:
   - Default
   - TransparentFX
