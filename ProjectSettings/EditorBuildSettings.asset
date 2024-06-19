@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SANDWITCHTEST.unity
     guid: 566c47f5497ca4e05ad887472c47082a
+  - enabled: 1
+    path: Assets/Scenes/KingOfTheGrill.unity
+    guid: 691da082adab9ac4abbe31522752fd4a
   m_configObjects: {}
