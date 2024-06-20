@@ -11,7 +11,8 @@ public static class Loader
 		MainMenu,
 		MultiplayerTesting,
 		LoadingScene,
-		ConnectionMenu
+		ConnectionMenu,
+		TestingScene
 	}
 	private static Scene targetScene;
 
