@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 299134295160187202}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09252118, y: -0.0000001440477, z: 0.0000000133848745, w: 0.99571073}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -104,7 +104,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470190502936938387}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.115592495, y: -0.00000036233502, z: 0.00000004216586, w: 0.99329674}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -416,7 +416,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325825641374297174}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13870122, y: -0, z: -0, w: 0.9903343}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -955,7 +955,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5494688447873213992}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1155925, y: -0.00000036233502, z: 0.00000004216586, w: 0.9932968}
+  m_LocalRotation: {x: 0.05383807, y: 0.11761386, z: -0.006385884, w: 0.99157834}
   m_LocalPosition: {x: 0.43836698, y: 3.67, z: -4.0632753}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1205,7 +1205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5984974984442394559}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.053932216, y: 0.115410276, z: -0.006275586, w: 0.99183285}
+  m_LocalRotation: {x: 0.05383807, y: 0.11761385, z: -0.0063858815, w: 0.9915784}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1411,7 +1411,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6597933294330003569}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07692362, y: 0.117433, z: -0.00912411, w: 0.9900551}
+  m_LocalRotation: {x: 0.076923676, y: 0.11743303, z: -0.009124119, w: 0.9900551}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1834,7 +1834,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6795339306375799901}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.03082318, y: 0.11773014, z: -0.0036560167, w: 0.9925604}
+  m_LocalRotation: {x: 0.03082321, y: 0.117730156, z: -0.0036560209, w: 0.99256045}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2029,10 +2029,11 @@ GameObject:
   - component: {fileID: 6354735150898331807}
   - component: {fileID: 7888669529665992022}
   - component: {fileID: 1754305884896018813}
+  - component: {fileID: -5005215580117593558}
   - component: {fileID: -7834754548148996653}
   m_Layer: 2
   m_Name: Player + Cam
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2171,6 +2172,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5005215580117593558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039711912111513445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c74330ec21f1348918d47d612f527994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverText: {fileID: 0}
 --- !u!114 &-7834754548148996653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2180,15 +2194,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7039711912111513445}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31cd8d9092125be45b552f17161583ae, type: 3}
+  m_Script: {fileID: 11500000, guid: d05b65152a7c6472790b5454853d670b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 7039711912111513445}
-  orientation: {fileID: 6623288369113248623}
-  placeDelay: 0.1
-  carrying: 0
-  canPlace: 0
-  canPickUp: 0
+  pushForce: 150
+  pushUpForce: 10
+  rb: {fileID: 6774906967980962924}
 --- !u!1 &7394634557177857571
 GameObject:
   m_ObjectHideFlags: 0
