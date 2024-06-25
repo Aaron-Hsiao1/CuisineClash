@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SANDWITCHTEST.unity
     guid: 566c47f5497ca4e05ad887472c47082a
+  - enabled: 1
+    path: Assets/Scenes/meatballrain.unity
+    guid: 9ed66e236aea44659b5cb5eb0cb131dc
   - enabled: 0
     path: Assets/Samples/Relay/1.0.5/Simple Relay Sample/SimpleRelay.unity
     guid: 207fcaccdfb642c49ba9e63f57b94b2e
