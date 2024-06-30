@@ -26,11 +26,6 @@ public class ThirdPersonCam : NetworkBehaviour
 		Combat
 	}
 
-	void Start()
-	{
-		Cursor.lockState = CursorLockMode.Locked; //locks cursor
-	}
-
 	public override void OnNetworkSpawn()
 	{
 		if (IsOwner)
