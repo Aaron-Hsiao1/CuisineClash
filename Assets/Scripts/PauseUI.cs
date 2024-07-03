@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class PauseUI : MonoBehaviour
 	[SerializeField] private Button settingsButton;
 	[SerializeField] private Button leaveGameButton;
 
-	[SerializeField] private Canvas settingsUI;
+	[SerializeField] private GameObject settingsUI;
 
 	private void Awake()
 	{
@@ -18,6 +19,7 @@ public class PauseUI : MonoBehaviour
 		});
 		leaveGameButton.onClick.AddListener(() =>
 		{
+			NetworkManager.Singleton.Shutdown();
 			Loader.Load(Loader.Scene.MainMenu);
 		});
 	}

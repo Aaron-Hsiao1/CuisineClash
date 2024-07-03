@@ -14,12 +14,12 @@ public class ConnectionUI : MonoBehaviour
 	{
 		hostGameButton.onClick.AddListener(() =>
 		{
-			NetworkManager.Singleton.StartHost();
-			Loader.LoadNetwork(Loader.Scene.MultiplayerTesting);
+			CuisineClashMultiplayer.Instance.StartHost();
+			Loader.LoadNetwork(Loader.Scene.ConnectionLobby);
 		});
 		joinGameButton.onClick.AddListener(() =>
 		{
-			NetworkManager.Singleton.StartClient();
+			CuisineClashMultiplayer.Instance.StartClient();
 		});
 	}
 }

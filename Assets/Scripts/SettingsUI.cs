@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class SettingsUI : MonoBehaviour
 {
 	[SerializeField] private Button exitButton;
-	[SerializeField] private Canvas settingsMenu;
+	[SerializeField] private GameObject settingsMenu;
 
 	private void Awake()
 	{
 		exitButton.onClick.AddListener(() =>
 		{
-			settingsMenu.gameObject.SetActive(false);
+			settingsMenu.SetActive(false);
 		});
 	}
 }

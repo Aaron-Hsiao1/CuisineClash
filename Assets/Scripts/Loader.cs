@@ -9,10 +9,11 @@ public static class Loader
 	public enum Scene
 	{
 		MainMenu,
-		MultiplayerTesting,
 		LoadingScene,
 		ConnectionMenu,
-		TestingScene
+		ConnectionLobby,
+		TestingLobby,
+		MultiplayerTesting
 	}
 	private static Scene targetScene;
 
@@ -20,13 +21,13 @@ public static class Loader
 	{
 		Loader.targetScene = targetScene;
 
-		SceneManager.LoadScene(Scene.LoadingScene.ToString());
+		SceneManager.LoadScene(Scene.LoadingScene.ToString(), LoadSceneMode.Single);
 
 	}
 
 	public static void LoaderCallback()
 	{
-		SceneManager.LoadScene(targetScene.ToString());
+		SceneManager.LoadScene(targetScene.ToString(), LoadSceneMode.Single);
 	}
 
 	public static void LoadNetwork(Scene targetScene)
