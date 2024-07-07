@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Meatball
   - DeathZone
+  - Ready Area
   layers:
   - Default
   - TransparentFX

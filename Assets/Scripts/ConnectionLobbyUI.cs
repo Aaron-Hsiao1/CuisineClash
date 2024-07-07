@@ -20,7 +20,7 @@ public class ConnectionLobbyUI : NetworkBehaviour
 	{
 		startGameButton.onClick.AddListener(() =>
 		{
-			Loader.LoadNetwork(Loader.Scene.MultiplayerTesting);
+			Loader.LoadNetwork(Loader.Scene.PregameLobby);
 		});
 	}
 }

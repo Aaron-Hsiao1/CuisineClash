@@ -7,14 +7,13 @@ public class MeatballController : MonoBehaviour
 {
     public float pushForce = 75f; // Force to push the other player
     public float pushUpForce = 5f;
-    public Rigidbody rb; 
-    private void OnTriggerEnter (Collider collision)
+    public Rigidbody rb;
+    private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Collision worked");
         if (collision.CompareTag("Meatball"))
         {
             //Rigidbody rb = collision.gameObject.GetComponentInParent<Rigidbody>();
-            
+
             if (rb != null)
             {
                 Debug.Log("Player Push");

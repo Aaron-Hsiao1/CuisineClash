@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ConnectionLobby.unity
     guid: 930e516f3c42f974ebb3ee7fe7522e3f
+  - enabled: 1
+    path: Assets/Scenes/PregameLobby.unity
+    guid: b394e783597f06e4086b3e65aa9a9c7d
   m_configObjects: {}

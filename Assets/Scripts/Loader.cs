@@ -12,6 +12,7 @@ public static class Loader
 		LoadingScene,
 		ConnectionMenu,
 		ConnectionLobby,
+		PregameLobby,
 		TestingLobby,
 		MultiplayerTesting
 	}

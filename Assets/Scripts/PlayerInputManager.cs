@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using System;
 
 public class PlayerInputManager : MonoBehaviour
 {
+	public static PlayerInputManager Instance { get; private set; }
+
 	public static bool escapeMenuOpen;
 	public static bool canEscape;
 
 	public GameObject escapeMenu;
+
+	public event EventHandler OnInteractAction;
 	// Start is called before the first frame update
 	void Start()
 	{
