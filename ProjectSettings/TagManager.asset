@@ -10,6 +10,7 @@ TagManager:
   - Meatball
   - DeathZone
   - Ready Area
+  - Gamemode Manager
   layers:
   - Default
   - TransparentFX

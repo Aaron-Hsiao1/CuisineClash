@@ -14,7 +14,8 @@ public static class Loader
 		ConnectionLobby,
 		PregameLobby,
 		TestingLobby,
-		MultiplayerTesting
+		MultiplayerTesting,
+		RainingMeatball
 	}
 	private static Scene targetScene;
 

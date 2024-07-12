@@ -3,7 +3,7 @@ using TMPro;
 
 public class DeathZone : MonoBehaviour
 {
-	public TMP_Text gameOverText;
+	private TMP_Text gameOverText;
 
 	private void Start()
 	{

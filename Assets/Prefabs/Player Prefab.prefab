@@ -1071,7 +1071,6 @@ MonoBehaviour:
   orientation: {fileID: 8464223066724782014}
   player: {fileID: 5764773322451792849}
   playerObj: {fileID: 9076327832988588039}
-  rb: {fileID: 6774906967980962924}
   fL: {fileID: 2481534378736957114}
   rotationSpeed: 7
   combatLookAt: {fileID: 9038978572319560915}
@@ -1443,7 +1442,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6597933294330003569}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.076923735, y: 0.11743311, z: -0.009124132, w: 0.9900551}
+  m_LocalRotation: {x: 0.076923735, y: 0.117433116, z: -0.009124133, w: 0.990055}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2218,7 +2217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3595220337d99f478c5e7a5596c0612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverText: {fileID: 7769662029042250154, guid: 8e5cb9cc35146074180bbecefe9b6e21, type: 3}
+  gameOverText: {fileID: 0}
 --- !u!114 &-7834754548148996653
 MonoBehaviour:
   m_ObjectHideFlags: 0
