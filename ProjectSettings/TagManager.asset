@@ -6,6 +6,11 @@ TagManager:
   tags:
   - CanPickUp
   - Placing Zone
+  - Ground
+  - Meatball
+  - DeathZone
+  - Ready Area
+  - Gamemode Manager
   layers:
   - Default
   - TransparentFX

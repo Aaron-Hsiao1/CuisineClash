@@ -11,10 +11,12 @@ public class MainMenuUI : MonoBehaviour
 
     private void Awake()
     {
-        playButton.onClick.AddListener(() => {
-            Loader.Load(Loader.Scene.MultiplayerTesting);
+        playButton.onClick.AddListener(() =>
+        {
+            Loader.Load(Loader.Scene.ConnectionMenu);
         });
-        quitButton.onClick.AddListener(() => {
+        quitButton.onClick.AddListener(() =>
+        {
             Application.Quit();
         });
     }
