@@ -7,44 +7,44 @@ public class CakeEating : MonoBehaviour
     private float currentTime = 0f;
     private bool isEating = false;
     private bool isFullyEaten = false;
-    private Transform player; // Reference to the player's transform
 
-    void Start()
-    {
-        // Find the player object using its tag in the parent hierarchy
-        GameObject playerObject = gameObject.transform.root.gameObject;
-        player = playerObject.GetComponent<Transform>();
-    }
+    public float raycastDistance = 10f; // Distance for the raycast
 
     void Update()
     {
-        private void OnTriggerStay(Collider other){
-        if(other.gameObject.tag == "Player" && !isEating && !isFullyEaten){
-            if(Input.GetKey(KeyCode.E)){
-                isEating = true;
-                currentTime = 0f;
-            }
-        }
-    }
-}
-
-
-        if (isEating)
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            currentTime += Time.deltaTime;
-            if (currentTime >= eatTime)
+            // Create a ray from the main camera to the mouse position
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit; // Variable to store information about what the raycast hits
+            // Perform the raycast
+            if (Physics.Raycast(ray, out hit, raycastDistance))
             {
-                isEating = false;
-                isFullyEaten = true;
-                EatCake();
+                // Check if the hit object is another player
+                if (hit.collider.CompareTag("Cake") && !isEating && !isFullyEaten)
+                {
+                    isEating = true;
+                    currentTime = 0f;
+                    // Call EatCake and pass the hit object as an argument
+                    if(isEating){
+                        currentTime += Time.deltaTime;
+                        if (currentTime>= eatTime){
+                            isEating = false;
+                            isFullyEaten = true;
+                            EatCake(hit.collider.gameObject);
+                        }
+                    }
+                    
+                }
             }
         }
-    }
 
-    void EatCake()
+
+    void EatCake(GameObject cake)
     {
-        // Add code here to destroy or hide the cake object
-        Destroy(gameObject);
+        // Destroy the cake object that was hit by the raycast
+        Destroy(cake);
         Debug.Log("Cake fully eaten!");
     }
+}
 }
