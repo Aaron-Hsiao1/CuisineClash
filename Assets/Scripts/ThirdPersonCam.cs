@@ -35,8 +35,9 @@ public class ThirdPersonCam : NetworkBehaviour
 		{
 			fL.Priority = 0;
 		}
-		if (IsOwner)
+		if (IsOwner && currentStyle == CameraStyle.Combat)
 		{
+			Debug.Log("fl used");
 			Transform cameraTarget = combatLookAt;
 			Transform cameraFollow = transform;
 			if (fL = null)
@@ -69,6 +70,9 @@ public class ThirdPersonCam : NetworkBehaviour
 			float horizontalInput = Input.GetAxis("Horizontal");
 			float verticalInput = Input.GetAxis("Vertical");
 			Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+			if (inputDir != Vector3.zero)
+				playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
 		}
 		else if (currentStyle == CameraStyle.Combat)
 		{
