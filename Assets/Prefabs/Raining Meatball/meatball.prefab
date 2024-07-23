@@ -95,10 +95,11 @@ GameObject:
   - component: {fileID: 3663983893467920178}
   - component: {fileID: 5441303884006365952}
   - component: {fileID: 6655220039058772669}
+  - component: {fileID: 5060627391782442188}
   - component: {fileID: -6348932948085611709}
   - component: {fileID: -8435045199847358197}
   m_Layer: 0
-  m_Name: MEATBALL
+  m_Name: meatball
   m_TagString: Meatball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,6 +198,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5060627391782442188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296849320027281342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2590928539
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &-6348932948085611709
 MonoBehaviour:
   m_ObjectHideFlags: 0

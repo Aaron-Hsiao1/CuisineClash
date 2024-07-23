@@ -1,73 +1,108 @@
 using UnityEngine;
-using TMPro; 
+using TMPro;
+using Unity.Netcode;
+using System;
 
-public class CountdownTimer : MonoBehaviour
+
+public class CountdownTimer : NetworkBehaviour
 {
-    public float startTime = 60.0f; 
-    private float currentTime;
-    public TMP_Text timerText;
-    public bool timerRunning = false;
-    public TMP_Text gameOverText; 
-    
-    void Start()
-    {
-        gameOverText = GameObject.Find("GameOverText2").GetComponent<TMP_Text>();
-        if (gameOverText != null)
-        {
-            gameOverText.gameObject.SetActive(false);
-        }
-        currentTime = startTime;
-        timerRunning = true;
-    }
+	/*public static CountdownTimer Instance { get; private set; }
 
-    void Update()
-    {
-        if (timerRunning)
-        {
-            currentTime -= Time.deltaTime;
 
-            if (currentTime <= 0)
-            {
-                currentTime = 0;
-                timerRunning = false;
-                OnTimerEnd();
-            }
+	[SerializeField] private NetworkVariable<float> startTime = new NetworkVariable<float>(300f);
+	[SerializeField] private TMP_Text timerText;
+	[SerializeField] private bool gamePlaying = false;
+	[SerializeField] private TMP_Text gameOverText;
+	[SerializeField] private RainingMeatballManager rainingMeatballManager;
 
-            UpdateTimerText();
-        }
-    }
+	private bool gameEnded;
+	private NetworkVariable<float> currentTime = new NetworkVariable<float>(0f);
 
-    void UpdateTimerText()
-    {
-        int minutes = Mathf.FloorToInt(currentTime / 60);
-        int seconds = Mathf.FloorToInt(currentTime % 60);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
+	public event EventHandler OnGameEnd;
 
-    void OnTimerEnd()
-    {
-        ShowGameOverText();
-        Destroy(gameObject);
-    }
+	void Start()
+	{
+		OnGameEnd += CountdownTimer_OnGameEnd;
 
-    public void StartTimer(float newTime)
-    {
-        startTime = newTime;
-        currentTime = startTime;
-        timerRunning = true;
-    }
+		//gameOverText = GameObject.Find("GameOverText2").GetComponent<TMP_Text>();
+		if (gameOverText != null)
+		{
+			gameOverText.gameObject.SetActive(false);
+		}
+	}
 
-    public void StopTimer()
-    {
-        timerRunning = false;
-    }
+	public override void OnNetworkSpawn()
+	{
+		currentTime.Value = startTime.Value;
+		gamePlaying = true;
+		gameEnded = false;
+	}
 
-    private void ShowGameOverText()
-    {
-        if (gameOverText != null)
-        {
-            gameOverText.gameObject.SetActive(true);
-        }
-        
-    }
+	void Update()
+	{
+		if (gamePlaying && !gameEnded)
+		{
+			currentTime.Value -= Time.deltaTime;
+
+			if (currentTime.Value <= 0)
+			{
+				currentTime.Value = 0;
+				OnGameEnd?.Invoke(this, EventArgs.Empty);
+			}
+
+			UpdateTimerTextClientRpc();
+		}
+	}
+
+	private void CountdownTimer_OnGameEnd(object sender, EventArgs e)
+	{
+		EndGame();
+	}
+
+	[ClientRpc]
+	private void UpdateTimerTextClientRpc()
+	{
+		UpdateTimerText();
+	}
+
+	void UpdateTimerText()
+	{
+		int minutes = Mathf.FloorToInt(currentTime.Value / 60);
+		int seconds = Mathf.FloorToInt(currentTime.Value % 60);
+		timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+	}
+
+	public void EndGame()
+	{
+		gamePlaying = false;
+		gameEnded = true;
+		ShowGameOverText();
+		//Destroy(gameObject);
+	}
+
+	public void StartTimer(float newTime)
+	{
+		startTime.Value = newTime;
+		currentTime = startTime;
+		gamePlaying = true;
+	}
+
+	public void StopTimer()
+	{
+		gamePlaying = false;
+	}
+
+	private void ShowGameOverText()
+	{
+		if (gameOverText != null)
+		{
+			gameOverText.gameObject.SetActive(true);
+		}
+
+	}
+
+	public bool GameEnded()
+	{
+		return gameEnded;
+	}*/
 }

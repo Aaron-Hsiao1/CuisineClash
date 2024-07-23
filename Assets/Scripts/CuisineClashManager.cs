@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using System;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 public class CuisineClashManager : NetworkBehaviour
 {
@@ -14,6 +15,7 @@ public class CuisineClashManager : NetworkBehaviour
 	private GamemodeManager gamemodeManager;
 
 	private Dictionary<ulong, bool> playerReadyDictionary;
+	private Dictionary<ulong, int> playerPoints;
 	//private static List<string> gamemodeList;
 
 	private enum State
@@ -35,6 +37,7 @@ public class CuisineClashManager : NetworkBehaviour
 		//DontDestroyOnLoad(gameObject);
 
 		playerReadyDictionary = new Dictionary<ulong, bool>();
+		playerPoints = new Dictionary<ulong, int>();
 
 		//gamemodeList = new List<string>();
 	}
@@ -94,6 +97,10 @@ public class CuisineClashManager : NetworkBehaviour
 	{
 		isLocalPlayerReady = true;
 	}
+	public Dictionary<ulong, int> GetPlayerPoints()
+	{
+		return playerPoints;
+	}
 
 	[ServerRpc(RequireOwnership = false)]
 	private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
@@ -149,6 +156,44 @@ public class CuisineClashManager : NetworkBehaviour
 	public void SetIsLocalPlayerUnready()
 	{
 		isLocalPlayerReady = false;
+	}
+
+	public void addPoints(ulong playerId, int pointAmt)
+	{
+		AddPointsClientRpc(playerId, pointAmt);
+		/*if (!playerPoints.ContainsKey(playerId))
+		{
+			playerPoints.Add(playerId, pointAmt);
+		}
+		else
+		{
+			playerPoints[playerId] += pointAmt;
+		}*/
+
+	}
+
+	[ClientRpc]
+	private void AddPointsClientRpc(ulong playerId, int pointAmt)
+	{
+		if (!playerPoints.ContainsKey(playerId))
+		{
+			playerPoints.Add(playerId, pointAmt);
+		}
+		else
+		{
+			playerPoints[playerId] += pointAmt;
+		}
+	}
+
+	public void SortPoints()
+	{
+		SortPointsClientRpc();
+	}
+
+	[ClientRpc]
+	private void SortPointsClientRpc()
+	{
+		var sortedDict = playerPoints.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 	}
 
 	[ServerRpc(RequireOwnership = false)]

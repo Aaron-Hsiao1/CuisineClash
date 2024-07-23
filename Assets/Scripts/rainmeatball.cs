@@ -1,55 +1,80 @@
 using System.Collections;
 using UnityEngine;
+using Unity.Netcode;
+using Unity.VisualScripting;
 
-public class MeatballSpawner : MonoBehaviour
+public class MeatballSpawner : NetworkBehaviour
 {
-    public GameObject meatballPrefab;
-    public GameObject indicatorPrefab;
-    public float spawnAreaWidth = 10f;
-    public float spawnAreaLength = 10f;
-    public float spawnHeight = 20f;
-    public float initialSpawnInterval = 1f;
-    public float speedUpInterval = 60f; 
+	public GameObject meatballPrefab;
+	public GameObject indicatorPrefab;
+	[SerializeField] private float spawnAreaWidth = 10f;
+	[SerializeField] private float spawnAreaLength = 10f;
+	[SerializeField] private float spawnHeight = 20f;
+	[SerializeField] private float initialSpawnInterval = 1f;
+	[SerializeField] private float speedUpInterval = 60f;
 
-    private float spawnInterval; 
-    private float elapsedTime; 
+	private float spawnInterval; //current spawn interval
+	private float elapsedTime;
 
-    void Start()
-    {
-        spawnInterval = initialSpawnInterval;
-        elapsedTime = 0f;
-        StartCoroutine(SpawnMeatballs());
-    }
+	void Start()
+	{
+		spawnInterval = initialSpawnInterval;
+		elapsedTime = 0f;
 
-    IEnumerator SpawnMeatballs()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(spawnInterval);
+	}
+	public override void OnNetworkSpawn()
+	{
+		if (!IsHost)
+		{
+			return;
+		}
+		SpawnMeatballServerRpc();
+	}
 
-            Vector3 spawnPosition = new Vector3(
-                Random.Range(-spawnAreaWidth / 2, spawnAreaWidth / 2),
-                spawnHeight,
-                Random.Range(-spawnAreaLength / 2, spawnAreaLength / 2)
-            );
+	[ServerRpc]
+	private void SpawnMeatballServerRpc()
+	{
+		SpawnMeatballClientRpc();
+	}
 
-            GameObject meatball = Instantiate(meatballPrefab, spawnPosition, Quaternion.identity);
-            GameObject indicator = Instantiate(indicatorPrefab, new Vector3(meatball.transform.position.x, 0.02f, meatball.transform.position.z), Quaternion.identity);
-            Rigidbody rb = meatball.GetComponent<Rigidbody>();
-            if (rb == null)
-            {
-                rb = meatball.AddComponent<Rigidbody>();
-            }
+	[ClientRpc]
+	private void SpawnMeatballClientRpc()
+	{
+		StartCoroutine(SpawnMeatballLoop());
+	}
 
-            rb.useGravity = true;
+	IEnumerator SpawnMeatballLoop()
+	{
+		while (true)
+		{
+			yield return new WaitForSeconds(spawnInterval);
 
-            elapsedTime += spawnInterval;
+			SpawnMeatball();
 
-            if (elapsedTime >= speedUpInterval)
-            {
-                spawnInterval /= 2; 
-                elapsedTime = 0f; 
-            }
-        }
-    }
+			elapsedTime += spawnInterval; //adds time to the elapsed time
+
+			if (elapsedTime >= speedUpInterval) // if the elapsed time is greater than the time needed to speed up, spawn cd is halved, and elapsed time resets
+			{
+				spawnInterval /= 2;
+				elapsedTime = 0f;
+			}
+		}
+	}
+
+	private void SpawnMeatball()
+	{
+		Vector3 spawnPosition = new Vector3(
+				Random.Range(-spawnAreaWidth / 2, spawnAreaWidth / 2),
+				spawnHeight,
+				Random.Range(-spawnAreaLength / 2, spawnAreaLength / 2)
+			); //finds spawn location
+
+		GameObject meatball = Instantiate(meatballPrefab, spawnPosition, Quaternion.identity); //Instantiates meatball
+		var meatballNetworkObject = meatball.GetComponent<NetworkObject>();
+		meatballNetworkObject.Spawn(true); //spawns meatball on server
+
+		GameObject indicator = Instantiate(indicatorPrefab, new Vector3(meatball.transform.position.x, 0.02f, meatball.transform.position.z), Quaternion.identity); //Instantiates indicator
+		var indicatorNetworkObject = indicator.GetComponent<NetworkObject>();
+		indicatorNetworkObject.Spawn(true);
+	}
 }
