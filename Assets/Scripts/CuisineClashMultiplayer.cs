@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class CuisineClashMultiplayer : NetworkBehaviour
 {
-	private const int MAX_PLAYER_AMOUNT = 2;
+	private const int MAX_PLAYER_AMOUNT = 6;
 
 	public static CuisineClashMultiplayer Instance { get; private set; }
 
