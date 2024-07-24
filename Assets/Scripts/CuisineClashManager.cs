@@ -16,7 +16,8 @@ public class CuisineClashManager : NetworkBehaviour
 
 	private Dictionary<ulong, bool> playerReadyDictionary;
 	private Dictionary<ulong, int> playerPoints;
-	//private static List<string> gamemodeList;
+
+	[SerializeField] private SpawnManager spawnManager;
 
 	private enum State
 	{
@@ -79,7 +80,10 @@ public class CuisineClashManager : NetworkBehaviour
 			foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
 			{
 				//Debug.Log("current scene spawned in player" + SceneManager.GetActiveScene().name);
-				Transform playerTransform = Instantiate(playerPrefab);
+				Vector3 spawnPoint = spawnManager.GetNextSpawnPoint();
+				Debug.Log($"Spawn point in manager: {spawnPoint}");
+				Transform playerTransform = Instantiate(playerPrefab, spawnPoint, Quaternion.identity);
+				//Debug.Log($"spawnPoint: {spawnPoint}");
 				playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
 			}
 		}
