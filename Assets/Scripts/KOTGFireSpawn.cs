@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class KOTGFireSpawn : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class KOTGFireSpawn : MonoBehaviour
     public float moveSpeed = 2f;    // Speed at which the pillar moves upwards
     public float stopHeight = 10f; // Height at which the pillar will be deleted
     public float deleteTime = 3f;
+    private float delay = 1f;
+    private float timer = 3f;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +49,10 @@ public class KOTGFireSpawn : MonoBehaviour
             yield return null;
         }
 
-        // Once it reaches the delete height, destroy the pillar
-        //Destroy(pillarTransform.gameObject);
+        while (timer < delay)
+        {
+            timer += Time.deltaTime;
+        }
+        Destroy(pillarTransform.gameObject);
     }
 }
