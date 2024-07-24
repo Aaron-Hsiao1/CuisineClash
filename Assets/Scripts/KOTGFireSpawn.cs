@@ -10,11 +10,12 @@ public class KOTGFireSpawn : MonoBehaviour
     public float stopHeight = 10f; // Height at which the pillar will be deleted
     public float deleteTime = 3f;
     private float delay = 1f;
-    private float timer = 3f;
+
+    private GameObject pillar;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -29,7 +30,7 @@ public class KOTGFireSpawn : MonoBehaviour
     void SpawnPillar()
     {
         // Instantiate the pillar at this GameObject's position (you can adjust this as needed)
-        GameObject pillar = Instantiate(pillarPrefab, transform.position, Quaternion.identity);
+        pillar = Instantiate(pillarPrefab, transform.position, Quaternion.identity);
 
         // Set the pillar's parent to this GameObject (optional, for organization in the Hierarchy)
         pillar.transform.parent = transform;
@@ -40,19 +41,17 @@ public class KOTGFireSpawn : MonoBehaviour
 
     IEnumerator MovePillar(Transform pillarTransform)
     {
-        while (pillarTransform.position.y < stopHeight)
-        {
-            // Move the pillar upwards
-            pillarTransform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
+            while (pillarTransform.position.y < stopHeight)
+            {
+                // Move the pillar upwards
+                pillarTransform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
 
-            // Wait for the next frame
-            yield return null;
-        }
+                // Wait for the next frame
+                yield return null;
+            }
+            yield return new WaitForSeconds(delay);
 
-        while (timer < delay)
-        {
-            timer += Time.deltaTime;
-        }
-        Destroy(pillarTransform.gameObject);
+            Destroy(pillarTransform.gameObject);
     }
+
 }
