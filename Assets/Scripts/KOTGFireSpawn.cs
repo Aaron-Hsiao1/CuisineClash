@@ -8,10 +8,8 @@ public class KOTGFireSpawn : MonoBehaviour
     public GameObject pillarPrefab; // Prefab of the pillar to spawn
     public float moveSpeed = 2f;    // Speed at which the pillar moves upwards
     public float stopHeight = 10f; // Height at which the pillar will be deleted
-    public float deleteTime = 3f;
     private float delay = 1f;
 
-    private GameObject pillar;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +28,7 @@ public class KOTGFireSpawn : MonoBehaviour
     void SpawnPillar()
     {
         // Instantiate the pillar at this GameObject's position (you can adjust this as needed)
-        pillar = Instantiate(pillarPrefab, transform.position, Quaternion.identity);
+        GameObject pillar = Instantiate(pillarPrefab, transform.position, Quaternion.identity);
 
         // Set the pillar's parent to this GameObject (optional, for organization in the Hierarchy)
         pillar.transform.parent = transform;
