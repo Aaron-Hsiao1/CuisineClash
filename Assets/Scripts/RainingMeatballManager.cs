@@ -27,7 +27,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 	public event EventHandler OnGameEnd;
 
-	private float totalTime = 10f; //Total Game Time
+	private float totalTime = 300f; //Total Game Time in seconds
 
 	// Meatball manager stuff
 	private List<ulong> alivePlayers;
