@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 public class KOTGFireSpawn : MonoBehaviour
 {
     public GameObject pillarPrefab; // Prefab of the pillar to spawn
+    public GameObject fireIndicatorPrefab;
     public float moveSpeed = 2f;    // Speed at which the pillar moves upwards
     public float stopHeight = 10f; // Height at which the pillar will be deleted
     private float delay = 1f;
+    public float indToSpawnDelay = 3f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,17 +31,21 @@ public class KOTGFireSpawn : MonoBehaviour
     {
         // Instantiate the pillar at this GameObject's position (you can adjust this as needed)
         GameObject pillar = Instantiate(pillarPrefab, transform.position, Quaternion.identity);
+        GameObject indicatorPillar = Instantiate(fireIndicatorPrefab, transform.position, Quaternion.identity);
 
         // Set the pillar's parent to this GameObject (optional, for organization in the Hierarchy)
         pillar.transform.parent = transform;
 
         // Start moving the pillar upwards
-        StartCoroutine(MovePillar(pillar.transform));
+        StartCoroutine(MovePillar(pillar.transform, indicatorPillar.transform));
     }
 
-    IEnumerator MovePillar(Transform pillarTransform)
+    IEnumerator MovePillar(Transform pillarTransform, Transform indicatorTransform)
     {
-            while (pillarTransform.position.y < stopHeight)
+        yield return new WaitForSeconds(indToSpawnDelay);
+        Destroy(indicatorTransform.gameObject);
+
+        while (pillarTransform.position.y < stopHeight)
             {
                 // Move the pillar upwards
                 pillarTransform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
