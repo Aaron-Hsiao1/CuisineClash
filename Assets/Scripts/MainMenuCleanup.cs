@@ -15,5 +15,13 @@ public class MainMenuCleanup : MonoBehaviour
 		{
 			Destroy(CuisineClashMultiplayer.Instance.gameObject);
 		}
+		if (CuisineClashLobby.Instance.gameObject != null)
+		{
+			Destroy(CuisineClashLobby.Instance.gameObject);
+		}
+		if (GamemodeManager.Instance.gameObject != null)
+		{
+			Destroy(GamemodeManager.Instance.gameObject);
+		}
 	}
 }

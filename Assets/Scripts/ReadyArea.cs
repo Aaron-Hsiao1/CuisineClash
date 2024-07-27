@@ -9,6 +9,7 @@ public class ReadyArea : NetworkBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
+		Debug.Log(other.gameObject.GetComponent<NetworkBehaviour>() == null);
 		if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<NetworkBehaviour>().IsLocalPlayer)
 		{
 			cuisineClashManager.SetIsLocalPlayerReady();
