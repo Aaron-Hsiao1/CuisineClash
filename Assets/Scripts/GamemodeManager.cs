@@ -8,6 +8,8 @@ using System.Runtime.CompilerServices;
 
 public class GamemodeManager : NetworkBehaviour
 {
+	public static GamemodeManager Instance { get; private set; }
+
 	private static List<string> gamemodeList;
 
 	private enum Gamemode
@@ -18,6 +20,8 @@ public class GamemodeManager : NetworkBehaviour
 
 	private void Awake()
 	{
+		Instance = this;
+
 		DontDestroyOnLoad(gameObject);
 
 		gamemodeList = new List<string>();
