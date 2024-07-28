@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3292176691170890917}
   - component: {fileID: 7257484156649828940}
   - component: {fileID: 3203643951796384484}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4842,8 +4842,8 @@ GameObject:
   - component: {fileID: 7062555009702504640}
   - component: {fileID: 2881277175201021926}
   - component: {fileID: 4924129357311478509}
-  m_Layer: 0
-  m_Name: FirePillar
+  m_Layer: 8
+  m_Name: firepillar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
