@@ -4842,6 +4842,7 @@ GameObject:
   - component: {fileID: 7062555009702504640}
   - component: {fileID: 2881277175201021926}
   - component: {fileID: 4924129357311478509}
+  - component: {fileID: 8256166944355422635}
   m_Layer: 8
   m_Name: firepillar
   m_TagString: Untagged
@@ -4930,7 +4931,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -4938,3 +4939,16 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &8256166944355422635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5716863681885386611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a345aa14dcaeac45bfc296c4dd973e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launchForce: 500
