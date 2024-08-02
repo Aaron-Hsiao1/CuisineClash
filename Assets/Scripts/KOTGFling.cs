@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class KOTGFling : MonoBehaviour
 {
-    public float launchForce = 500f;
+    public float launchForce = 0f;
+    public float launchForceUp = 10f;
     private bool hit = false;
     // Start is called before the first frame update
 
@@ -14,14 +15,17 @@ public class KOTGFling : MonoBehaviour
         {
             if (hit == false)
             {
-                Rigidbody rb = other.GetComponent<Rigidbody>();
+                Rigidbody rb = other.GetComponentInParent<Rigidbody>();
                 if (rb != null)
                 {
                     // Generate a random direction
-                    Vector3 randomDirection = Random.onUnitSphere;
+                    Vector3 randomDirection = GetRandomHorizontalDirection();
 
                     // Apply the launch force in the random direction
                     rb.AddForce(randomDirection * launchForce, ForceMode.Impulse);
+                    rb.AddForce(Vector3.up * launchForceUp, ForceMode.Impulse);
+                    hit = true;
+                    Debug.LogError("hit");
                 }
                 else
                 {
@@ -29,6 +33,16 @@ public class KOTGFling : MonoBehaviour
                 }
             }
         }
+    }
+    Vector3 GetRandomHorizontalDirection()
+    {
+        // Generate a random angle in radians
+        float angle = Random.Range(0f, 2f * Mathf.PI);
+
+        // Calculate the direction based on the angle
+        Vector3 direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+
+        return direction.normalized; // Normalize to ensure consistent force magnitude
     }
     void Start()
     {
