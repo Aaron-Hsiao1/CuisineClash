@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using TMPro;
 
 public class CuisineClashManager : NetworkBehaviour
 {
@@ -14,8 +15,8 @@ public class CuisineClashManager : NetworkBehaviour
 	[SerializeField] private Transform playerPrefab;
 	private GamemodeManager gamemodeManager;
 
-	private Dictionary<ulong, bool> playerReadyDictionary;
-	private Dictionary<ulong, int> playerPoints;
+	private Dictionary<ulong, bool> playerReadyDictionary; //<clientId, ready?>
+	private Dictionary<ulong, int> playerPoints; //<clientId, points>
 
 	[SerializeField] private SpawnManager spawnManager;
 
@@ -24,6 +25,7 @@ public class CuisineClashManager : NetworkBehaviour
 		WaitingToStart,
 		InConnectionLobby,
 		InPregameLobby,
+		GamemodeEnded,
 		GamePlaying,
 		GameOver,
 	}
@@ -31,6 +33,9 @@ public class CuisineClashManager : NetworkBehaviour
 	private bool isLocalPlayerReady;
 
 	private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
+
+	public EventHandler OnGamemodeEnd;
+	public EventHandler OnGameFinished;
 
 	private void Awake()
 	{
@@ -51,28 +56,37 @@ public class CuisineClashManager : NetworkBehaviour
 	public override void OnNetworkSpawn()
 	{
 		NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
+		Instance.OnGamemodeEnd += CuisineClashManager_OnGamemodeEnd;
+		Instance.OnGameFinished += CuisineClashManager_OnGameFinished;
+
 		gamemodeManager = GameObject.FindGameObjectWithTag("Gamemode Manager").GetComponent<GamemodeManager>();
 		if (gamemodeManager != null)
 		{
 			Debug.Log("gamemode manager not null!");
 		}
-		//Debug.Log("Awake + gamemodeListInstnatiated: " + gamemodeListInstantiated);
-		/*if (IsHost)
-		{
-			foreach (Gamemode gamemode in Enum.GetValues(typeof(Gamemode)))
-			{
-				Debug.Log("insantianteing gamemodeList...");
-				gamemodeList.Add(gamemode.ToString());
-				//gamemodeListInstantiated = true;
-			}
-		}*/
 	}
+
+	private void CuisineClashManager_OnGameFinished(object sender, EventArgs e)
+	{
+		Debug.Log("THE GAME IS FINISHED!!!");
+	}
+
+	private void CuisineClashManager_OnGamemodeEnd(object sender, EventArgs e)
+	{
+		if (gamemodeManager.GetGamemodeList().Count == 0)
+		{
+			OnGameFinished?.Invoke(this, EventArgs.Empty);
+			return;
+		}
+		Loader.LoadNetwork(Loader.Scene.PregameLobby);
+	}
+
 	public override void OnNetworkDespawn()
 	{
 		NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
 	}
 
-	private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+	private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
 	{
 		if (IsHost)
 		{
@@ -106,6 +120,17 @@ public class CuisineClashManager : NetworkBehaviour
 		return playerPoints;
 	}
 
+	public void EndGamemode()
+	{
+		state.Value = State.GamemodeEnded;
+		OnGamemodeEnd?.Invoke(this, EventArgs.Empty);
+	}
+
+	public void StartGamemode()
+	{
+		state.Value = State.GamePlaying;
+	}
+
 	[ServerRpc(RequireOwnership = false)]
 	private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
 	{
@@ -124,7 +149,7 @@ public class CuisineClashManager : NetworkBehaviour
 
 		if (allClientsReady && playerReadyDictionary.Count == NetworkManager.ConnectedClientsIds.Count)
 		{
-			Loader.LoadNetwork(gamemodeManager.gamemodeSelector());
+			Loader.LoadNetwork(gamemodeManager.GamemodeSelector());
 			state.Value = State.GamePlaying;
 		}
 	}
@@ -210,6 +235,25 @@ public class CuisineClashManager : NetworkBehaviour
 		if (Input.GetKey(KeyCode.N))
 		{
 			//Debug.Log("gamemode list.count: " + gamemodeList.Count);
+		}
+	}
+
+	public void UpdateLeaderboard(TMP_Text leaderboardText)
+	{
+		Dictionary<ulong, int> _playerPoints = new Dictionary<ulong, int>();
+		Debug.Log("dd: " + CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(0).playerPoints);
+
+		foreach (PlayerData playerData in CuisineClashMultiplayer.Instance.GetPlayerDataNetworkList())
+		{
+			_playerPoints.Add(playerData.clientId, playerData.playerPoints);
+		}
+
+		var sortedDict = _playerPoints.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+
+		foreach (KeyValuePair<ulong, int> player in sortedDict)
+		{
+			PlayerData playerData = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(player.Key);
+			leaderboardText.text += $"{playerData.playerName}: {playerData.playerPoints}\n";
 		}
 	}
 }

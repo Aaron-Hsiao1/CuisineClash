@@ -22,7 +22,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 
 	[SerializeField] private List<Color> playerColorList;
 
-	private NetworkList<PlayerData> playerDataNetworkList;
+	private NetworkList<PlayerData> playerDataNetworkList; // All connected players
 
 	private void Awake()
 	{
@@ -140,6 +140,20 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		playerDataNetworkList[playerDataIndex] = playerData;
 	}
 
+	[ServerRpc(RequireOwnership = false)]
+	private void AddPlayerPointsServerRpc(int playerPoints, ulong clientId)
+	{
+		int playerDataIndex = GetPlayerDataIndexFromClientId(clientId);
+		PlayerData playerData = playerDataNetworkList[playerDataIndex];
+		playerData.playerPoints += playerPoints;
+		playerDataNetworkList[playerDataIndex] = playerData;
+	}
+
+	public void AddPlayerPoints(int playerPoints, ulong clientId)
+	{
+		AddPlayerPointsServerRpc(playerPoints, clientId);
+	}
+
 	public void SetJoinCode(string joinCode)
 	{
 		this.joinCode = joinCode;
@@ -239,4 +253,11 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		NetworkManager.Singleton.DisconnectClient(clientId);
 		NetworkManager_Server_OnClientDisconnectCallback(clientId);
 	}
+
+	public NetworkList<PlayerData> GetPlayerDataNetworkList()
+	{
+		return playerDataNetworkList;
+	}
+
+
 }

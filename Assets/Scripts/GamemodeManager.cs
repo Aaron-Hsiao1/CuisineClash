@@ -57,7 +57,12 @@ public class GamemodeManager : NetworkBehaviour
 		}
 	}
 
-	public Loader.Scene gamemodeSelector()
+	public List<string> GetGamemodeList()
+	{
+		return gamemodeList;
+	}
+
+	public Loader.Scene GamemodeSelector()
 	{
 		Debug.Log("gamemode selectoer rnning");
 		if (IsHost)

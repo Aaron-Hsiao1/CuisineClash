@@ -5,6 +5,8 @@ using Unity.Netcode;
 using System;
 using TMPro;
 using Unity.Collections;
+using System.Linq;
+using Unity.VisualScripting;
 
 [GenerateSerializationForType(typeof(string))]
 public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcpy
@@ -56,6 +58,8 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		alivePlayers = new List<ulong>();
 		playerPlacements = new Dictionary<int, ulong>();
 		cuisineClashManager = GameObject.Find("Cuisine Clash Manager").GetComponent<CuisineClashManager>();
+
+		CuisineClashManager.Instance.StartGamemode();
 
 		if (IsServer)
 		{
@@ -191,47 +195,35 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		gameOverText.gameObject.SetActive(false);
 		UpdateLeaderboardClientRpc();
 		leaderboard.SetActive(true);
-	}
-
-	private void UpdateLeaderboard()
-	{
-		Debug.Log("updating leaderboard...");
-		foreach (KeyValuePair<ulong, int> player in cuisineClashManager.GetPlayerPoints())
-		{
-			leaderboardText.text += $"Player {player.Key}: {player.Value}\n";
-		}
-		Debug.Log($"leaderboradString: {leaderboardText.text}");
-		//leaderboardText.text = leaderboardString.Value.ToString();
+		yield return new WaitForSeconds(5f);
+		CuisineClashManager.Instance.EndGamemode();
 	}
 
 	[ClientRpc]
 	private void UpdateLeaderboardClientRpc()
 	{
-		UpdateLeaderboard();
+		CuisineClashManager.Instance.UpdateLeaderboard(leaderboardText);
 	}
 
 	private void CalculatePoints()
 	{
-		if (alivePlayers.Count <= 1)
+		if (alivePlayers.Count <= 1) // 1 winner
 		{
 			for (int i = 1; i <= 3; i++)
 			{
 				if (playerPlacements.TryGetValue(i, out ulong clientId))
 				{
-					cuisineClashManager.addPoints(clientId, 4 - i);
+					CuisineClashMultiplayer.Instance.AddPlayerPoints(4 - i, clientId);
 				}
 			}
 		}
-		Debug.Log("1 winner");
-		Debug.Log("playerplacements[1] : " + playerPlacements.ContainsKey(1));
-		Debug.Log("playerplacements[2] : " + playerPlacements.ContainsKey(2));
-		Debug.Log("playerplacements[3] : " + playerPlacements.ContainsKey(3));
 		if (alivePlayers.Count == 2) // 2 people alive
 		{
 			Debug.Log("2 winner");
 			foreach (ulong player in alivePlayers)
 			{
-				cuisineClashManager.addPoints(player, 2);
+				CuisineClashMultiplayer.Instance.AddPlayerPoints(2, player);
+				//cuisineClashManager.addPoints(player, 2);
 			}
 		}
 		else if (alivePlayers.Count >= 3) // 3 or more people alive
@@ -239,11 +231,9 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 			Debug.Log("3 winner");
 			foreach (ulong player in alivePlayers)
 			{
-				cuisineClashManager.addPoints(player, 1);
+				CuisineClashMultiplayer.Instance.AddPlayerPoints(1, player);
+				//cuisineClashManager.addPoints(player, 1);
 			}
 		}
 	}
-
-
-
 }
