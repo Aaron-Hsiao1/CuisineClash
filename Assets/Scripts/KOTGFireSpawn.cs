@@ -14,6 +14,8 @@ public class KOTGFireSpawn : MonoBehaviour
     private Vector3 indSpawn = new Vector3(-14, -52, -1);
     private Vector3 boxSpawn = new Vector3(-14, -132, -1);
 
+    [SerializeField] private MeshCollider grillArea;
+
     // Start is called before the first frame update
 
     void Start()
@@ -33,8 +35,10 @@ public class KOTGFireSpawn : MonoBehaviour
     void SpawnPillar()
     {
         // Instantiate the pillar at this GameObject's position (you can adjust this as needed)
-        GameObject pillar = Instantiate(pillarPrefab, boxSpawn, Quaternion.identity);
-        GameObject indicatorPillar = Instantiate(fireIndicatorPrefab, indSpawn, Quaternion.identity);
+        Vector3 pillarSpawnPoint = GetPillarSpawnPoint();
+
+        GameObject pillar = Instantiate(pillarPrefab, pillarSpawnPoint, Quaternion.identity);
+        GameObject indicatorPillar = Instantiate(fireIndicatorPrefab, pillarSpawnPoint, Quaternion.identity);
 
         // Set the pillar's parent to this GameObject (optional, for organization in the Hierarchy)
         pillar.transform.parent = transform;
@@ -59,6 +63,25 @@ public class KOTGFireSpawn : MonoBehaviour
             yield return new WaitForSeconds(delay);
 
             Destroy(pillarTransform.gameObject);
+    }
+
+    private Vector3 GetPillarSpawnPoint()
+    {
+        float _radius = 90;
+        float _grillY = 115;
+
+        
+        //center: -12.7, Y, -114.8
+        Vector3 _centerPoint = new Vector3(-12.7f, 0, -114.8f);
+        //57.2, -81.9
+
+        //77.25 radius
+
+        //Vector2 randomPoint = centerPoint + Random.insideUnitCircle * radius * 0.5f;
+
+        Vector3 randomSpawnPoint = _centerPoint += _radius * 0.5f * Random.insideUnitSphere;
+        randomSpawnPoint.y = _grillY;
+        return randomSpawnPoint;
     }
 
 }
