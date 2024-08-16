@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 6115422257026073306}
   - component: {fileID: 7461359801403043016}
   - component: {fileID: 4483483598745585115}
+  - component: {fileID: 8153585733382772857}
   m_Layer: 0
   m_Name: SCake
-  m_TagString: Untagged
+  m_TagString: Cake
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,3 +134,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8153585733382772857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283531707256303884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6100baea6971c941b2c6a82e8538b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 0
+  decayRate: 1
+  decayTime: 2

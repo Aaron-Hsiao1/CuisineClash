@@ -10,7 +10,7 @@ public class KnifeScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1)) // Right mouse button
+        if (Input.GetMouseButtonDown(1))
         {
             Attack();
         }
@@ -18,7 +18,9 @@ public class KnifeScript : MonoBehaviour
 
     void Attack()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        
         if (Physics.Raycast(transform.position, transform.forward, out hit, attackRange, playerLayer))
         {
             CCPlayerHealth playerHealth = hit.collider.GetComponent<CCPlayerHealth>();
@@ -34,3 +36,4 @@ public class KnifeScript : MonoBehaviour
         }
     }
 }
+
