@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class KOTGFireSpawn : MonoBehaviour
+public class KOTGFireSpawn : NetworkBehaviour
 {
     public GameObject pillarPrefab; // Prefab of the pillar to spawn
     public GameObject fireIndicatorPrefab;
@@ -17,20 +18,6 @@ public class KOTGFireSpawn : MonoBehaviour
     [SerializeField] private MeshCollider grillArea;
 
     // Start is called before the first frame update
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpawnPillar();
-        }
-    }
 
     void SpawnPillar()
     {
@@ -82,6 +69,12 @@ public class KOTGFireSpawn : MonoBehaviour
         Vector3 randomSpawnPoint = _centerPoint += _radius * 0.5f * Random.insideUnitSphere;
         randomSpawnPoint.y = _grillY;
         return randomSpawnPoint;
+    }
+
+    [ClientRpc]
+    private void SpawnPillarClientRpc()
+    {
+        SpawnPillar();
     }
 
 }

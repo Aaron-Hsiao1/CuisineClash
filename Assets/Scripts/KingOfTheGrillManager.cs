@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class KingOfTheGrillManager : MonoBehaviour
+public class KingOfTheGrillManager : NetworkBehaviour
 {
     [SerializeField] private GameObject pillarPrefab; // Prefab of the pillar to spawn
     [SerializeField] private GameObject fireIndicatorPrefab;
@@ -15,27 +16,29 @@ public class KingOfTheGrillManager : MonoBehaviour
     private Vector3 boxSpawn = new Vector3(-14, -132, -1);
     private float delay = 1f;
 
-    // Start is called before the first frame update
-    void Start()
+    private float spawnDelay = 2f;
+
+    private void Update()
     {
-        
+        if (!IsHost){
+            return;
+        }
+        SpawnPillarClientRpc();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InstantiatePillar()
     {
-        
-    }
-
-    private void SpawnPillar()
-    {
-        // Instantiate the pillar at this GameObject's position (you can adjust this as needed)
         Vector3 pillarSpawnPoint = GetPillarSpawnPoint();
 
         GameObject pillar = Instantiate(pillarPrefab, pillarSpawnPoint, Quaternion.identity);
         GameObject indicatorPillar = Instantiate(fireIndicatorPrefab, pillarSpawnPoint, Quaternion.identity);
 
-        // Set the pillar's parent to this GameObject (optional, for organization in the Hierarchy)
+        var pillarNetworkObject = pillar.GetComponent<NetworkObject>();
+        var indicatorPillarNetworkObject = indicatorPillar.GetComponent<NetworkObject>();
+
+        pillarNetworkObject.Spawn(true);
+        indicatorPillarNetworkObject.Spawn(true);
+
         pillar.transform.parent = transform;
 
         // Start moving the pillar upwards
@@ -60,6 +63,12 @@ public class KingOfTheGrillManager : MonoBehaviour
         Destroy(pillarTransform.gameObject);
     }
 
+    IEnumerator SpawnPillar()
+    {
+        yield return new WaitForSeconds(spawnDelay);
+        InstantiatePillar();
+    } 
+
     private Vector3 GetPillarSpawnPoint()
     {
         float _radius = 90;
@@ -77,5 +86,11 @@ public class KingOfTheGrillManager : MonoBehaviour
         Vector3 randomSpawnPoint = _centerPoint += _radius * 0.5f * Random.insideUnitSphere;
         randomSpawnPoint.y = _grillY;
         return randomSpawnPoint;
+    }
+
+    [ClientRpc]
+    private void SpawnPillarClientRpc()
+    {
+        SpawnPillar();
     }
 }
