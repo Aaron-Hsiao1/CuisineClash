@@ -8,6 +8,7 @@ using Unity.Services.Relay.Models;
 
 public class TestRelay : MonoBehaviour
 {
+	/*
 	// Start is called before the first frame update
 	async void Start()
 	{
@@ -49,4 +50,5 @@ public class TestRelay : MonoBehaviour
 		}
 
 	}
+	*/
 }

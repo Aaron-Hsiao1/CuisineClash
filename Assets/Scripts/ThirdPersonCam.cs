@@ -8,27 +8,21 @@ using UnityEngine.Timeline;
 
 public class ThirdPersonCam : NetworkBehaviour
 {
-	public Transform orientation;
-	public Transform player;
-	public Transform playerObj;
-	public Rigidbody rb;
+	[SerializeField] private Transform orientation;
+	[SerializeField] private Transform player;
+	[SerializeField] private Transform playerObj;
+	//[SerializeField] private Rigidbody rb;
 	[SerializeField] private CinemachineFreeLook fL = null;
 
-	public float rotationSpeed;
-	// Start is called before the first frame update
+	[SerializeField] private float rotationSpeed;
 
-	public Transform combatLooktAt;
+	[SerializeField] private Transform combatLookAt;
 
-	public CameraStyle currentStyle;
+	[SerializeField] private CameraStyle currentStyle;
 	public enum CameraStyle
 	{
 		Basic,
 		Combat
-	}
-
-	void Start()
-	{
-		Cursor.lockState = CursorLockMode.Locked; //locks cursor
 	}
 
 	public override void OnNetworkSpawn()
@@ -41,17 +35,20 @@ public class ThirdPersonCam : NetworkBehaviour
 		{
 			fL.Priority = 0;
 		}
-		if (IsOwner)
+		if (IsOwner && currentStyle == CameraStyle.Combat)
 		{
-			Transform cameraTarget = transform;
+			Debug.Log("fl used");
+			Transform cameraTarget = combatLookAt;
+			Transform cameraFollow = transform;
 			if (fL = null)
 			{
-				fL = GameObject.FindObjectOfType<CinemachineFreeLook>();
+				Debug.Log("null");
+				fL = FindObjectOfType<CinemachineFreeLook>();
 			}
 			if (fL != null)
 			{
 				Debug.Log("Not null");
-				fL.Follow = cameraTarget;
+				fL.Follow = cameraFollow;
 				fL.LookAt = cameraTarget;
 			}
 		}
@@ -68,28 +65,21 @@ public class ThirdPersonCam : NetworkBehaviour
 		Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
 		orientation.forward = viewDir.normalized;
 
-
 		if (currentStyle == CameraStyle.Basic)
 		{
-			//rotate player object
-
 			float horizontalInput = Input.GetAxis("Horizontal");
 			float verticalInput = Input.GetAxis("Vertical");
 			Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+			if (inputDir != Vector3.zero)
+				playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
 		}
 		else if (currentStyle == CameraStyle.Combat)
 		{
-			Vector3 dirToCombatLookAt = combatLooktAt.position - new Vector3(transform.position.x, combatLooktAt.position.y, transform.position.z);
+			Vector3 dirToCombatLookAt = combatLookAt.position - new Vector3(transform.position.x, combatLookAt.position.y, transform.position.z);
 			orientation.forward = dirToCombatLookAt.normalized;
 
 			playerObj.forward = dirToCombatLookAt.normalized;
 		}
-
-
-
-		//if (inputDir != Vector3.zero)
-		//{
-		//playerObj.forward = orientation.position;//Vector3.Slerp(playerObj.forward, dirToCombatLookAt.normalized, Time.deltaTime * rotationSpeed);
-		//}
 	}
 }
