@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/SANDWITCHTEST.unity
     guid: 566c47f5497ca4e05ad887472c47082a
   - enabled: 1
-    path: Assets/Scenes/KingOfTheGrill.unity
-    guid: 691da082adab9ac4abbe31522752fd4a
+    path: Assets/Scenes/KOTGSCORE.unity
+    guid: e43ad4b591a33ce4cb9aea9617d546bc
   m_configObjects: {}
