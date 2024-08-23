@@ -7,48 +7,63 @@ public class KingOfTheGrillManager : NetworkBehaviour
 {
     [SerializeField] private GameObject pillarPrefab; // Prefab of the pillar to spawn
     [SerializeField] private GameObject fireIndicatorPrefab;
-    [SerializeField] private float moveSpeed = 2f;    // Speed at which the pillar moves upwards
+    [SerializeField] private float moveSpeed = 1000f;    // Speed at which the pillar moves upwards
     [SerializeField] private float stopHeight = 10f; // Height at which the pillar will be deleted
     [SerializeField] private float indToSpawnDelay = 3f;
 
 
     private Vector3 indSpawn = new Vector3(-14, -52, -1);
     private Vector3 boxSpawn = new Vector3(-14, -132, -1);
-    private float delay = 1f;
+    private float delay = 2f;
 
     private float spawnDelay = 2f;
+    private float elapsedTime;
 
-    private void Update()
+    private void Start()
     {
-        if (!IsHost){
+        elapsedTime = 0f;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsHost)
+        {
             return;
         }
         SpawnPillarClientRpc();
+        Debug.Log("on network spawn");
     }
 
-    private void InstantiatePillar()
+    IEnumerator InstantiatePillar()
     {
         Vector3 pillarSpawnPoint = GetPillarSpawnPoint();
 
-        GameObject pillar = Instantiate(pillarPrefab, pillarSpawnPoint, Quaternion.identity);
         GameObject indicatorPillar = Instantiate(fireIndicatorPrefab, pillarSpawnPoint, Quaternion.identity);
-
-        var pillarNetworkObject = pillar.GetComponent<NetworkObject>();
         var indicatorPillarNetworkObject = indicatorPillar.GetComponent<NetworkObject>();
-
-        pillarNetworkObject.Spawn(true);
         indicatorPillarNetworkObject.Spawn(true);
+
+        yield return new WaitForSeconds(1);
+
+        GameObject pillar = Instantiate(pillarPrefab, pillarSpawnPoint, Quaternion.identity);
+        var pillarNetworkObject = pillar.GetComponent<NetworkObject>();
+        pillarNetworkObject.Spawn(true);
+
+        indicatorPillarNetworkObject.Despawn(true);
+        Destroy(indicatorPillar);
 
         pillar.transform.parent = transform;
 
         // Start moving the pillar upwards
         StartCoroutine(MovePillar(pillar.transform, indicatorPillar.transform));
+
+
     }
 
     IEnumerator MovePillar(Transform pillarTransform, Transform indicatorTransform)
     {
-        yield return new WaitForSeconds(indToSpawnDelay);
-        Destroy(indicatorTransform.gameObject);
+        //yield return new WaitForSeconds(indToSpawnDelay);
+        //Destroy(indicatorTransform.gameObject);
+        //indicatorTransform.gameObject.GetComponent<NetworkObject>().Despawn(true); 
 
         while (pillarTransform.position.y < stopHeight)
         {
@@ -58,15 +73,28 @@ public class KingOfTheGrillManager : NetworkBehaviour
             // Wait for the next frame
             yield return null;
         }
+
         yield return new WaitForSeconds(delay);
 
         Destroy(pillarTransform.gameObject);
+        pillarTransform.gameObject.GetComponent<NetworkObject>().Despawn(true);
     }
 
-    IEnumerator SpawnPillar()
+    IEnumerator SpawnPillarLoop()
     {
-        yield return new WaitForSeconds(spawnDelay);
-        InstantiatePillar();
+        while (true)
+        {
+            yield return new WaitForSeconds(spawnDelay);
+
+            StartCoroutine(InstantiatePillar());
+
+            elapsedTime += spawnDelay; //adds time to the elapsed time
+
+            if (elapsedTime >= spawnDelay) // if the elapsed time is greater than the time needed to speed up, spawn cd is halved, and elapsed time resets
+            {
+                elapsedTime = 0f;
+            }
+        }
     } 
 
     private Vector3 GetPillarSpawnPoint()
@@ -91,6 +119,14 @@ public class KingOfTheGrillManager : NetworkBehaviour
     [ClientRpc]
     private void SpawnPillarClientRpc()
     {
-        SpawnPillar();
+        StartCoroutine(SpawnPillarLoop());
+        Debug.Log("spawn pillar client rpc");
+    }
+
+    [ServerRpc]
+    private void SpawnPillarServerRpc()
+    {
+        SpawnPillarClientRpc();
+        Debug.Log("spawn pillar server rpc");
     }
 }
