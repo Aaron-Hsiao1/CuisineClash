@@ -8,7 +8,8 @@ public class KOTGDeathZone : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Player"))
 		{
-			Destroy(other);
+			Vector3 newPosition = new Vector3(-12.3f, 155.3f, -112.3f); // Replace with your desired teleport position
+			other.transform.parent.position = newPosition;
 		}
 	}
 }
