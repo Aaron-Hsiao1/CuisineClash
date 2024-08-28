@@ -5,13 +5,14 @@ using UnityEngine;
 public class KnifeScript : MonoBehaviour
 {
     public int damage = 1;
-    public float attackRange = 2f;
+    public float attackRange = 10f;
     public LayerMask playerLayer;
 
     void Update()
     {
         if (Input.GetMouseButtonDown(1))
         {
+            Debug.Log("Right Click - Attack initiated!");
             Attack();
         }
     }
@@ -20,20 +21,27 @@ public class KnifeScript : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        
-        if (Physics.Raycast(transform.position, transform.forward, out hit, attackRange, playerLayer))
+
+        Debug.DrawRay(ray.origin, ray.direction * attackRange, Color.red, 1.0f); // Draw the ray
+
+        if (Physics.Raycast(ray, out hit, attackRange))
         {
+            Debug.Log("Raycast hit something: " + hit.collider.name);
+
             CCPlayerHealth playerHealth = hit.collider.GetComponent<CCPlayerHealth>();
-            if (playerHealth != null)
+            if (hit.collider.CompareTag("Player"))
             {
                 playerHealth.TakeDamage(damage);
                 Debug.Log("Player attacked and hit another player.");
             }
             else
             {
-                Debug.Log("Player attacked but did not hit a player.");
+                Debug.Log("Raycast hit, but not a player.");
             }
+        }
+        else
+        {
+            Debug.Log("Raycast did not hit anything.");
         }
     }
 }
-

@@ -10,11 +10,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2283531707256303884, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_Name
-      value: SCake Variant
+      value: SCAKE M
       objectReference: {fileID: 0}
     - target: {fileID: 2283531707256303884, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_TagString
       value: Cake
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602080041019544944, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602080041019544944, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602080041019544944, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3602080041019544944, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,19 +74,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7461359801403043016, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_Size.x
-      value: 1.1587375
+      value: 1.1079715
       objectReference: {fileID: 0}
     - target: {fileID: 7461359801403043016, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_Size.z
-      value: 1.1371714
+      value: 1.1150159
       objectReference: {fileID: 0}
     - target: {fileID: 7461359801403043016, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_Center.x
-      value: 0.020150948
+      value: -0.005232036
       objectReference: {fileID: 0}
     - target: {fileID: 7461359801403043016, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_Center.z
-      value: 0.008730841
+      value: 0.0043454766
       objectReference: {fileID: 0}
     - target: {fileID: 7461359801403043016, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_IsTrigger

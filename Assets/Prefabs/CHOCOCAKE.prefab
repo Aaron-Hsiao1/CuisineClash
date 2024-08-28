@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2283531707256303884, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_Name
-      value: SCake Variant
+      value: CCake Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 2283531707256303884, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_TagString
@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 126
       objectReference: {fileID: 0}
+    - target: {fileID: 6115422257026073306, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b41516090898aef4bb48effccc3a0529, type: 2}
     - target: {fileID: 7461359801403043016, guid: 4cfe1f124f4fa4d449ebe0270d2fbf44, type: 3}
       propertyPath: m_Size.x
       value: 1.1587375
