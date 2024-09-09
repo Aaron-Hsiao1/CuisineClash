@@ -3,36 +3,42 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : NetworkBehaviour
 {
-    public static ScoreManager instance;
+	public static ScoreManager instance;
 
-    [SerializeField] private TMP_Text scoreText;
+	[SerializeField] private KingOfTheGrillManager kingOfTheGrillManager;
 
-    int score = 0;
+	[SerializeField] private TMP_Text scoreText;
 
-    private void Awake()
-    {
-        instance = this;
-    }
+	int score = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        scoreText.text = "Score: " + score.ToString();
-    }
+	private void Awake()
+	{
+		instance = this;
+	}
 
-    public void AddPoint()
-    {
-        score += 1;
-        scoreText.text = "Score: " + score.ToString();
-        Debug.Log("score added");
-    }    
+	// Start is called before the first frame update
+	void Start()
+	{
+		scoreText.text = "Score: " + score.ToString();
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void AddPoint()
+	{
+		AddPointClientRpc();
+	}
+
+	[ClientRpc]
+	private void AddPointClientRpc()
+	{
+		//kingOfTheGrillManager.AddScore(1);
+	}
+
+	public int ReturnPlayerPoints()
+	{
+		return score;
+	}
 }

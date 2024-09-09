@@ -144,6 +144,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		gamePlaying = false;
 		gameEnded = true;
 		StartCoroutine(ShowEndGameUIs());
+
 		//Destroy(gameObject);
 	}
 
@@ -191,6 +192,13 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		gameOverText.gameObject.SetActive(false);
 		UpdateLeaderboardClientRpc();
 		leaderboard.SetActive(true);
+
+		yield return new WaitForSeconds(3f);
+
+		if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
+		{
+			Loader.LoadNetwork(Loader.Scene.PregameLobby);
+		}
 	}
 
 	private void UpdateLeaderboard()
@@ -198,7 +206,8 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		Debug.Log("updating leaderboard...");
 		foreach (KeyValuePair<ulong, int> player in cuisineClashManager.GetPlayerPoints())
 		{
-			leaderboardText.text += $"Player {player.Key}: {player.Value}\n";
+			var playerName = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(player.Key).playerName;
+			leaderboardText.text += $"{playerName}: {player.Value}\n";
 		}
 		Debug.Log($"leaderboradString: {leaderboardText.text}");
 		//leaderboardText.text = leaderboardString.Value.ToString();

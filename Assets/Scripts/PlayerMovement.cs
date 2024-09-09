@@ -85,7 +85,7 @@ public class PlayerMovement : NetworkBehaviour
 			rb.drag = 0;
 		}
 
-		Debug.Log(_verticalVelocity);
+		//Debug.Log(_verticalVelocity);
 	}
 
 	private void FixedUpdate()

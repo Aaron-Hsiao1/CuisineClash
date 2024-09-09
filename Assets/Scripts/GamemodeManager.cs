@@ -15,7 +15,7 @@ public class GamemodeManager : NetworkBehaviour
 	private enum Gamemode
 	{
 		//MultiplayerTesting,
-		//RainingMeatball
+		RainingMeatball,
 		KingOfTheGrill
 	}
 
@@ -81,5 +81,10 @@ public class GamemodeManager : NetworkBehaviour
 		}
 		Debug.Log("Not HOst");
 		return Loader.Scene.MainMenu;
+	}
+
+	public List<string> GetGamemodeList()
+	{
+		return gamemodeList;
 	}
 }

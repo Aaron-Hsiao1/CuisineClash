@@ -4,10 +4,14 @@ using Unity.Netcode;
 using UnityEngine;
 using TMPro;
 using System;
+using Unity.VisualScripting;
+using System.Linq;
 
 public class KingOfTheGrillManager : NetworkBehaviour
 {
-	private float totalTime = 5f; //Total Game Time in seconds
+	public static KingOfTheGrillManager Instance { get; private set; }
+
+	private float totalTime = 10f; //Total Game Time in seconds
 
 	[SerializeField] private GameObject pillarPrefab; // Prefab of the pillar to spawn
 	[SerializeField] private GameObject fireIndicatorPrefab;
@@ -15,7 +19,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 	[SerializeField] private float stopHeight = 10f; // Height at which the pillar will be deleted
 	[SerializeField] private float indToSpawnDelay = 3f;
 
-	[SerializeField] private bool gamePlaying = false;
+	[SerializeField] private bool gamePlaying;
 	private bool gameEnded;
 	private NetworkVariable<float> currentTime = new NetworkVariable<float>(0f);
 	[SerializeField] private TMP_Text timerText;
@@ -24,9 +28,10 @@ public class KingOfTheGrillManager : NetworkBehaviour
 	[SerializeField] private TMP_Text gameOverText;
 	[SerializeField] private GameObject leaderboard;
 	[SerializeField] private TMP_Text leaderboardText;
+	[SerializeField] private TMP_Text scoreText;
 
 	//[SerializeField] private Camera secondaryCamera;
-	private CuisineClashManager cuisineClashManager;
+	[SerializeField] private CuisineClashManager cuisineClashManager;
 
 	public event EventHandler OnGameEnd;
 
@@ -36,6 +41,10 @@ public class KingOfTheGrillManager : NetworkBehaviour
 
 	private float spawnDelay = 2f;
 	private float elapsedTime;
+
+	private Dictionary<ulong, int> playerScores = new Dictionary<ulong, int>();
+
+	[SerializeField] private ScoreManager scoreManager;
 
 	private void Start()
 	{
@@ -51,15 +60,21 @@ public class KingOfTheGrillManager : NetworkBehaviour
 		currentTime.Value = startTime.Value;
 		gamePlaying = true;
 		gameEnded = false;
+		leaderboardText.text = "";
 		leaderboard.SetActive(false);
 		gameOverText.gameObject.SetActive(false);
 
+		foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds) //populates player score dictionary
+		{
+			playerScores.Add(clientId, 0);
+		}
 		if (!IsHost)
 		{
 			return;
 		}
+
+
 		SpawnPillarClientRpc();
-		Debug.Log("on network spawn");
 	}
 
 	private void Update()
@@ -104,7 +119,8 @@ public class KingOfTheGrillManager : NetworkBehaviour
 	[ClientRpc]
 	private void EndGameClientRpc()
 	{
-		//CalculatePoints();
+		CalculatePoints();
+
 		EndGame();
 		Debug.Log("timer.gameEnded()");
 	}
@@ -127,6 +143,12 @@ public class KingOfTheGrillManager : NetworkBehaviour
 		gameOverText.gameObject.SetActive(false);
 		UpdateLeaderboardClientRpc();
 		leaderboard.SetActive(true);
+		yield return new WaitForSeconds(3f);
+
+		if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
+		{
+			Loader.LoadNetwork(Loader.Scene.PregameLobby);
+		}
 	}
 
 	private void UpdateLeaderboard()
@@ -134,8 +156,10 @@ public class KingOfTheGrillManager : NetworkBehaviour
 		Debug.Log("updating leaderboard...");
 		foreach (KeyValuePair<ulong, int> player in cuisineClashManager.GetPlayerPoints())
 		{
-			leaderboardText.text += $"Player {player.Key}: {player.Value}\n";
+			var playerName = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(player.Key).playerName;
+			leaderboardText.text += $"{playerName}: {player.Value}\n";
 		}
+
 		Debug.Log($"leaderboradString: {leaderboardText.text}");
 		//leaderboardText.text = leaderboardString.Value.ToString();
 	}
@@ -240,5 +264,111 @@ public class KingOfTheGrillManager : NetworkBehaviour
 	{
 		SpawnPillarClientRpc();
 		Debug.Log("spawn pillar server rpc");
+	}
+
+	public bool IsGamePlaying()
+	{
+		return gamePlaying;
+	}
+
+	private void CalculatePoints()
+	{
+		var playerScoresSorted = playerScores.OrderByDescending(player => player.Value);
+		List<int> times = playerScores.Select(p => p.Value).ToList();
+
+		for (int i = 0; i < playerScoresSorted.Count(); i++)
+		{
+			if (i == 0) //first place
+			{
+				if (times.Count(t => t == times[i]) == 1) //counts how many times t are equal to times[i] (basically checking for ties)
+				{
+					//+3 points
+					foreach (var player in playerScoresSorted)
+					{
+						if (player.Value == times[i])
+						{
+							cuisineClashManager.addPoints(player.Key, 3);
+						}
+					}
+
+				}
+				else if (times.Count(t => t == times[i]) == 2) //2 weay tie
+				{
+					// +2 points for top 2
+					foreach (var player in playerScoresSorted)
+					{
+						if (player.Value == times[i])
+						{
+							cuisineClashManager.addPoints(player.Key, 2);
+						}
+					}
+					i++;
+				}
+				else if (times.Count(t => t == times[t]) == 3) //3 way tie
+				{
+					// +1 piont for top 3
+					foreach (var player in playerScoresSorted)
+					{
+						if (player.Value == times[i])
+						{
+							cuisineClashManager.addPoints(player.Key, 1);
+						}
+					}
+					i += 2;
+				}
+			}
+			else if (i == 1 && times.Count(t => t == times[i]) == 1)//2nd place with no ties
+			{
+				// +2 points for 2nd place
+				foreach (var player in playerScoresSorted)
+				{
+					if (player.Value == times[i])
+					{
+						cuisineClashManager.addPoints(player.Key, 2);
+					}
+				}
+			}
+			else if (i == 2 && times.Count(t => t == times[i]) == 1)//3rd place with no ties
+			{
+				// + 1 point for 3rd
+				foreach (var player in playerScoresSorted)
+				{
+					if (player.Value == times[i])
+					{
+						cuisineClashManager.addPoints(player.Key, 1);
+					}
+				}
+			}
+		}
+	}
+
+	public void AddScore(int score)
+	{
+		AddScoreServerRpc(score);
+	}
+
+	[ServerRpc(RequireOwnership = false)]
+	private void AddScoreServerRpc(int score, ServerRpcParams serverRpcParams = default)
+	{
+		var sender = serverRpcParams.Receive.SenderClientId;
+
+		playerScores[sender] += score;
+		UpdateScoreText(sender, playerScores[sender]);
+
+	}
+
+	[ClientRpc]
+	private void UpdateScoreTextClientRpc(ulong clientId, int score)
+	{
+		if (clientId != NetworkManager.Singleton.LocalClientId)
+		{
+			return;
+		}
+		scoreText.text = "Score: " + score;
+	}
+
+	private void UpdateScoreText(ulong clientId, int score)
+	{
+		UpdateScoreTextClientRpc(clientId, score);
 	}
 }

@@ -1705,6 +1705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 854766885}
+  - component: {fileID: 854766886}
   - component: {fileID: 854766884}
   m_Layer: 0
   m_Name: PillarSpawner
@@ -1746,6 +1747,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &854766886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854766883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1420990419
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!4 &859909118 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 14c81a55a79fa0440a3b2d414976583b, type: 3}
@@ -3015,6 +3037,9 @@ MonoBehaviour:
   gameOverText: {fileID: 506917988}
   leaderboard: {fileID: 972331927}
   leaderboardText: {fileID: 972331926}
+  scoreText: {fileID: 145557743}
+  cuisineClashManager: {fileID: 2051956499}
+  scoreManager: {fileID: 1672747020}
 --- !u!4 &1672747019
 Transform:
   m_ObjectHideFlags: 0
@@ -3042,6 +3067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d56aa9332b70a341bf3e2a281b381a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kingOfTheGrillManager: {fileID: 1672747018}
   scoreText: {fileID: 145557743}
 --- !u!114 &1672747021
 MonoBehaviour:
@@ -3625,6 +3651,7 @@ GameObject:
   - component: {fileID: 1988313600}
   - component: {fileID: 1988313599}
   - component: {fileID: 1988313598}
+  - component: {fileID: 1988313603}
   - component: {fileID: 1988313597}
   m_Layer: 6
   m_Name: Play Area hitbox
@@ -3645,6 +3672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef7fcc35d92537a42b897936337305b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kingOfTheGrillManager: {fileID: 1672747018}
 --- !u!54 &1988313598
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3759,6 +3787,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1988313603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988313596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1398204064
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &2001309454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3902,6 +3951,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e20b7a900f0fc6249b3ee3b555fb7e88, type: 3}
+--- !u!114 &2051956499 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5176753689746605413, guid: e20b7a900f0fc6249b3ee3b555fb7e88, type: 3}
+  m_PrefabInstance: {fileID: 2051956498}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d997aba4b15da041a36f6ec6c1b5775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2059420478
 GameObject:
   m_ObjectHideFlags: 0
