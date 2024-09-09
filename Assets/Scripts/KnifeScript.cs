@@ -5,7 +5,7 @@ using UnityEngine;
 public class KnifeScript : MonoBehaviour
 {
     public int damage = 1;
-    public float attackRange = 10f;
+    public float attackRange = 100f;
     public LayerMask playerLayer;
 
     void Update()
@@ -28,7 +28,8 @@ public class KnifeScript : MonoBehaviour
         {
             Debug.Log("Raycast hit something: " + hit.collider.name);
 
-            CCPlayerHealth playerHealth = hit.collider.GetComponent<CCPlayerHealth>();
+            CCPlayerHealth playerHealth = hit.collider.GetComponentInParent<CCPlayerHealth>();
+            Debug.Log(playerHealth);
             if (hit.collider.CompareTag("Player"))
             {
                 playerHealth.TakeDamage(damage);
