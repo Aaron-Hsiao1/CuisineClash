@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerMovement : NetworkBehaviour
 {
 	public float moveSpeed;
+	public GameObject player;
 
 	public float groundDrag;
 
@@ -18,6 +19,7 @@ public class PlayerMovement : NetworkBehaviour
 	public float jumpCooldown;
 	public float airMultiplier;
 	bool canJump;
+	public GameObject hotPotato;
 
 	public Transform orientation;
 
@@ -57,7 +59,15 @@ public class PlayerMovement : NetworkBehaviour
 		{
 			rb.drag = 0;
 		}
-	}
+        HPDeathTimer[] players = FindObjectsOfType<HPDeathTimer>();
+		foreach (var player in players)
+		{
+			if (player.HasHotPotato())
+			{
+				moveSpeed = moveSpeed + 0.002f;
+			}
+		}
+    }
 
 	private void FixedUpdate()
 	{

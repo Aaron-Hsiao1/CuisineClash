@@ -37,7 +37,7 @@ public class PlayerPush : MonoBehaviour
     // Method to apply forces to push the other player
     void PushPlayer(GameObject player)
     {
-        Rigidbody rb = player.GetComponent<Rigidbody>();
+        Rigidbody rb = player.GetComponentInParent<Rigidbody>();
 
         if (rb != null)
         {
