@@ -80,9 +80,9 @@ public class CuisineClashManager : NetworkBehaviour
 			foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
 			{
 				//Debug.Log("current scene spawned in player" + SceneManager.GetActiveScene().name);
-				Vector3 spawnPoint = spawnManager.GetNextSpawnPoint();
-				Debug.Log($"Spawn point in manager: {spawnPoint}");
-				Transform playerTransform = Instantiate(playerPrefab, spawnPoint, Quaternion.identity);
+				//Vector3 spawnPoint = spawnManager.GetNextSpawnPoint();
+				//Debug.Log($"Spawn point in manager: {spawnPoint}");
+				Transform playerTransform = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 				//Debug.Log($"spawnPoint: {spawnPoint}");
 				playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
 			}
