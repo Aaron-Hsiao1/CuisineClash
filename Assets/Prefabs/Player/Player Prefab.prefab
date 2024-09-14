@@ -2350,6 +2350,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5764773322451792849}
     m_Modifications:
+    - target: {fileID: 505785126474269407, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505785126474269407, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505785126474269407, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505785126474269407, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505785126474269407, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -380
+      objectReference: {fileID: 0}
+    - target: {fileID: 505785126474269407, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -392
+      objectReference: {fileID: 0}
+    - target: {fileID: 2062062278527864346, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3471651018585622253, guid: 2c793179c57d892448f35551749bb768, type: 3}
       propertyPath: m_Name
       value: Player Canvas
@@ -2357,6 +2385,22 @@ PrefabInstance:
     - target: {fileID: 3471651018585622253, guid: 2c793179c57d892448f35551749bb768, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4469858882580387066, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4469858882580387066, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4469858882580387066, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 4469858882580387066, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 4695126727677124014, guid: 2c793179c57d892448f35551749bb768, type: 3}
       propertyPath: m_Pivot.x
@@ -2446,6 +2490,34 @@ PrefabInstance:
       propertyPath: settingsMenu
       value: 
       objectReference: {fileID: 3277093168451028058}
+    - target: {fileID: 6476420652951717276, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552239983679595898, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552239983679595898, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552239983679595898, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552239983679595898, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552239983679595898, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -380
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552239983679595898, guid: 2c793179c57d892448f35551749bb768, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -392
+      objectReference: {fileID: 0}
     - target: {fileID: 9193898251018000969, guid: 2c793179c57d892448f35551749bb768, type: 3}
       propertyPath: settingsUI
       value: 
