@@ -38,16 +38,8 @@ public class Player : NetworkBehaviour
 		Debug.Log($"rb.psition client: {rb.position}");
 	}
 
-	[ServerRpc]
-	private void SetPlayerLocationServerRpc(float x, float y, float z)
-	{
-		rb.position = new Vector3(x, y, z);
-		Debug.Log($"rb.psition server: {rb.position}");
-	}
-
 	private void SetPlayerLocation(float x, float y, float z)
 	{
-		SetPlayerLocationServerRpc(x, y, z);
 		SetPlayerLocationClientRpc(x, y, z);
 	}
 

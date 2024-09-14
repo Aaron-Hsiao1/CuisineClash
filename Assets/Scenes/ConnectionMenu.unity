@@ -4264,7 +4264,7 @@ GameObject:
   - component: {fileID: 1514390204}
   - component: {fileID: 1514390205}
   m_Layer: 0
-  m_Name: CuisineClashMultiplayer
+  m_Name: Cuisine Clash Multiplayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

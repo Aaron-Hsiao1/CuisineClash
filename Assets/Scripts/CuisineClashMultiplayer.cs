@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Services.Authentication;
+using System.Linq;
 
 public class CuisineClashMultiplayer : NetworkBehaviour
 {
@@ -21,6 +22,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 	public event EventHandler OnPlayerDataNetworkListChanged;
 
 	[SerializeField] private List<Color> playerColorList;
+	private Dictionary<ulong, int> playerPoints;
 
 	private NetworkList<PlayerData> playerDataNetworkList;
 
@@ -28,6 +30,8 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 	{
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
+
+		playerPoints = new Dictionary<ulong, int>();
 
 		playerDataNetworkList = new NetworkList<PlayerData>();
 		playerDataNetworkList.OnListChanged += CuisineClashMultiplayer_OnListChanged;
@@ -238,5 +242,40 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		Debug.Log($"Player Kicked: {clientId}");
 		NetworkManager.Singleton.DisconnectClient(clientId);
 		NetworkManager_Server_OnClientDisconnectCallback(clientId);
+	}
+
+	public void AddPoints(ulong playerId, int pointAmt)
+	{
+		AddPointsClientRpc(playerId, pointAmt);
+	}
+
+	[ClientRpc]
+	private void AddPointsClientRpc(ulong playerId, int pointAmt)
+	{
+		if (!playerPoints.ContainsKey(playerId))
+		{
+			playerPoints.Add(playerId, pointAmt);
+		}
+		else
+		{
+			playerPoints[playerId] += pointAmt;
+		}
+	}
+
+	public void SortPoints()
+	{
+		SortPointsServerRpc();
+	}
+
+	[ServerRpc(RequireOwnership = false)]
+	private void SortPointsServerRpc()
+	{
+		playerPoints = playerPoints.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+	}
+
+	public Dictionary<ulong, int> GetPlayerPoints()
+	{
+		SortPoints();
+		return playerPoints;
 	}
 }
