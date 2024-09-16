@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HPDeathTimer : MonoBehaviour
@@ -19,4 +20,5 @@ public class HPDeathTimer : MonoBehaviour
         // Example: Disable the player game object or perform other actions
         Destroy(player); // Disable the player object
     }
+
 }
