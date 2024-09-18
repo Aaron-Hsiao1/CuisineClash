@@ -4,6 +4,8 @@ public class HPDeathTimer : MonoBehaviour
 {
     public GameObject hotPotato; // Reference to the hot potato child object
     public GameObject player; // Reference to the hot potato child object
+    public GameObject particlePrefab;
+    private Vector3 particleSpawn;
 
     // Method to check if the player has the active hot potato
     public bool HasHotPotato()
@@ -17,6 +19,10 @@ public class HPDeathTimer : MonoBehaviour
         Debug.Log($"{name} has been eliminated!"); // Log elimination to console
 
         // Example: Disable the player game object or perform other actions
+        particleSpawn = transform.position;
+        
         Destroy(player); // Disable the player object
+        
+        Instantiate(particlePrefab, particleSpawn, Quaternion.identity);
     }
 }
