@@ -16,7 +16,7 @@ public class MeatballController : MonoBehaviour
 
             if (rb != null)
             {
-                Debug.Log("Player Push");
+
                 Vector3 pushDirection = (collision.gameObject.transform.position - transform.position).normalized;
                 pushDirection.y = 0;
                 rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
