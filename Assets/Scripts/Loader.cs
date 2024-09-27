@@ -16,7 +16,8 @@ public static class Loader
 		TestingLobby,
 		MultiplayerTesting,
 		KingOfTheGrill,
-		RainingMeatball
+		RainingMeatball,
+		Parkour
 	}
 	private static Scene targetScene;
 

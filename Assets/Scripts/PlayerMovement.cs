@@ -12,7 +12,7 @@ public class PlayerMovement : NetworkBehaviour
 
 	public float playerHeight;
 	public LayerMask Ground;
-	bool grounded;
+	public bool grounded;
 
 	public float jumpForce;
 	public float jumpCooldown;
