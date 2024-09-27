@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -7,8 +8,10 @@ using UnityEngine;
 public class PlayerMovement : NetworkBehaviour
 {
 	public float moveSpeed;
+	public float sprintSpeed;
 
-	public float groundDrag;
+
+    public float groundDrag;
 
 	public float playerHeight;
 	public LayerMask Ground;
@@ -21,8 +24,8 @@ public class PlayerMovement : NetworkBehaviour
 
 	public Transform orientation;
 
-	float horizontalInput;
-	float verticalInput;
+	private float horizontalInput;
+	private float verticalInput;
 
 	private float _verticalVelocity;
 	public float JumpHeight = 1.5f;
@@ -42,6 +45,7 @@ public class PlayerMovement : NetworkBehaviour
 		rb.freezeRotation = true;
 		canJump = true;
 	}
+
 
 	void Update()
 	{
@@ -101,14 +105,17 @@ public class PlayerMovement : NetworkBehaviour
 	{
 		horizontalInput = Input.GetAxisRaw("Horizontal");
 		verticalInput = Input.GetAxisRaw("Vertical");
-
-		if (Input.GetKey(jumpKey) && canJump && grounded)
+        Sprint();
+        if (Input.GetKey(jumpKey) && canJump && grounded)
 		{
 			canJump = false;
 			Jump();
 			Invoke(nameof(resetJump), jumpCooldown);
-		}
-	}
+			
+
+        }
+
+    }
 
 	private void MovePlayer()
 	{
@@ -144,12 +151,35 @@ public class PlayerMovement : NetworkBehaviour
 		rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
 		_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * -9.81f);
-
-
 	}
 
-	private void resetJump()
+	private void Sprint()
+	{
+		if (Input.GetKey(KeyCode.LeftShift))
+		{
+			moveSpeed = sprintSpeed;
+		}
+		else{ 
+			moveSpeed = 5;
+        }
+    }
+
+
+
+
+    private void resetJump()
 	{
 		canJump = true;
 	}
+
+	public float GetVerticalInput()
+	{
+		return verticalInput;
+	}
+
+    public float GetHorizontalInput()
+    {
+        return horizontalInput;
+    }
+
 }
