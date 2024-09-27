@@ -82,6 +82,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		{
 			clientId = clientId,
 			colorId = GetFirstUnusedColorId(),
+			isAlive = true,
 		});
 		SetPlayerNameServerRpc(GetPlayerName());
 		SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);

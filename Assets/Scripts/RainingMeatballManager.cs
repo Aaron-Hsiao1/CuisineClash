@@ -9,6 +9,8 @@ using Unity.Collections;
 [GenerateSerializationForType(typeof(string))]
 public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcpy
 {
+	public static RainingMeatballManager Instance { get; private set; }	
+	
 	//Timer stuff
 	[SerializeField] private NetworkVariable<float> startTime = new NetworkVariable<float>(10f);
 	[SerializeField] private TMP_Text timerText;
@@ -35,17 +37,21 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 	//private CuisineClashManager cuisineClashManager;
 	private CuisineClashMultiplayer cuisineClashMultiplayer;
 
-	private void Start()
+	private void Awake()
 	{
-		OnGameEnd += RainingMeatballManager_OnGameEnd;
+        OnGameEnd += RainingMeatballManager_OnGameEnd;
+        //OnAlivePlayersChanged += RainingMeatballManager_OnAlivePlayersChanged;
+    }
 
+    private void Start()
+	{
 		if (gameOverText != null)
 		{
 			gameOverText.gameObject.SetActive(false);
 		}
 	}
 
-	public override void OnNetworkSpawn()
+    public override void OnNetworkSpawn()
 	{
 		leaderboardText.text = "";
 
@@ -106,7 +112,18 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 	}
 
-	private void RainingMeatballManager_OnGameEnd(object sender, EventArgs e)
+    /*private void RainingMeatballManager_OnAlivePlayersChanged(object sender, EventArgs e)
+    {
+		AlivePlayersChanged();
+        Debug.Log("alive playertschanged 1");
+    }
+
+	private void AlivePlayersChanged()
+	{
+        OnAlivePlayersChanged?.Invoke(this, EventArgs.Empty);
+    }*/
+
+    private void RainingMeatballManager_OnGameEnd(object sender, EventArgs e)
 	{
 		EndGameClientRpc();
 	}

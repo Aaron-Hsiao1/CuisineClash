@@ -1,14 +1,10 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scripts/CuisineClashMultiplayer.cs.meta
 guid: e3595220337d99f478c5e7a5596c0612
-========
-guid: c74330ec21f1348918d47d612f527994
->>>>>>>> origin/king-of-the-grill:Assets/Scripts/DIEDIEDIEDIE.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences: []
-  executionOrder: 0
+  executionOrder: -50
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
