@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5171305601000165518}
   - component: {fileID: 2238892783961222610}
   - component: {fileID: 9013476610639761483}
+  - component: {fileID: 4439063301424673618}
   m_Layer: 0
   m_Name: Death
   m_TagString: DeathZone
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 765268526
+  GlobalObjectIdHash: 4247331142
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -192,3 +193,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meatballManager: {fileID: 0}
+  timer: {fileID: 0}
+--- !u!114 &4439063301424673618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499722752797894612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8235a7aff208bc940b8d808c854557b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  riseSpeed: 0.1
+  riseInterval: 1
