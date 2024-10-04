@@ -250,6 +250,11 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		AddPointsClientRpc(playerId, pointAmt);
 	}
 
+	public NetworkList<PlayerData> GetPlayerDataNetworkList()
+	{
+		return playerDataNetworkList;
+	}
+
 	[ClientRpc]
 	private void AddPointsClientRpc(ulong playerId, int pointAmt)
 	{

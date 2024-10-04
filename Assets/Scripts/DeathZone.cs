@@ -6,6 +6,8 @@ using System;
 public class DeathZone : NetworkBehaviour
 {
 	public static DeathZone Instance { get; private set; }
+
+	private SpectateManager spectateManager;
 	
 	[SerializeField] private RainingMeatballManager meatballManager;
 	//[SerializeField] private CountdownTimer timer;
@@ -32,30 +34,44 @@ public class DeathZone : NetworkBehaviour
 		
     }
 
-    public override void OnNetworkSpawn()
+	public override void OnNetworkSpawn()
 	{
-		gameOverText = GameObject.Find("GameOverText").GetComponent<TMP_Text>();
+		//gameOverText = GameObject.Find("GameOverText").GetComponent<TMP_Text>();
 		meatballManager = GameObject.Find("Raining Meatball Manager").GetComponent<RainingMeatballManager>();
+		spectateManager = GameObject.Find("Spectate Manager").GetComponent<SpectateManager>();
 		Debug.Log("meatballManager != null" + meatballManager != null);
+
+
+		OnAlivePlayersChanged += Test;
 	}
 
-	private void OnTriggerEnter(Collider touch)
+    private void Test(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnTriggerEnter(Collider touch)
 	{
-		Debug.Log("trigger is host: " + IsHost);
+		//Debug.Log("trigger is host: " + IsHost);
 		if (touch.CompareTag("Player")) //enter death zone
 		{
+			var clientId = touch.GetComponent<NetworkBehaviour>().OwnerClientId;
+			
 			Debug.Log("Player hit death zone");
-			if (!IsHost)
+            RemoveFromPlayerListServerRpc();
+            //ShowGameOverText();
+
+            if (!IsHost)
 			{
                 InvokeAlivePlayersChangedServerRpc();
             }
 			else
 			{
                 OnAlivePlayersChanged?.Invoke(this, null);
-            }	
-			
-            RemoveFromPlayerListServerRpc();
-			ShowGameOverText();
+            }
+
+			spectateManager.BecomeSpectator(clientId);
+
 		}
 	}
 
@@ -64,8 +80,20 @@ public class DeathZone : NetworkBehaviour
 	{
 		
         var clientId = serverRpcParams.Receive.SenderClientId;
-		Destroy(NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject);
-		meatballManager.EliminatePlayer(clientId);
+
+		PlayerData playerData = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(clientId);
+        var playerDataNetworkList = CuisineClashMultiplayer.Instance.GetPlayerDataNetworkList();
+
+        playerData.isAlive = false;
+
+		playerDataNetworkList[CuisineClashMultiplayer.Instance.GetPlayerDataIndexFromClientId(clientId)] = playerData;
+
+
+        meatballManager.EliminatePlayer(clientId);
+		Debug.Log(NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject == null);		
+        Destroy(NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject);
+
+        Debug.Log(playerData.isAlive);
 
 		Debug.Log("Player removed: " + clientId);
 	}
@@ -73,16 +101,7 @@ public class DeathZone : NetworkBehaviour
 	[ServerRpc(RequireOwnership = false)]
 	private void InvokeAlivePlayersChangedServerRpc()
 	{
-		Debug.Log("server rpc called");
-        if (OnAlivePlayersChanged != null) //this is jnull for some reason
-        {
-            Debug.Log("Invoking OnAlivePlayersChanged on server.");
-            OnAlivePlayersChanged?.Invoke(this, null);
-        }
-        else
-        {
-            Debug.LogWarning("No subscribers for OnAlivePlayersChanged on server.");
-        }
+        OnAlivePlayersChanged?.Invoke(this, null);
     }
 
 	private void ShowGameOverText()
