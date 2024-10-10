@@ -25,11 +25,11 @@ public class PlayerMovement : NetworkBehaviour
     private float horizontalInput;
     private float verticalInput;
 
-    private float _verticalVelocity;
     public float JumpHeight = 1.5f;
-    private float _terminalVelocity = 53.0f;
 
-    [SerializeField] private float fallMultiplier = 50f;
+    [SerializeField] private float fallMultiplier = 2.5f; // Adjust for faster fall
+    [SerializeField] private float lowJumpMultiplier = 2f; // Adjust for lower jumps
+    [SerializeField] private float normalJumpGravityMultiplier = 1f; // Normal gravity during ascent
 
     Vector3 moveDirection;
     Rigidbody rb;
@@ -43,6 +43,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        rb.mass = 1f;  // Set player mass
         canJump = true;
     }
 
@@ -59,30 +60,10 @@ public class PlayerMovement : NetworkBehaviour
         MyInput();
         SpeedControl();
 
-        // Apply custom gravity if falling
-        if (!grounded && rb.velocity.y < 0)
+        // Apply custom gravity only if airborne
+        if (!grounded)
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-        }
-
-        // Prevent velocity from going beyond terminal velocity
-        if (_verticalVelocity < _terminalVelocity)
-        {
-            _verticalVelocity += -11f * Time.deltaTime;
-        }
-
-        if (grounded)
-        {
-            rb.drag = groundDrag;
-            _verticalVelocity = 0f;
-            if (_verticalVelocity < 0.0f)
-            {
-                _verticalVelocity = -2f;
-            }
-        }
-        else
-        {
-            rb.drag = 0;
+            ApplyGravity(); // Handle gravity separately only when not grounded
         }
     }
 
@@ -114,15 +95,15 @@ public class PlayerMovement : NetworkBehaviour
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (OnSlope())
+        if (grounded)
         {
-            // Move along the slope
-            Vector3 slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, GetSlopeNormal());
-            rb.AddForce(slopeMoveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            // Apply movement force only when grounded
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
         }
-        else
+        else if (!grounded)
         {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
+            // Apply movement force with air multiplier when in the air
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
     }
 
@@ -142,8 +123,31 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (grounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * -9.81f);
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // Reset any vertical velocity
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // Apply jump force
+        }
+    }
+
+    private void ApplyGravity()
+    {
+        if (rb.velocity.y > 0) // Player is ascending
+        {
+            if (!Input.GetKey(jumpKey))
+            {
+                // Weaker gravity for lower jumps if jump key is released
+                rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+            }
+            else
+            {
+                // Normal gravity while ascending
+                rb.velocity += Vector3.up * Physics.gravity.y * (normalJumpGravityMultiplier - 1) * Time.deltaTime;
+            }
+        }
+        else if (rb.velocity.y < 0) // Player is falling
+        {
+            // Gradually increase gravity for smoother descent
+            float fallSpeed = Mathf.Lerp(1f, fallMultiplier, Time.deltaTime * 2f); // Gradual fall increase
+            rb.velocity += Vector3.up * Physics.gravity.y * (fallSpeed - 1) * Time.deltaTime;
         }
     }
 

@@ -6643,6 +6643,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeatBallSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 299910632635468481, guid: e71ee690a4e08874ab6280cb93604776, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4124922559292902013, guid: e71ee690a4e08874ab6280cb93604776, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
