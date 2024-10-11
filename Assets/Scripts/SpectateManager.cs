@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ public class SpectateManager : NetworkBehaviour
     public SpectateManager Instance { get; private set; }
     
     private List<ulong> alivePlayers;
+
+    private Dictionary<ulong, NetworkClient> connectedClients;
 
     [SerializeField] private Camera spectatorCamera;
     private void Awake()
@@ -113,29 +116,85 @@ public class SpectateManager : NetworkBehaviour
         }
     }
 
-    public void SpawnSpectatorCameraForPlayer(ulong clientId, ulong targetClientId)
-    {
-        var camera = Instantiate(spectatorCamera, new Vector3(0, 10, 0), Quaternion.identity);
-        
-        var targetPlayerObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-
-        var targetPlayerObjectTransform = targetPlayerObject.transform.GetChild(0).GetChild(0).transform;
-
-        camera.transform.position = targetPlayerObjectTransform.position;
-        camera.transform.rotation = targetPlayerObjectTransform.rotation;
-
-        if (NetworkManager.Singleton.LocalClientId != clientId) {
-            camera.gameObject.SetActive(false);
-        }
-
-
-    }
-
     [ClientRpc]
     public void SpawnSpectatorCameraForPlayerClientRpc(ulong clientId, ulong targetClientId)
     {
         SpawnSpectatorCameraForPlayer(clientId, targetClientId);
     }
+
+    public void SpawnSpectatorCameraForPlayer(ulong spectatorClientId, ulong targetClientId)
+    {
+        if (NetworkManager.Singleton.LocalClientId == spectatorClientId)
+        {
+            RequestTargetCameraDataServerRpc(targetClientId, spectatorClientId);
+
+            /*var camera = Instantiate(spectatorCamera, new Vector3(0, 10, 0), Quaternion.identity);
+
+            var targetPlayerObject = ReturnPlayerObjectServerRpc(clientId)[targetClientId];
+
+            Camera targetCamera = targetPlayerObject.transform.Find("CameraHolder").Find("Main Camera").GetComponent<Camera>();
+
+            Debug.Log("camera transform: " + camera.transform.position);
+            Debug.Log("target camera transform: " + targetCamera.transform.position);
+
+
+            camera.transform.position = new Vector3(0, 0, 0);
+            camera.transform.rotation = targetPlayerObject.transform.rotation;
+
+            camera.GetComponent<SpectatorCamera>().SetTargetCamera(targetCamera);*/
+        }
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestTargetCameraDataServerRpc(ulong targetClientId, ulong spectatorClientId)
+    {
+        RequestTargetCameraData(targetClientId, spectatorClientId);
+    }
+
+    public void RequestTargetCameraData(ulong targetClientId, ulong spectatorClientId)
+    {
+        var targetPlayerObject = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
+
+        if (targetPlayerObject != null)
+        {
+            // Find the camera component on the target player object
+            Camera targetCamera = targetPlayerObject.transform.Find("CameraHolder").Find("Main Camera").GetComponent<Camera>();
+
+            if (targetCamera != null)
+            {
+                // Send the target camera's position and rotation back to the client
+                SendTargetCameraDataClientRpc(targetClientId, spectatorClientId, targetCamera.transform.position, targetCamera.transform.rotation);
+            }
+        }
+    }
+
+    [ClientRpc]
+    private void SendTargetCameraDataClientRpc(ulong clientId, ulong spectatorClientId, Vector3 cameraPosition, Quaternion cameraRotation)
+    {
+        SendTargetCameraData(clientId, spectatorClientId, cameraPosition, cameraRotation);
+    }
+
+    private void SendTargetCameraData(ulong clientId, ulong spectatorClientId, Vector3 cameraPosition, Quaternion cameraRotation)
+    {
+        if (NetworkManager.Singleton.LocalClientId == spectatorClientId)
+        {
+            var spectatorCam = Instantiate(spectatorCamera, cameraPosition, cameraRotation);
+
+            spectatorCam.transform.position = cameraPosition;
+            spectatorCam.transform.rotation = cameraRotation;
+
+
+
+            spectatorCam.GetComponent<SpectatorCamera>().SetCameraPositionAndRotation(cameraPosition, cameraRotation); //works but need to update continuously
+
+            Debug.Log("Spectator camera spawned at position: " + cameraPosition);
+
+        }
+    }
+
+
+    
 
     // Update is called once per frame
     void Update()
@@ -143,3 +202,4 @@ public class SpectateManager : NetworkBehaviour
         
     }
 }
+
