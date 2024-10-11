@@ -10,7 +10,9 @@ public class PlayerMovement : NetworkBehaviour
     public float moveSpeed;
     public float sprintSpeed;
 
+
     public float groundDrag;
+
     public float playerHeight;
     public LayerMask Ground;
     bool grounded;
@@ -25,27 +27,25 @@ public class PlayerMovement : NetworkBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    private float _verticalVelocity;
     public float JumpHeight = 1.5f;
+    private float _terminalVelocity = 53.0f;
 
-    [SerializeField] private float fallMultiplier = 2.5f; // Adjust for faster fall
-    [SerializeField] private float lowJumpMultiplier = 2f; // Adjust for lower jumps
-    [SerializeField] private float normalJumpGravityMultiplier = 1f; // Normal gravity during ascent
+    [SerializeField] private float fallMultiplier = 50f;
 
     Vector3 moveDirection;
+
     Rigidbody rb;
 
     public KeyCode jumpKey = KeyCode.Space;
-
-    private float maxSlopeAngle = 45f; // Maximum slope the player can walk on
-
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        rb.mass = 1f;  // Set player mass
         canJump = true;
     }
+
 
     void Update()
     {
@@ -54,17 +54,42 @@ public class PlayerMovement : NetworkBehaviour
             return;
         }
 
-        // Check if player is grounded
+        if (rb.velocity.y < 0)
+        {
+            //Debug.Log("rb.velocity.y < 0 : " + rb.velocity.y);
+            //rb.velocity += Vector3.up * (Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime);
+            //rb.velocity += new Vector3(0f, Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime, 0f);
+            //_verticalVelocity += -25f * Time.deltaTime;
+        }
+
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
 
         MyInput();
         SpeedControl();
 
-        // Apply custom gravity only if airborne
-        if (!grounded)
+
+        // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+        if (_verticalVelocity < _terminalVelocity)
         {
-            ApplyGravity(); // Handle gravity separately only when not grounded
+            _verticalVelocity += -11f * Time.deltaTime;
+
         }
+
+        if (grounded)
+        {
+            rb.drag = groundDrag;
+            _verticalVelocity = 0f;
+            if (_verticalVelocity < 0.0f)
+            {
+                _verticalVelocity = -2f;
+            }
+        }
+        else
+        {
+            rb.drag = 0;
+        }
+
+        //Debug.Log(_verticalVelocity);
     }
 
     private void FixedUpdate()
@@ -80,38 +105,39 @@ public class PlayerMovement : NetworkBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-
         Sprint();
-
         if (Input.GetKey(jumpKey) && canJump && grounded)
         {
             canJump = false;
             Jump();
             Invoke(nameof(resetJump), jumpCooldown);
+
+
         }
+
     }
 
     private void MovePlayer()
     {
+        //calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
 
         if (grounded)
         {
-            // Apply movement force only when grounded
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
         }
         else if (!grounded)
         {
-            // Apply movement force with air multiplier when in the air
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f /** airMultiplier*/ + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
         }
     }
 
     private void SpeedControl()
     {
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        Vector3 flatVel = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
 
-        // Limit velocity
+        //limits velocity
         if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -121,34 +147,10 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Jump()
     {
-        if (grounded)
-        {
-            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // Reset any vertical velocity
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // Apply jump force
-        }
-    }
+        //rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
-    private void ApplyGravity()
-    {
-        if (rb.velocity.y > 0) // Player is ascending
-        {
-            if (!Input.GetKey(jumpKey))
-            {
-                // Weaker gravity for lower jumps if jump key is released
-                rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
-            }
-            else
-            {
-                // Normal gravity while ascending
-                rb.velocity += Vector3.up * Physics.gravity.y * (normalJumpGravityMultiplier - 1) * Time.deltaTime;
-            }
-        }
-        else if (rb.velocity.y < 0) // Player is falling
-        {
-            // Gradually increase gravity for smoother descent
-            float fallSpeed = Mathf.Lerp(1f, fallMultiplier, Time.deltaTime * 2f); // Gradual fall increase
-            rb.velocity += Vector3.up * Physics.gravity.y * (fallSpeed - 1) * Time.deltaTime;
-        }
+        _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * -9.81f);
     }
 
     private void Sprint()
@@ -163,33 +165,12 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+
+
+
     private void resetJump()
     {
         canJump = true;
-    }
-
-    private bool OnSlope()
-    {
-        if (grounded)
-        {
-            RaycastHit slopeHit;
-            if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
-            {
-                float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
-                return angle < maxSlopeAngle && angle != 0;
-            }
-        }
-        return false;
-    }
-
-    private Vector3 GetSlopeNormal()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight * 0.5f + 0.3f))
-        {
-            return hit.normal;
-        }
-        return Vector3.up;
     }
 
     public float GetVerticalInput()
@@ -201,4 +182,5 @@ public class PlayerMovement : NetworkBehaviour
     {
         return horizontalInput;
     }
+
 }
