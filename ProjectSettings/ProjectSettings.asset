@@ -160,7 +160,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Standalone: com.Source-Studios.CuisineClash
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -754,10 +755,10 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 127da780-4a13-4d9a-a7ce-0eac24fada51
+  cloudProjectId: 1254c723-b7e4-4173-87c7-1cdb68c97d23
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: CuisineClash
+  projectName: Cuisine Clash Multiplayer
   organizationId: xstick
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

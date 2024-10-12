@@ -1,13 +1,20 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Netcode;
 
-public class Indicator : MonoBehaviour
+public class Indicator : NetworkBehaviour
 {
-    private void OnTriggerEnter(Collider trigger)
-    {
-        if (trigger.gameObject.CompareTag("Meatball"))
-        {
-            Destroy(gameObject);
-        }
-    }
+	private void OnTriggerEnter(Collider trigger)
+	{
+		if (trigger.gameObject.CompareTag("Meatball") && IsServer)
+		{
+			DestroyIndicatorServerRpc();
+		}
+	}
+
+	[ServerRpc]
+	private void DestroyIndicatorServerRpc()
+	{
+		Destroy(gameObject);
+	}
 }

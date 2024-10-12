@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using System;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 public class CuisineClashManager : NetworkBehaviour
 {
@@ -14,7 +15,9 @@ public class CuisineClashManager : NetworkBehaviour
 	private GamemodeManager gamemodeManager;
 
 	private Dictionary<ulong, bool> playerReadyDictionary;
-	//private static List<string> gamemodeList;
+	private Dictionary<ulong, int> playerPoints;
+
+	[SerializeField] private SpawnManager spawnManager;
 
 	private enum State
 	{
@@ -35,8 +38,17 @@ public class CuisineClashManager : NetworkBehaviour
 		//DontDestroyOnLoad(gameObject);
 
 		playerReadyDictionary = new Dictionary<ulong, bool>();
+		playerPoints = new Dictionary<ulong, int>();
 
 		//gamemodeList = new List<string>();
+	}
+
+	private void Update()
+	{
+		if (Input.GetKey(KeyCode.N))
+		{
+			//Debug.Log("gamemode list.count: " + gamemodeList.Count);
+		}
 	}
 
 	public void SetPlayerReady()
@@ -76,7 +88,10 @@ public class CuisineClashManager : NetworkBehaviour
 			foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
 			{
 				//Debug.Log("current scene spawned in player" + SceneManager.GetActiveScene().name);
-				Transform playerTransform = Instantiate(playerPrefab);
+				//Vector3 spawnPoint = spawnManager.GetNextSpawnPoint();
+				//Debug.Log($"Spawn point in manager: {spawnPoint}");
+				Transform playerTransform = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+				//Debug.Log($"spawnPoint: {spawnPoint}");
 				playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
 			}
 		}
@@ -156,11 +171,5 @@ public class CuisineClashManager : NetworkBehaviour
 	{
 		playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = false;
 	}
-	private void Update()
-	{
-		if (Input.GetKey(KeyCode.N))
-		{
-			//Debug.Log("gamemode list.count: " + gamemodeList.Count);
-		}
-	}
+
 }

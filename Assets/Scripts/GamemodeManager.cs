@@ -8,16 +8,21 @@ using System.Runtime.CompilerServices;
 
 public class GamemodeManager : NetworkBehaviour
 {
+	public static GamemodeManager Instance { get; private set; }
+
 	private static List<string> gamemodeList;
 
 	private enum Gamemode
 	{
-		MultiplayerTesting,
-		RainingMeatball
+		//MultiplayerTesting,
+		RainingMeatball,
+		KingOfTheGrill
 	}
 
 	private void Awake()
 	{
+		Instance = this;
+
 		DontDestroyOnLoad(gameObject);
 
 		gamemodeList = new List<string>();
@@ -76,5 +81,10 @@ public class GamemodeManager : NetworkBehaviour
 		}
 		Debug.Log("Not HOst");
 		return Loader.Scene.MainMenu;
+	}
+
+	public List<string> GetGamemodeList()
+	{
+		return gamemodeList;
 	}
 }
