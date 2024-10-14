@@ -15,6 +15,7 @@ public static class Loader
 		PregameLobby,
 		TestingLobby,
 		MultiplayerTesting,
+		KingOfTheGrill,
 		RainingMeatball
 	}
 	private static Scene targetScene;

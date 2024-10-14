@@ -32,7 +32,8 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 	// Meatball manager stuff
 	private List<ulong> alivePlayers;
 	private Dictionary<int, ulong> playerPlacements;
-	private CuisineClashManager cuisineClashManager;
+	//private CuisineClashManager cuisineClashManager;
+	private CuisineClashMultiplayer cuisineClashMultiplayer;
 
 	private void Start()
 	{
@@ -55,7 +56,9 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 		alivePlayers = new List<ulong>();
 		playerPlacements = new Dictionary<int, ulong>();
-		cuisineClashManager = GameObject.Find("Cuisine Clash Manager").GetComponent<CuisineClashManager>();
+
+		cuisineClashMultiplayer = GameObject.Find("Cuisine Clash Multiplayer").GetComponent<CuisineClashMultiplayer>();
+		//Debug.Log("cuisine clash multipalyer = null; " + cuisineClashMultiplayer == null);
 
 		if (IsServer)
 		{
@@ -75,7 +78,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 				var temp = playerPlacements[i];
 				Debug.Log($"Placement: {i}, Player: {temp}");
 			}*/
-			Debug.Log($"player points.count: {cuisineClashManager.GetPlayerPoints().Count}");
+			Debug.Log($"player points.count: {cuisineClashMultiplayer.GetPlayerPoints().Count}");
 		}
 		if (!IsHost)
 		{
@@ -144,6 +147,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		gamePlaying = false;
 		gameEnded = true;
 		StartCoroutine(ShowEndGameUIs());
+
 		//Destroy(gameObject);
 	}
 
@@ -191,14 +195,22 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		gameOverText.gameObject.SetActive(false);
 		UpdateLeaderboardClientRpc();
 		leaderboard.SetActive(true);
+
+		yield return new WaitForSeconds(3f);
+
+		if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
+		{
+			Loader.LoadNetwork(Loader.Scene.PregameLobby);
+		}
 	}
 
 	private void UpdateLeaderboard()
 	{
 		Debug.Log("updating leaderboard...");
-		foreach (KeyValuePair<ulong, int> player in cuisineClashManager.GetPlayerPoints())
+		foreach (KeyValuePair<ulong, int> player in cuisineClashMultiplayer.GetPlayerPoints())
 		{
-			leaderboardText.text += $"Player {player.Key}: {player.Value}\n";
+			var playerName = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(player.Key).playerName;
+			leaderboardText.text += $"{playerName}: {player.Value}\n";
 		}
 		Debug.Log($"leaderboradString: {leaderboardText.text}");
 		//leaderboardText.text = leaderboardString.Value.ToString();
@@ -218,7 +230,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 			{
 				if (playerPlacements.TryGetValue(i, out ulong clientId))
 				{
-					cuisineClashManager.addPoints(clientId, 4 - i);
+					cuisineClashMultiplayer.AddPoints(clientId, 4 - i);
 				}
 			}
 		}
@@ -231,7 +243,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 			Debug.Log("2 winner");
 			foreach (ulong player in alivePlayers)
 			{
-				cuisineClashManager.addPoints(player, 2);
+				cuisineClashMultiplayer.AddPoints(player, 2);
 			}
 		}
 		else if (alivePlayers.Count >= 3) // 3 or more people alive
@@ -239,7 +251,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 			Debug.Log("3 winner");
 			foreach (ulong player in alivePlayers)
 			{
-				cuisineClashManager.addPoints(player, 1);
+				cuisineClashMultiplayer.AddPoints(player, 1);
 			}
 		}
 	}

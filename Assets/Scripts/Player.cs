@@ -11,6 +11,8 @@ public class Player : NetworkBehaviour
 	[SerializeField] private PlayerVisual playerVisual;
 	[SerializeField] private TextMeshPro playerName;
 
+	[SerializeField] private Rigidbody rb;
+
 	public override void OnNetworkSpawn()
 	{
 		if (IsOwner)
@@ -21,7 +23,24 @@ public class Player : NetworkBehaviour
 		if (IsServer)
 		{
 			NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+
+			SpawnManager spawnManager = GameObject.Find("Spawn Points").GetComponent<SpawnManager>();
+			Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
+			SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
+			Debug.Log($"Transfrom.position: {rb.position}");
 		}
+	}
+
+	[ClientRpc]
+	private void SetPlayerLocationClientRpc(float x, float y, float z)
+	{
+		rb.position = new Vector3(x, y, z);
+		Debug.Log($"rb.psition client: {rb.position}");
+	}
+
+	private void SetPlayerLocation(float x, float y, float z)
+	{
+		SetPlayerLocationClientRpc(x, y, z);
 	}
 
 	private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
@@ -44,9 +63,4 @@ public class Player : NetworkBehaviour
 		playerName.text = playerData.playerName.ToString();
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
 }

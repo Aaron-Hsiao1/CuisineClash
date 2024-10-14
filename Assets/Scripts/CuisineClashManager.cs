@@ -43,6 +43,14 @@ public class CuisineClashManager : NetworkBehaviour
 		//gamemodeList = new List<string>();
 	}
 
+	private void Update()
+	{
+		if (Input.GetKey(KeyCode.N))
+		{
+			//Debug.Log("gamemode list.count: " + gamemodeList.Count);
+		}
+	}
+
 	public void SetPlayerReady()
 	{
 		SetPlayerReadyServerRpc();
@@ -80,9 +88,9 @@ public class CuisineClashManager : NetworkBehaviour
 			foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
 			{
 				//Debug.Log("current scene spawned in player" + SceneManager.GetActiveScene().name);
-				Vector3 spawnPoint = spawnManager.GetNextSpawnPoint();
-				Debug.Log($"Spawn point in manager: {spawnPoint}");
-				Transform playerTransform = Instantiate(playerPrefab, spawnPoint, Quaternion.identity);
+				//Vector3 spawnPoint = spawnManager.GetNextSpawnPoint();
+				//Debug.Log($"Spawn point in manager: {spawnPoint}");
+				Transform playerTransform = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 				//Debug.Log($"spawnPoint: {spawnPoint}");
 				playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
 			}
@@ -100,10 +108,6 @@ public class CuisineClashManager : NetworkBehaviour
 	public void SetIsLocalPlayerReady()
 	{
 		isLocalPlayerReady = true;
-	}
-	public Dictionary<ulong, int> GetPlayerPoints()
-	{
-		return playerPoints;
 	}
 
 	[ServerRpc(RequireOwnership = false)]
@@ -162,54 +166,10 @@ public class CuisineClashManager : NetworkBehaviour
 		isLocalPlayerReady = false;
 	}
 
-	public void addPoints(ulong playerId, int pointAmt)
-	{
-		AddPointsClientRpc(playerId, pointAmt);
-		/*if (!playerPoints.ContainsKey(playerId))
-		{
-			playerPoints.Add(playerId, pointAmt);
-		}
-		else
-		{
-			playerPoints[playerId] += pointAmt;
-		}*/
-
-	}
-
-	[ClientRpc]
-	private void AddPointsClientRpc(ulong playerId, int pointAmt)
-	{
-		if (!playerPoints.ContainsKey(playerId))
-		{
-			playerPoints.Add(playerId, pointAmt);
-		}
-		else
-		{
-			playerPoints[playerId] += pointAmt;
-		}
-	}
-
-	public void SortPoints()
-	{
-		SortPointsClientRpc();
-	}
-
-	[ClientRpc]
-	private void SortPointsClientRpc()
-	{
-		var sortedDict = playerPoints.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-	}
-
 	[ServerRpc(RequireOwnership = false)]
 	private void SetPlayerUnreadyServerRpc(ServerRpcParams serverRpcParams = default)
 	{
 		playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = false;
 	}
-	private void Update()
-	{
-		if (Input.GetKey(KeyCode.N))
-		{
-			//Debug.Log("gamemode list.count: " + gamemodeList.Count);
-		}
-	}
+
 }

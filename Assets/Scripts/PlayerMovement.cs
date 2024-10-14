@@ -24,6 +24,12 @@ public class PlayerMovement : NetworkBehaviour
 	float horizontalInput;
 	float verticalInput;
 
+	private float _verticalVelocity;
+	public float JumpHeight = 1.5f;
+	private float _terminalVelocity = 53.0f;
+
+	[SerializeField] private float fallMultiplier = 50f;
+
 	Vector3 moveDirection;
 
 	Rigidbody rb;
@@ -44,19 +50,42 @@ public class PlayerMovement : NetworkBehaviour
 			return;
 		}
 
+		if (rb.velocity.y < 0)
+		{
+			//Debug.Log("rb.velocity.y < 0 : " + rb.velocity.y);
+			//rb.velocity += Vector3.up * (Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime);
+			//rb.velocity += new Vector3(0f, Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime, 0f);
+			//_verticalVelocity += -25f * Time.deltaTime;
+		}
+
 		grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
 
-		myInput();
-		speedControl();
+		MyInput();
+		SpeedControl();
+
+
+		// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+		if (_verticalVelocity < _terminalVelocity)
+		{
+			_verticalVelocity += -11f * Time.deltaTime;
+
+		}
 
 		if (grounded)
 		{
 			rb.drag = groundDrag;
+			_verticalVelocity = 0f;
+			if (_verticalVelocity < 0.0f)
+			{
+				_verticalVelocity = -2f;
+			}
 		}
 		else
 		{
 			rb.drag = 0;
 		}
+
+		//Debug.Log(_verticalVelocity);
 	}
 
 	private void FixedUpdate()
@@ -65,10 +94,10 @@ public class PlayerMovement : NetworkBehaviour
 		{
 			return;
 		}
-		movePlayer();
+		MovePlayer();
 	}
 
-	private void myInput()
+	private void MyInput()
 	{
 		horizontalInput = Input.GetAxisRaw("Horizontal");
 		verticalInput = Input.GetAxisRaw("Vertical");
@@ -81,25 +110,25 @@ public class PlayerMovement : NetworkBehaviour
 		}
 	}
 
-	private void movePlayer()
+	private void MovePlayer()
 	{
 		//calculate movement direction
 		moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-		rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+		rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
 
 		if (grounded)
 		{
-			rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+			rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
 		}
 		else if (!grounded)
 		{
-			rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+			rb.AddForce(moveDirection.normalized * moveSpeed * 10f /** airMultiplier*/ + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
 		}
 	}
 
-	private void speedControl()
+	private void SpeedControl()
 	{
-		Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+		Vector3 flatVel = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
 
 		//limits velocity
 		if (flatVel.magnitude > moveSpeed)
@@ -111,8 +140,12 @@ public class PlayerMovement : NetworkBehaviour
 
 	private void Jump()
 	{
-		rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+		//rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 		rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+
+		_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * -9.81f);
+
+
 	}
 
 	private void resetJump()
