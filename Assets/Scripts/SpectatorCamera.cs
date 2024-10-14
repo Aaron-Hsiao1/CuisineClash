@@ -5,78 +5,79 @@ using Unity.Netcode;
 
 public class SpectatorCamera : NetworkBehaviour
 {
-    private Vector3 targetPosition;
-    private Quaternion targetRotation;
+	private Vector3 targetPosition;
+	private Quaternion targetRotation;
 
-    private ulong targetClientId;
+	[SerializeField] private ulong targetClientId;
+	[SerializeField] private float smoothSpeed = 0.01f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        UpdatePosition();
-    }
+	// Start is called before the first frame update
+	void Start()
+	{
 
-    public void SetCameraPositionAndRotation(Vector3 position, Quaternion rotation)
-    {
-        targetPosition = position;
-        targetRotation = rotation;
-    }
-    private void UpdatePosition()
-    {
-        SendClientPositionServerRpc(NetworkManager.Singleton.LocalClientId);
-    }
+	}
 
-    public void SetTargetClientId(ulong targetClientId)
-    {
-        this.targetClientId = targetClientId;
-    }
+	// Update is called once per frame
+	void FixedUpdate()
+	{
+		UpdatePosition();
+	}
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SendClientPositionServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
-    {
-        if (NetworkManager.Singleton.ConnectedClients.ContainsKey(serverRpcParams.Receive.SenderClientId))
-        {
-            var client = NetworkManager.Singleton.ConnectedClients[serverRpcParams.Receive.SenderClientId];
-            // Proceed with logic
-        }
-        else
-        {
-            Debug.LogError($"Client ID {serverRpcParams.Receive.SenderClientId} does not exist in ConnectedClients.");
-        }
+	public void SetCameraPositionAndRotation(Vector3 position, Quaternion rotation)
+	{
+		targetPosition = position;
+		targetRotation = rotation;
+	}
 
-        Debug.Log("senderclientid: " + serverRpcParams.Receive.SenderClientId);
-        ulong senderClientId = serverRpcParams.Receive.SenderClientId;
+	private void UpdatePosition()
+	{
+		GetClientPositionServerRpc(targetClientId, NetworkManager.Singleton.LocalClientId);
+	}
 
-        SendClientPosition(clientId, senderClientId);
-    }
-    private void SendClientPosition(ulong targetClientId, ulong senderClientId)
-    {
-        foreach (var client in NetworkManager.Singleton.ConnectedClients)
-        {
-            if (client.Key == targetClientId)
-            {
-                var targetClient = client.Value.PlayerObject;
-                RecieveClientPositionClientRpc(targetClient.transform.position, targetClient.transform.rotation, senderClientId);
-            }
-        }
+	public void SetTargetClientId(ulong targetClientId)
+	{
+		this.targetClientId = targetClientId;
+	}
 
-        Debug.LogError("No player object from client id found");
-        
-    }
+	[ServerRpc(RequireOwnership = false)]
+	private void GetClientPositionServerRpc(ulong targetClientId, ulong senderClientId)
+	{
+		GetClientPosition(targetClientId, senderClientId);
+	}
 
-    [ClientRpc]
-    private void RecieveClientPositionClientRpc(Vector3 position, Quaternion rotation, ulong updatedClient)
-    {
-        if (NetworkManager.Singleton.LocalClientId == updatedClient)
-        {
-            targetPosition = position;
-            targetRotation = rotation;
-        }
-    }
+	private void GetClientPosition(ulong targetClientId, ulong senderClientId)
+	{
+		foreach (var client in NetworkManager.Singleton.ConnectedClients)
+		{
+			if (client.Key == targetClientId)
+			{
+				Camera targetCamera = client.Value.PlayerObject.gameObject.transform.Find("CameraHolder").Find("Main Camera").GetComponent<Camera>(); ;
+				RecieveClientPositionClientRpc(targetCamera.transform.position, targetCamera.transform.rotation, senderClientId);
+			}
+		}
+
+		Debug.LogError("No player object from client id found");
+
+	}
+
+	[ClientRpc]
+	private void RecieveClientPositionClientRpc(Vector3 position, Quaternion rotation, ulong updatedClient)
+	{
+		if (NetworkManager.Singleton.LocalClientId == updatedClient)
+		{
+			targetPosition = position;
+			targetRotation = rotation;
+		}
+
+		SmoothCameraMovement();
+	}
+
+	private void SmoothCameraMovement()
+	{
+		// Update the camera's position and rotation smoothly
+		transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed);
+		transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, smoothSpeed);
+	}
+
 }
