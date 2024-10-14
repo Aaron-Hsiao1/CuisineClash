@@ -6,7 +6,7 @@ using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine.Timeline;
 
-public class ThirdPersonCam : NetworkBehaviour
+public class ThirdPersonCam : MonoBehaviour
 {
 	[SerializeField] private Transform orientation;
 	[SerializeField] private Transform player;
@@ -25,9 +25,9 @@ public class ThirdPersonCam : NetworkBehaviour
 		Combat
 	}
 
-	public override void OnNetworkSpawn()
+    /*public override void OnNetworkSpawn()
 	{
-		if (IsOwner)
+		/*if (IsOwner)
 		{
 			fL.Priority = 1;
 		}
@@ -52,15 +52,15 @@ public class ThirdPersonCam : NetworkBehaviour
 				fL.LookAt = cameraTarget;
 			}
 		}
-	}
+	}*/
 
-	// Update is called once per frame
-	void Update()
+    // Update is called once per frame
+    void Update()
 	{
-		if (!IsLocalPlayer)
+		/*if (!IsLocalPlayer)
 		{
 			return;
-		}
+		}*/
 		//rotate orientation
 		Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
 		orientation.forward = viewDir.normalized;

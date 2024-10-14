@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Unity.Netcode;
 
-public class AnimationCode : NetworkBehaviour
+public class AnimationCode : MonoBehaviour
 {
     // Start is called before the first frame update
     private Animator mAnimator;
@@ -21,12 +21,12 @@ public class AnimationCode : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsLocalPlayer)
-        {
+        /*if (!IsLocalPlayer)
+        {   
             return;
-        }
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        }*/
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
 

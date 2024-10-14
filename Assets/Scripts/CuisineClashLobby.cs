@@ -30,7 +30,7 @@ public class CuisineClashLobby : MonoBehaviour
 
 	public event EventHandler<OnLobbyListChangedEventArgs> OnLobbyListChanged;
 	public class OnLobbyListChangedEventArgs : EventArgs
-	{
+	{	
 		public List<Lobby> lobbyList;
 	}
 

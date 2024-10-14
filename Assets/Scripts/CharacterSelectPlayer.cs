@@ -51,7 +51,7 @@ public class CharacterSelectPlayer : MonoBehaviour
 		}
 		else
 		{
-			Hide();
+			//Hide();
 		}
 	}
 

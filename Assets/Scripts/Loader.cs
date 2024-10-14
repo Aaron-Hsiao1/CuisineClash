@@ -16,7 +16,8 @@ public static class Loader
 		TestingLobby,
 		MultiplayerTesting,
 		KingOfTheGrill,
-		RainingMeatball
+		RainingMeatball,
+		SingleplayerConnectionLobby
 	}
 	private static Scene targetScene;
 
@@ -24,8 +25,8 @@ public static class Loader
 	{
 		Loader.targetScene = targetScene;
 
-		SceneManager.LoadScene(Scene.LoadingScene.ToString(), LoadSceneMode.Single);
-
+		SceneManager.LoadScene(targetScene.ToString(), LoadSceneMode.Single);
+		
 	}
 
 	public static void LoaderCallback()

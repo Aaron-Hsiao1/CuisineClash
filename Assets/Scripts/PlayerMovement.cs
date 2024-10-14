@@ -4,7 +4,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : NetworkBehaviour
+public class PlayerMovement : MonoBehaviour
 {
 	public float moveSpeed;
 
@@ -12,27 +12,27 @@ public class PlayerMovement : NetworkBehaviour
 
 	public float playerHeight;
 	public LayerMask Ground;
-	bool grounded;
+	[SerializeField] private bool grounded;
 
 	public float jumpForce;
 	public float jumpCooldown;
 	public float airMultiplier;
-	bool canJump;
+    [SerializeField] private bool canJump;
 
-	public Transform orientation;
+    [SerializeField] private Transform orientation;
 
-	float horizontalInput;
-	float verticalInput;
+    [SerializeField] private float horizontalInput;
+    [SerializeField] private float verticalInput;
 
-	private float _verticalVelocity;
+    [SerializeField] private float _verticalVelocity;
 	public float JumpHeight = 1.5f;
-	private float _terminalVelocity = 53.0f;
+    [SerializeField] private float _terminalVelocity = 53.0f;
 
 	[SerializeField] private float fallMultiplier = 50f;
+	 
+    [SerializeField] private Vector3 moveDirection;
 
-	Vector3 moveDirection;
-
-	Rigidbody rb;
+	[SerializeField] private Rigidbody rb;
 
 	public KeyCode jumpKey = KeyCode.Space;
 	// Start is called before the first frame update
@@ -45,10 +45,10 @@ public class PlayerMovement : NetworkBehaviour
 
 	void Update()
 	{
-		if (!IsLocalPlayer)
+		/*if (!IsLocalPlayer)
 		{
 			return;
-		}
+		}*/
 
 		if (rb.velocity.y < 0)
 		{
@@ -59,26 +59,27 @@ public class PlayerMovement : NetworkBehaviour
 		}
 
 		grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
-
-		MyInput();
+        
+        MyInput();
 		SpeedControl();
 
+        
 
-		// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-		if (_verticalVelocity < _terminalVelocity)
-		{
-			_verticalVelocity += -11f * Time.deltaTime;
+        // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+        //if (_verticalVelocity < _terminalVelocity)
+		//{
+			//_verticalVelocity += -11f * Time.deltaTime;
 
-		}
+		//}
 
 		if (grounded)
 		{
 			rb.drag = groundDrag;
 			_verticalVelocity = 0f;
-			if (_verticalVelocity < 0.0f)
-			{
-				_verticalVelocity = -2f;
-			}
+			//if (_verticalVelocity < 0.0f)
+			//{
+				//_verticalVelocity = -2f;
+			//}
 		}
 		else
 		{
@@ -90,19 +91,20 @@ public class PlayerMovement : NetworkBehaviour
 
 	private void FixedUpdate()
 	{
-		if (!IsLocalPlayer)
+        MovePlayer();
+        /*if (!IsLocalPlayer)
 		{
 			return;
-		}
-		MovePlayer();
-	}
+		}*/
+
+    }
 
 	private void MyInput()
 	{
 		horizontalInput = Input.GetAxisRaw("Horizontal");
 		verticalInput = Input.GetAxisRaw("Vertical");
 
-		if (Input.GetKey(jumpKey) && canJump && grounded)
+        if (Input.GetKey(jumpKey) && canJump && grounded)
 		{
 			canJump = false;
 			Jump();
@@ -113,6 +115,7 @@ public class PlayerMovement : NetworkBehaviour
 	private void MovePlayer()
 	{
 		//calculate movement direction
+
 		moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 		rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
 
@@ -140,6 +143,8 @@ public class PlayerMovement : NetworkBehaviour
 
 	private void Jump()
 	{
+		Debug.Log("jump");
+		
 		//rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 		rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
@@ -151,5 +156,15 @@ public class PlayerMovement : NetworkBehaviour
 	private void resetJump()
 	{
 		canJump = true;
+	}
+
+	public float GetVerticalInput()
+	{
+		return verticalInput;
+	}
+
+	public float GetHorizontalInput()
+	{
+		return horizontalInput;
 	}
 }
