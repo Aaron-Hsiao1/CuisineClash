@@ -19,10 +19,10 @@ public class PlayerMovement : MonoBehaviour
 	public float airMultiplier;
     [SerializeField] private bool canJump;
 
-    [SerializeField] private Transform orientation;
+    [SerializeField] public Transform orientation;
 
-    [SerializeField] private float horizontalInput;
-    [SerializeField] private float verticalInput;
+    [SerializeField] public float horizontalInput;
+    [SerializeField] public float verticalInput;
 
     [SerializeField] private float _verticalVelocity;
 	public float JumpHeight = 1.5f;
@@ -101,8 +101,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private void MyInput()
 	{
-		horizontalInput = Input.GetAxisRaw("Horizontal");
-		verticalInput = Input.GetAxisRaw("Vertical");
+		horizontalInput = Input.GetAxis("Horizontal");
+		verticalInput = Input.GetAxis("Vertical");
 
         if (Input.GetKey(jumpKey) && canJump && grounded)
 		{

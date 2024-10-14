@@ -25,8 +25,8 @@ public class AnimationCode : MonoBehaviour
         {   
             return;
         }*/
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
 
