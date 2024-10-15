@@ -24,8 +24,8 @@ public class PlayerMovement : NetworkBehaviour
 
     public Transform orientation;
 
-    private float horizontalInput;
-    private float verticalInput;
+    public float horizontalInput;
+    public float verticalInput;
 
     private float _verticalVelocity;
     public float JumpHeight = 1.5f;

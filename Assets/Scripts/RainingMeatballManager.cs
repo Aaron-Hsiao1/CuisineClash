@@ -57,7 +57,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		alivePlayers = new List<ulong>();
 		playerPlacements = new Dictionary<int, ulong>();
 
-		cuisineClashMultiplayer = GameObject.Find("Cuisine Clash Multiplayer").GetComponent<CuisineClashMultiplayer>();
+		cuisineClashMultiplayer = GameObject.Find("CuisineClashMultiplayer").GetComponent<CuisineClashMultiplayer>();
 		//Debug.Log("cuisine clash multipalyer = null; " + cuisineClashMultiplayer == null);
 
 		if (IsServer)
