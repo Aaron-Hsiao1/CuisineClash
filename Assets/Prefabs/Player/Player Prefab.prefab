@@ -1559,6 +1559,8 @@ MonoBehaviour:
   jumpCooldown: 0.25
   airMultiplier: 0.4
   orientation: {fileID: 8464223066724782014}
+  horizontalInput: 0
+  verticalInput: 0
   JumpHeight: 1.5
   fallMultiplier: 50
   jumpKey: 32
