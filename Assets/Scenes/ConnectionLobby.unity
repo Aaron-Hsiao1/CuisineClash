@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 274250309}
   - component: {fileID: 274250308}
   m_Layer: 5
-  m_Name: Lobby Name Graphic
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -384,10 +384,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 628844022}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 30, y: -117.53}
-  m_SizeDelta: {x: 620.3516, y: 235.05511}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 30, y: 422.47}
+  m_SizeDelta: {x: 620.3516, y: 235.0551}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &274250308
 MonoBehaviour:
@@ -1008,10 +1008,6 @@ PrefabInstance:
       propertyPath: playerIndex
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 3444976353869649703, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 430.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5870589470557254858, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.35380137
@@ -1427,18 +1423,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Color_1
       objectReference: {fileID: 0}
-    - target: {fileID: 7761573180505526624, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
-      propertyPath: m_Colors.m_NormalColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7761573180505526624, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
-      propertyPath: m_Colors.m_NormalColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7761573180505526624, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
-      propertyPath: m_Colors.m_NormalColor.r
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1460,10 +1444,6 @@ PrefabInstance:
     - target: {fileID: -4762016707945881806, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: playerIndex
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444976353869649703, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 430.5
       objectReference: {fileID: 0}
     - target: {fileID: 5870589470557254858, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1773,10 +1753,6 @@ PrefabInstance:
     - target: {fileID: -4762016707945881806, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: playerIndex
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444976353869649703, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 430.5
       objectReference: {fileID: 0}
     - target: {fileID: 5870589470557254858, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2242,10 +2218,6 @@ PrefabInstance:
       propertyPath: playerIndex
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3444976353869649703, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 430.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5870589470557254858, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.22911553
@@ -2562,10 +2534,6 @@ PrefabInstance:
     - target: {fileID: -4762016707945881806, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: playerIndex
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444976353869649703, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 430.5
       objectReference: {fileID: 0}
     - target: {fileID: 5870589470557254858, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2948,10 +2916,6 @@ PrefabInstance:
       propertyPath: playerIndex
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 3444976353869649703, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 430.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5870589470557254858, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.03917277
@@ -3079,10 +3043,6 @@ PrefabInstance:
     - target: {fileID: -4762016707945881806, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: playerIndex
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444976353869649703, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 430.5
       objectReference: {fileID: 0}
     - target: {fileID: 5870589470557254858, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3304,7 +3264,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1872768359
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3524,7 +3484,7 @@ GameObject:
   - component: {fileID: 2040425538}
   - component: {fileID: 2040425537}
   m_Layer: 5
-  m_Name: Lobby Code Graphic
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3544,10 +3504,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 628844022}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 698, y: -74}
-  m_SizeDelta: {x: 435.2973, y: 60.589905}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 698, y: 466}
+  m_SizeDelta: {x: 435.2973, y: 60.5899}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2040425537
 MonoBehaviour:
@@ -4029,10 +3989,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3444976353869649703, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 430.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5870589470557254858, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.35282177

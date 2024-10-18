@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
-using Unity.VisualScripting;
 
 
 public class CuisineClashLobby : MonoBehaviour
@@ -28,7 +27,6 @@ public class CuisineClashLobby : MonoBehaviour
 	public event EventHandler OnJoinStarted;
 	public event EventHandler OnQuickJoinFailed;
 	public event EventHandler OnJoinFailed;
-	public event EventHandler OnLobbyNameNull;
 
 	public event EventHandler<OnLobbyListChangedEventArgs> OnLobbyListChanged;
 	public class OnLobbyListChangedEventArgs : EventArgs
@@ -153,17 +151,9 @@ public class CuisineClashLobby : MonoBehaviour
 
 	public async void CreateLobby(string lobbyName, bool isPrivate)
 	{
-		if (lobbyName == null || lobbyName.Length < 1)
-        {
-            OnLobbyNameNull?.Invoke(this, EventArgs.Empty);
-			return;
-        }
-
-        OnCreateLobbyStarted?.Invoke(this, EventArgs.Empty);
-        try
+		OnCreateLobbyStarted?.Invoke(this, EventArgs.Empty);
+		try
 		{
-			
-			
 			joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, CuisineClashMultiplayer.MAX_PLAYER_AMOUNT, new CreateLobbyOptions
 			{
 				IsPrivate = isPrivate,
