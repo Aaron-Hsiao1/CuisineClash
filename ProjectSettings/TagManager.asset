@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CanPickUp
   - Placing Zone
+  - Ground
   layers:
   - Default
   - TransparentFX

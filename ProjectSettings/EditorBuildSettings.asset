@@ -38,4 +38,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/KingOfTheGrill.unity
     guid: 691da082adab9ac4abbe31522752fd4a
+  - enabled: 1
+    path: Assets/Scenes/HotPotato.unity
+    guid: 5b79ab67e3d1282409f72f6ac4727807
   m_configObjects: {}
