@@ -2498,10 +2498,13 @@ PrefabInstance:
       addedObject: {fileID: 2702275297807972034}
     - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1949321691118006766}
+      addedObject: {fileID: 6008386205283201383}
     - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3634433681586673379}
+      addedObject: {fileID: 5195430173843173823}
+    - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4519624223266850261}
   m_SourcePrefab: {fileID: 100100000, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
 --- !u!1 &6623288369113248623 stripped
 GameObject:
@@ -2560,7 +2563,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.7564869, y: 1.9680381, z: 1}
   m_Center: {x: 0.004565954, y: 0.015980959, z: 0}
---- !u!114 &1949321691118006766
+--- !u!114 &6008386205283201383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2569,13 +2572,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6623288369113248623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6438bebd04e04f4dbec3851b4e4ce1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2089fb539ec108444bd98098f2c83603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasHotPotato: 0
-  tagDistance: 2
-  hotPotatoObject: {fileID: 6753387232456004633}
---- !u!114 &3634433681586673379
+  pushForce: 10
+  pushUpForce: 5
+  raycastDistance: 5
+--- !u!114 &5195430173843173823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2584,12 +2587,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 6623288369113248623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6438bebd04e04f4dbec3851b4e4ce1c, type: 3}
+  m_Script: {fileID: 11500000, guid: cafad96ae33544944b61c485f3a267dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hasHotPotato: 0
   tagDistance: 2
   hotPotatoObject: {fileID: 6753387232456004633}
+--- !u!114 &4519624223266850261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6623288369113248623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa7158456c74524388fb37bc9e510d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hotPotato: {fileID: 6753387232456004633}
+  player: {fileID: 7039711912111513445}
 --- !u!4 &9076327832988588039 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7006023881434061018, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
