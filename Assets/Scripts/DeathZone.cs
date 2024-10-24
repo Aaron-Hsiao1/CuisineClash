@@ -5,7 +5,6 @@ using Unity.Netcode;
 public class DeathZone : NetworkBehaviour
 {
 	[SerializeField] private RainingMeatballManager meatballManager;
-	[SerializeField] private CountdownTimer timer;
 
 	private TMP_Text gameOverText;
 
@@ -15,7 +14,9 @@ public class DeathZone : NetworkBehaviour
 		{
 			gameOverText.gameObject.SetActive(false);
 		}
-	}
+
+        meatballManager = GameObject.Find("Raining Meatball Manager").GetComponent<RainingMeatballManager>();
+    }
 
 	public override void OnNetworkSpawn()
 	{
