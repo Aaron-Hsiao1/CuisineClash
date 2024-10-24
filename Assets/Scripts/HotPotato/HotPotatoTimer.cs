@@ -51,12 +51,13 @@ public class HotPotatoTimer : MonoBehaviour
             _timerText.enabled = false; // Hide the text
 
             // Find all players and check which one has the active hot potato
-            HotPotatoDeathTimer[] players = FindObjectsOfType<HotPotatoDeathTimer>(); // Assuming you have multiple players
+            HPDeathTimer[] players = FindObjectsOfType<HPDeathTimer>(); // Assuming you have multiple players
 
             foreach (var player in players)
             {
                 if (player.HasHotPotato()) // Check if this player has the active hot potato
                 {
+                    Debug.Log("EXPLOSION");
                     player.Eliminate(); // Call the player's elimination method
                     break;
                 }

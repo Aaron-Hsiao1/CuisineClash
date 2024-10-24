@@ -21,6 +21,7 @@ public class HotPotato : MonoBehaviour
         if (hotPotatoObject != null)
         {
             hotPotatoObject.SetActive(hasHotPotato);
+            
         }
 
         // Check if the player has the hot potato and presses the "B" key
