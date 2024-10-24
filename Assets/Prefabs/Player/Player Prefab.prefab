@@ -1247,7 +1247,7 @@ GameObject:
   - component: {fileID: 1408445871547096376}
   - component: {fileID: 8018127493224838884}
   m_Layer: 0
-  m_Name: HotPotato
+  m_Name: Potato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1564,7 +1564,7 @@ GameObject:
   - component: {fileID: 1880363086980493983}
   - component: {fileID: 4774095168795398064}
   - component: {fileID: 6481650225822335286}
-  - component: {fileID: 6247943288563576819}
+  - component: {fileID: 6402911949378469018}
   m_Layer: 2
   m_Name: Player Prefab
   m_TagString: Player
@@ -1790,7 +1790,7 @@ MonoBehaviour:
     m_Bits: 64
   playerHeight: 2
   jumpKey: 32
---- !u!114 &6247943288563576819
+--- !u!114 &6402911949378469018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1799,12 +1799,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 7039711912111513445}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6438bebd04e04f4dbec3851b4e4ce1c, type: 3}
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasHotPotato: 0
-  tagDistance: 2
-  hotPotatoObject: {fileID: 0}
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &7394634557177857571
 GameObject:
   m_ObjectHideFlags: 0
@@ -2483,6 +2499,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1949321691118006766}
+    - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3634433681586673379}
   m_SourcePrefab: {fileID: 100100000, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
 --- !u!1 &6623288369113248623 stripped
 GameObject:
@@ -2555,7 +2574,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasHotPotato: 0
   tagDistance: 2
-  hotPotatoObject: {fileID: 0}
+  hotPotatoObject: {fileID: 6753387232456004633}
+--- !u!114 &3634433681586673379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6623288369113248623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6438bebd04e04f4dbec3851b4e4ce1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasHotPotato: 0
+  tagDistance: 2
+  hotPotatoObject: {fileID: 6753387232456004633}
 --- !u!4 &9076327832988588039 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7006023881434061018, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}

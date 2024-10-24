@@ -43,7 +43,6 @@ public class HotPotato : MonoBehaviour
             {
                 // Transfer the hot potato
                 hasHotPotato = false;
-                otherPlayer.hasHotPotato = true;
                 Debug.Log($"{gameObject.name} tagged {otherPlayer.gameObject.name}!");
 
                 // End the loop after tagging
