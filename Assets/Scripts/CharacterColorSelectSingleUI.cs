@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class CharacterColorSelectSingleUI : MonoBehaviour
 {
-	[SerializeField] private int colorId;
-	[SerializeField] private Image image;
+	[SerializeField] private int outerColorId;
+    [SerializeField] private int innerColorId;
+    [SerializeField] private Image image;
 	[SerializeField] private GameObject selectedGameObject;
 
 	private void Awake()
@@ -33,7 +34,7 @@ public class CharacterColorSelectSingleUI : MonoBehaviour
 
 	private void UpdateIsSelected()
 	{
-		if (CuisineClashMultiplayer.Instance.GetPlayerData().colorId == colorId)
+		if (CuisineClashMultiplayer.Instance.GetPlayerData().outerColorId == colorId)
 		{
 			selectedGameObject.SetActive(true);
 		}

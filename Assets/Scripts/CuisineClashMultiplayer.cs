@@ -21,7 +21,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 	public event EventHandler OnFailedToJoinGame;
 	public event EventHandler OnPlayerDataNetworkListChanged;
 
-	[SerializeField] private List<Color> playerColorList;
+	[SerializeField] private List<PlayerColor> playerColorList; 
 	private Dictionary<ulong, int> playerPoints;
 
 	private NetworkList<PlayerData> playerDataNetworkList;
@@ -154,7 +154,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		return playerIndex < playerDataNetworkList.Count;
 	}
 
-	public Color getPlayerColor(int colorId)
+	public PlayerColor getPlayerColor(int colorId)
 	{
 		return playerColorList[colorId];
 	}
@@ -217,7 +217,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 	{
 		foreach (PlayerData playerData in playerDataNetworkList)
 		{
-			if (playerData.colorId == colorId)
+			if (playerData.outerColorId == colorId)
 			{
 				return false;
 			}

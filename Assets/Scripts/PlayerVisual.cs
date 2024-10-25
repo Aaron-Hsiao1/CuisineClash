@@ -6,13 +6,14 @@ public class PlayerVisual : MonoBehaviour
 {
 	[SerializeField] private MeshRenderer playerMeshRenderer;
 
-	private Material material;
+	[SerializeField] private Material materialOuter;
+    [SerializeField] private Material materialInner;
 
 
 	private void Awake()
 	{
-		material = new Material(playerMeshRenderer.material);
-		playerMeshRenderer.material = material;
+		//material = new Material(playerMeshRenderer.material);
+		//playerMeshRenderer.material = material;
 	}
 
 	private void Start()
@@ -20,8 +21,9 @@ public class PlayerVisual : MonoBehaviour
 
 	}
 
-	public void SetPlayerColor(Color color)
+	public void SetPlayerColor(Color outerColor, Color innerColor)
 	{
-		material.color = color;
+		materialOuter.color = outerColor;
+		materialInner.color = innerColor;
 	}
 }
