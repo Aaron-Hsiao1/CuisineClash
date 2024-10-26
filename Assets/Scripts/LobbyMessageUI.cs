@@ -24,11 +24,17 @@ public class LobbyMessageUI : MonoBehaviour
 		CuisineClashLobby.Instance.OnJoinStarted += CuisineClashLobby_OnJoinStarted;
 		CuisineClashLobby.Instance.OnJoinFailed += CuisineClashLobby_OnJoinFailed;
 		CuisineClashLobby.Instance.OnQuickJoinFailed += CuisineClashLobby_OnQuickJoinFailed;
+		CuisineClashLobby.Instance.OnLobbyNameNull += CuisineClashLobby_OnLobbyNameNull;
 
 		Hide();
 	}
 
-	private void CuisineClashLobby_OnQuickJoinFailed(object sender, EventArgs e)
+    private void CuisineClashLobby_OnLobbyNameNull(object sender, EventArgs e)
+    {
+		ShowMessage("Lobby name cannot be blank");
+    }
+
+    private void CuisineClashLobby_OnQuickJoinFailed(object sender, EventArgs e)
 	{
 		ShowMessage("Could not find a lobby");
 	}
