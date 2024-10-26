@@ -12,6 +12,7 @@ public class MeatballSpawner : NetworkBehaviour
 	[SerializeField] private float spawnHeight = 20f;
 	[SerializeField] private float initialSpawnInterval = 1f;
 	[SerializeField] private float speedUpInterval = 60f;
+	[SerializeField] private float initialSpawnDelay = 3f;
 
 	private float spawnInterval; //current spawn interval
 	private float elapsedTime;
@@ -45,6 +46,8 @@ public class MeatballSpawner : NetworkBehaviour
 
 	IEnumerator SpawnMeatballLoop()
 	{
+		yield return new WaitForSeconds(initialSpawnDelay);
+		
 		while (true)
 		{
 			yield return new WaitForSeconds(spawnInterval);
