@@ -59,7 +59,7 @@ public class Player : NetworkBehaviour
 			playerName.gameObject.SetActive(false);
 		}
 		PlayerData playerData = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(OwnerClientId);
-		playerVisual.SetPlayerColor(CuisineClashMultiplayer.Instance.getPlayerColor(playerData.colorId));
+		playerVisual.SetPlayerColor(CuisineClashMultiplayer.Instance.GetPlayerOuterColor(playerData.outerColorId), CuisineClashMultiplayer.Instance.GetPlayerInnerColor(playerData.innerColorId));
 		playerName.text = playerData.playerName.ToString();
 	}
 

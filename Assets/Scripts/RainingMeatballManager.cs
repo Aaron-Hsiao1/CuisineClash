@@ -58,7 +58,6 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		playerPlacements = new Dictionary<int, ulong>();
 
 		cuisineClashMultiplayer = GameObject.Find("CuisineClashMultiplayer").GetComponent<CuisineClashMultiplayer>();
-		//Debug.Log("cuisine clash multipalyer = null; " + cuisineClashMultiplayer == null);
 
 		if (IsServer)
 		{
@@ -73,11 +72,6 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 	{
 		if (Input.GetKeyDown(KeyCode.M))
 		{
-			/*for (int i = 1; i <= playerPlacements.Count; i++)
-			{
-				var temp = playerPlacements[i];
-				Debug.Log($"Placement: {i}, Player: {temp}");
-			}*/
 			Debug.Log($"player points.count: {cuisineClashMultiplayer.GetPlayerPoints().Count}");
 		}
 		if (!IsHost)
@@ -201,6 +195,10 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
 		{
 			Loader.LoadNetwork(Loader.Scene.PregameLobby);
+		}
+		if (GamemodeManager.Instance.GetGamemodeList().Count == 0)
+		{
+			Loader.LoadNetwork(Loader.Scene.GameEnded);
 		}
 	}
 

@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class PlayerVisual : MonoBehaviour
 {
-	[SerializeField] private MeshRenderer playerMeshRenderer;
+	[SerializeField] private SkinnedMeshRenderer playerMeshRenderer;
 
-	private Material material;
+	//[SerializeField] private Material materialOuter;
+	//[SerializeField] private Material materialInner;
 
 
 	private void Awake()
 	{
-		material = new Material(playerMeshRenderer.material);
-		playerMeshRenderer.material = material;
+		//material = new Material(playerMeshRenderer.material);
+		//playerMeshRenderer.material = material;
 	}
 
 	private void Start()
@@ -20,8 +21,12 @@ public class PlayerVisual : MonoBehaviour
 
 	}
 
-	public void SetPlayerColor(Color color)
+	public void SetPlayerColor(Color outerColor, Color innerColor)
 	{
-		material.color = color;
+		playerMeshRenderer.materials[0].color = outerColor;
+		playerMeshRenderer.materials[1].color = innerColor;
+
+		playerMeshRenderer.materials[0].SetColor("_EmissionColor", outerColor);
+		playerMeshRenderer.materials[1].SetColor("_EmissionColor", innerColor);
 	}
 }
