@@ -235,7 +235,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 
 	private int GetFirstUnusedColorId()
 	{
-		for (int i = 0; i < playerOuterColorList.Count; i++)
+		for (int i = 0; i < playerInnerColorList.Count; i++)
 		{
 			if (IsColorAvailable(i, i))
 			{

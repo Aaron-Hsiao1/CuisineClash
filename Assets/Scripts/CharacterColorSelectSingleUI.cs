@@ -23,7 +23,7 @@ public class CharacterColorSelectSingleUI : MonoBehaviour
 	private void Start()
 	{
 		CuisineClashMultiplayer.Instance.OnPlayerDataNetworkListChanged += CuisineClashMultiplayer_OnPlayerDataNetworkListChanged;
-		image.color = CuisineClashMultiplayer.Instance.GetPlayerOuterColor(outerColorId);
+		image.color = CuisineClashMultiplayer.Instance.GetPlayerInnerColor(innerColorId);
 		UpdateIsSelected();
 	}
 
@@ -34,7 +34,7 @@ public class CharacterColorSelectSingleUI : MonoBehaviour
 
 	private void UpdateIsSelected()
 	{
-		if (CuisineClashMultiplayer.Instance.GetPlayerData().outerColorId == outerColorId)
+		if (CuisineClashMultiplayer.Instance.GetPlayerData().innerColorId == innerColorId)
 		{
 			selectedGameObject.SetActive(true);
 		}
