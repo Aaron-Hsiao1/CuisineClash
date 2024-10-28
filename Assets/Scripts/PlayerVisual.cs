@@ -23,10 +23,10 @@ public class PlayerVisual : MonoBehaviour
 
 	public void SetPlayerColor(Color outerColor, Color innerColor)
 	{
-		playerMeshRenderer.materials[0].color = outerColor;
-		playerMeshRenderer.materials[1].color = innerColor;
+		playerMeshRenderer.materials[1].color = outerColor;
+		playerMeshRenderer.materials[0].color = innerColor;
 
-		playerMeshRenderer.materials[0].SetColor("_EmissionColor", outerColor);
-		playerMeshRenderer.materials[1].SetColor("_EmissionColor", innerColor);
+		playerMeshRenderer.materials[1].SetColor("_EmissionColor", outerColor);
+		playerMeshRenderer.materials[0].SetColor("_EmissionColor", innerColor);
 	}
 }
