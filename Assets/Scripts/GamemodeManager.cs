@@ -17,7 +17,8 @@ public class GamemodeManager : NetworkBehaviour
 		//MultiplayerTesting,
 		//RainingMeatball
 		//KingOfTheGrill
-		HotPotato
+		//HotPotato
+		LoadIntoHP
 	}
 
 	private void Awake()

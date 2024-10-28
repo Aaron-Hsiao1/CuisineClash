@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement; // Required for accessing scene information
 
 public class HotPotatoTag : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class HotPotatoTag : MonoBehaviour
 
     void Update()
     {
+        // Check if we're in the "HotPotato" scene
+        if (SceneManager.GetActiveScene().name != "HotPotato")
+        {
+            hasHotPotato = false;
+        }
+
         // Show or hide the hot potato object based on whether the player has the potato
         if (hotPotatoObject != null)
         {
