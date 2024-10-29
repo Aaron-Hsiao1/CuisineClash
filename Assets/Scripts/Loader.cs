@@ -18,7 +18,8 @@ public static class Loader
 		KingOfTheGrill,
 		RainingMeatball,
 		HotPotato,
-		LoadIntoHP
+		LoadIntoHP,
+		TutorialHP
 	}
 	private static Scene targetScene;
 
