@@ -17,7 +17,7 @@ public static class Loader
 		MultiplayerTesting,
 		KingOfTheGrill,
 		RainingMeatball,
-		Parkour
+		GameEnded
 	}
 	private static Scene targetScene;
 

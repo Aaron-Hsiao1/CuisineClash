@@ -9,16 +9,16 @@ EditorBuildSettings:
     path: Assets/Prefabs/Samples/Relay/1.0.5/Simple Relay Sample/SimpleRelay.unity
     guid: 207fcaccdfb642c49ba9e63f57b94b2e
   - enabled: 0
-    path: Assets/Scenes/MultiplayerTesting.unity
+    path: Assets/Scenes/Testing Scenes/MultiplayerTesting.unity
     guid: 5d5d21644f5a981469d32b741415632b
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 92e8b309e1fc1b447b5707c0202fa06e
   - enabled: 1
-    path: Assets/Scenes/SANDWITCHTEST.unity
+    path: Assets/Scenes/Testing Scenes/SANDWITCHTEST.unity
     guid: 566c47f5497ca4e05ad887472c47082a
   - enabled: 1
-    path: Assets/Scenes/KOTGSCORE.unity
+    path: Assets/Scenes/Testing Scenes/KOTGSCORE.unity
     guid: e43ad4b591a33ce4cb9aea9617d546bc
   - enabled: 1
     path: Assets/Scenes/ConnectionLobby.unity
@@ -39,6 +39,6 @@ EditorBuildSettings:
     path: Assets/Scenes/KingOfTheGrill.unity
     guid: 691da082adab9ac4abbe31522752fd4a
   - enabled: 1
-    path: Assets/Scenes/Parkour.unity
-    guid: 40028990763673e4c86e401ab64b98f6
+    path: Assets/Scenes/GameEnded.unity
+    guid: 1bf29d6827b58a1409a8d0855600a27b
   m_configObjects: {}

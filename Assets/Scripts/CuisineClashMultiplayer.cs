@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Services.Authentication;
+using System.Linq;
 
 public class CuisineClashMultiplayer : NetworkBehaviour
 {
@@ -20,7 +21,9 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 	public event EventHandler OnFailedToJoinGame;
 	public event EventHandler OnPlayerDataNetworkListChanged;
 
-	[SerializeField] private List<Color> playerColorList;
+	[SerializeField] private List<Color> playerOuterColorList;
+	[SerializeField] private List<Color> playerInnerColorList;
+	private Dictionary<ulong, int> playerPoints;
 
 	private NetworkList<PlayerData> playerDataNetworkList;
 
@@ -28,6 +31,8 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 	{
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
+
+		playerPoints = new Dictionary<ulong, int>();
 
 		playerDataNetworkList = new NetworkList<PlayerData>();
 		playerDataNetworkList.OnListChanged += CuisineClashMultiplayer_OnListChanged;
@@ -77,7 +82,8 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		playerDataNetworkList.Add(new PlayerData
 		{
 			clientId = clientId,
-			colorId = GetFirstUnusedColorId(),
+			outerColorId = GetFirstUnusedColorId(),
+			innerColorId = GetFirstUnusedColorId(),
 		});
 		SetPlayerNameServerRpc(GetPlayerName());
 		SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
@@ -150,9 +156,14 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		return playerIndex < playerDataNetworkList.Count;
 	}
 
-	public Color getPlayerColor(int colorId)
+	public Color GetPlayerOuterColor(int colorId)
 	{
-		return playerColorList[colorId];
+		return playerOuterColorList[colorId];
+	}
+
+	public Color GetPlayerInnerColor(int colorId)
+	{
+		return playerInnerColorList[colorId];
 	}
 
 	public PlayerData GetPlayerDataFromClientId(ulong clientId)
@@ -190,30 +201,31 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		return GetPlayerDataFromClientId(NetworkManager.Singleton.LocalClientId);
 	}
 
-	public void ChangePlayerColor(int colorId)
+	public void ChangePlayerColor(int outerColorId, int innerColorId)
 	{
-		ChangePlayerColorServerRpc(colorId);
+		ChangePlayerColorServerRpc(outerColorId, innerColorId);
 	}
 
 	[ServerRpc(RequireOwnership = false)]
-	public void ChangePlayerColorServerRpc(int colorId, ServerRpcParams serverRpcParams = default)
+	public void ChangePlayerColorServerRpc(int outerColorId, int innerColorId, ServerRpcParams serverRpcParams = default)
 	{
-		if (!IsColorAvailable(colorId))
+		if (!IsColorAvailable(outerColorId, innerColorId))
 		{
 			return;
 		}
 
 		int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
 		PlayerData playerData = playerDataNetworkList[playerDataIndex];
-		playerData.colorId = colorId;
+		playerData.outerColorId = outerColorId;
+		playerData.innerColorId = innerColorId;
 		playerDataNetworkList[playerDataIndex] = playerData;
 	}
 
-	private bool IsColorAvailable(int colorId)
+	private bool IsColorAvailable(int outerColorId, int innerColorId)
 	{
 		foreach (PlayerData playerData in playerDataNetworkList)
 		{
-			if (playerData.colorId == colorId)
+			if (playerData.outerColorId == outerColorId && playerData.innerColorId == innerColorId)
 			{
 				return false;
 			}
@@ -223,9 +235,9 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 
 	private int GetFirstUnusedColorId()
 	{
-		for (int i = 0; i < playerColorList.Count; i++)
+		for (int i = 0; i < playerInnerColorList.Count; i++)
 		{
-			if (IsColorAvailable(i))
+			if (IsColorAvailable(i, i))
 			{
 				return i;
 			}
@@ -238,5 +250,40 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		Debug.Log($"Player Kicked: {clientId}");
 		NetworkManager.Singleton.DisconnectClient(clientId);
 		NetworkManager_Server_OnClientDisconnectCallback(clientId);
+	}
+
+	public void AddPoints(ulong playerId, int pointAmt)
+	{
+		AddPointsClientRpc(playerId, pointAmt);
+	}
+
+	[ClientRpc]
+	private void AddPointsClientRpc(ulong playerId, int pointAmt)
+	{
+		if (!playerPoints.ContainsKey(playerId))
+		{
+			playerPoints.Add(playerId, pointAmt);
+		}
+		else
+		{
+			playerPoints[playerId] += pointAmt;
+		}
+	}
+
+	public void SortPoints()
+	{
+		SortPointsServerRpc();
+	}
+
+	[ServerRpc(RequireOwnership = false)]
+	private void SortPointsServerRpc()
+	{
+		playerPoints = playerPoints.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+	}
+
+	public Dictionary<ulong, int> GetPlayerPoints()
+	{
+		SortPoints();
+		return playerPoints;
 	}
 }

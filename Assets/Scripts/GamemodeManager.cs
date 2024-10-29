@@ -15,9 +15,8 @@ public class GamemodeManager : NetworkBehaviour
 	private enum Gamemode
 	{
 		//MultiplayerTesting,
-		//RainingMeatball,
-		//KingOfTheGrill,
-		Parkour
+		RainingMeatball
+		//KingOfTheGrill
 	}
 
 	private void Awake()

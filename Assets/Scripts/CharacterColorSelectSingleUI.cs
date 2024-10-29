@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class CharacterColorSelectSingleUI : MonoBehaviour
 {
-	[SerializeField] private int colorId;
+	[SerializeField] private int outerColorId;
+	[SerializeField] private int innerColorId;
 	[SerializeField] private Image image;
 	[SerializeField] private GameObject selectedGameObject;
 
@@ -15,14 +16,14 @@ public class CharacterColorSelectSingleUI : MonoBehaviour
 	{
 		GetComponent<Button>().onClick.AddListener(() =>
 		{
-			CuisineClashMultiplayer.Instance.ChangePlayerColor(colorId);
+			CuisineClashMultiplayer.Instance.ChangePlayerColor(outerColorId, innerColorId);
 		});
 	}
 
 	private void Start()
 	{
 		CuisineClashMultiplayer.Instance.OnPlayerDataNetworkListChanged += CuisineClashMultiplayer_OnPlayerDataNetworkListChanged;
-		image.color = CuisineClashMultiplayer.Instance.getPlayerColor(colorId);
+		image.color = CuisineClashMultiplayer.Instance.GetPlayerInnerColor(innerColorId);
 		UpdateIsSelected();
 	}
 
@@ -33,7 +34,7 @@ public class CharacterColorSelectSingleUI : MonoBehaviour
 
 	private void UpdateIsSelected()
 	{
-		if (CuisineClashMultiplayer.Instance.GetPlayerData().colorId == colorId)
+		if (CuisineClashMultiplayer.Instance.GetPlayerData().innerColorId == innerColorId)
 		{
 			selectedGameObject.SetActive(true);
 		}

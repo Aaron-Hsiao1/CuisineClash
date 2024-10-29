@@ -32,6 +32,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 
 	//[SerializeField] private Camera secondaryCamera;
 	[SerializeField] private CuisineClashManager cuisineClashManager;
+	private CuisineClashMultiplayer cuisineClashMultiplayer;
 
 	public event EventHandler OnGameEnd;
 
@@ -63,6 +64,9 @@ public class KingOfTheGrillManager : NetworkBehaviour
 		leaderboardText.text = "";
 		leaderboard.SetActive(false);
 		gameOverText.gameObject.SetActive(false);
+
+		cuisineClashMultiplayer = GameObject.Find("Cuisine Clash Multiplayer").GetComponent<CuisineClashMultiplayer>();
+		//Debug.Log("cuisine clash multipalyer = null; " + cuisineClashMultiplayer == null);
 
 		foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds) //populates player score dictionary
 		{
@@ -154,7 +158,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 	private void UpdateLeaderboard()
 	{
 		Debug.Log("updating leaderboard...");
-		foreach (KeyValuePair<ulong, int> player in cuisineClashManager.GetPlayerPoints())
+		foreach (KeyValuePair<ulong, int> player in cuisineClashMultiplayer.GetPlayerPoints())
 		{
 			var playerName = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(player.Key).playerName;
 			leaderboardText.text += $"{playerName}: {player.Value}\n";
@@ -287,7 +291,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 					{
 						if (player.Value == times[i])
 						{
-							cuisineClashManager.addPoints(player.Key, 3);
+							cuisineClashMultiplayer.AddPoints(player.Key, 3);
 						}
 					}
 
@@ -299,7 +303,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 					{
 						if (player.Value == times[i])
 						{
-							cuisineClashManager.addPoints(player.Key, 2);
+							cuisineClashMultiplayer.AddPoints(player.Key, 2);
 						}
 					}
 					i++;
@@ -311,7 +315,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 					{
 						if (player.Value == times[i])
 						{
-							cuisineClashManager.addPoints(player.Key, 1);
+							cuisineClashMultiplayer.AddPoints(player.Key, 1);
 						}
 					}
 					i += 2;
@@ -324,7 +328,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 				{
 					if (player.Value == times[i])
 					{
-						cuisineClashManager.addPoints(player.Key, 2);
+						cuisineClashMultiplayer.AddPoints(player.Key, 2);
 					}
 				}
 			}
@@ -335,7 +339,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 				{
 					if (player.Value == times[i])
 					{
-						cuisineClashManager.addPoints(player.Key, 1);
+						cuisineClashMultiplayer.AddPoints(player.Key, 1);
 					}
 				}
 			}
