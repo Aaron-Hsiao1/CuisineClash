@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameEnded.unity
     guid: 1bf29d6827b58a1409a8d0855600a27b
+  - enabled: 1
+    path: Assets/Scenes/Parkour.unity
+    guid: 40028990763673e4c86e401ab64b98f6
   m_configObjects: {}
