@@ -11,7 +11,8 @@ public class AttachScript : MonoBehaviour
     {
          if (childObject != null && parentObject != null)
         {
-            childObject.transform.SetParent(parentObject.transform, false);
+            childObject.transform.SetParent(parentObject.transform, true);
+            childObject.transform.localPosition = Vector3.zero;
         }
     }
 
