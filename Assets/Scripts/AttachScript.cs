@@ -11,6 +11,7 @@ public class AttachScript : MonoBehaviour
     {
          if (childObject != null && parentObject != null)
         {
+            childObject = Instantiate(childObject, transform.position, Quaternion.identity);
             childObject.transform.SetParent(parentObject.transform, true);
             childObject.transform.localPosition = Vector3.zero;
         }
