@@ -35,6 +35,10 @@ public class HotPotatoTag : MonoBehaviour
         {
             TryTagAnotherPlayer();
         }
+        if (hasHotPotato)
+        {
+            Debug.Log("has potato");
+        }
     }
 
     void TryTagAnotherPlayer()

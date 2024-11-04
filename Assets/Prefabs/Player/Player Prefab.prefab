@@ -1698,6 +1698,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   childObject: {fileID: 913069159194786610, guid: cfc40a4d5580fc442837bd6b6874da73, type: 3}
   parentObject: {fileID: 2101014668747409606}
+  HPT: {fileID: 3241152277124298276}
+  potatocreated: 0
 --- !u!1 &7394634557177857571
 GameObject:
   m_ObjectHideFlags: 0
