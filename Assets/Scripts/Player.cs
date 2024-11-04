@@ -15,6 +15,8 @@ public class Player : NetworkBehaviour
 
 	public override void OnNetworkSpawn()
 	{
+		Debug.Log("player sapwned on server" + NetworkManager.Singleton.LocalClientId);
+		PlayerSpawnFix();
 		if (IsOwner)
 		{
 			LocalInstance = this;
@@ -23,14 +25,25 @@ public class Player : NetworkBehaviour
 		if (IsServer)
 		{
 			NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
-
-			SpawnManager spawnManager = GameObject.Find("Spawn Points").GetComponent<SpawnManager>();
-			Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
-			SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
-			Debug.Log($"Transfrom.position: {rb.position}");
 		}
 	}
 
+	private void PlayerSpawnFix()
+	{
+		PlayerSpawnFixServerRpc();
+    }
+
+	[ServerRpc(RequireOwnership = false)]
+	private void PlayerSpawnFixServerRpc()
+	{
+        Debug.Log("Player spawned on server, IsServer == true");
+        Debug.Log(NetworkManager.Singleton.LocalClientId);
+        SpawnManager spawnManager = GameObject.Find("Spawn Points").GetComponent<SpawnManager>();
+        Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
+        SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
+        Debug.Log($"Transfrom.position: {rb.position}");
+    }
+	
 	[ClientRpc]
 	private void SetPlayerLocationClientRpc(float x, float y, float z)
 	{

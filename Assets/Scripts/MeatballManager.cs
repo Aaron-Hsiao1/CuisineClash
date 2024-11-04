@@ -7,6 +7,10 @@ public class MeatballManager : NetworkBehaviour
 {
     [SerializeField] private RainingMeatballManager meatballManager;
 
+    private Rigidbody rb;
+
+    private float gravity = 25f;
+
     //private TMP_Text gameOverText;
 
     private void Start()
@@ -15,16 +19,21 @@ public class MeatballManager : NetworkBehaviour
         {
             gameOverText.gameObject.SetActive(false);
         }*/
-
+        rb = GetComponent<Rigidbody>();
         meatballManager = GameObject.Find("Raining Meatball Manager").GetComponent<RainingMeatballManager>();
     }
 
     public override void OnNetworkSpawn()
     {
-        Debug.Log("");
+        //Debug.Log("");
         //gameOverText = GameObject.Find("GameOverText").GetComponent<TMP_Text>();
         meatballManager = GameObject.Find("Raining Meatball Manager").GetComponent<RainingMeatballManager>();
-        Debug.Log("meatballManager != null" + meatballManager != null);
+        //Debug.Log("meatballManager != null" + meatballManager != null);
+    }
+
+    void FixedUpdate()
+    {
+        rb.AddForce(Vector3.down * gravity * rb.mass);
     }
 
     private void OnTriggerEnter(Collider collision)

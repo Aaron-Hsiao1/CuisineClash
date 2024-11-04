@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using Unity.Netcode;
+using System.Collections;
 
 public class DeathZone : NetworkBehaviour
 {
@@ -24,8 +25,9 @@ public class DeathZone : NetworkBehaviour
 		gameOverText = GameObject.Find("GameOverText").GetComponent<TMP_Text>();
 		meatballManager = GameObject.Find("Raining Meatball Manager").GetComponent<RainingMeatballManager>();
 		Debug.Log("meatballManager != null" + meatballManager != null);
-	}
 
+    }
+		
 	private void OnTriggerEnter(Collider touch)
 	{
 		if (touch.CompareTag("Player")) //enter death zone
@@ -55,5 +57,6 @@ public class DeathZone : NetworkBehaviour
 		}
 
 	}
+
 
 }
