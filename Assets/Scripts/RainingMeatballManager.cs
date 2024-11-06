@@ -15,6 +15,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 	[SerializeField] private bool gamePlaying = false;
 	[SerializeField] private TMP_Text gameOverText;
 	[SerializeField] private RainingMeatballManager rainingMeatballManager;
+	[SerializeField] private GameObject deathZone;
 
 	[SerializeField] private GameObject leaderboard;
 	[SerializeField] private TMP_Text leaderboardText;
@@ -27,7 +28,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 	public event EventHandler OnGameEnd;
 
-	private float totalTime = 300f; //Total Game Time in seconds
+	private float totalTime = 60f; //Total Game Time in seconds
 
 	// Meatball manager stuff
 	private List<ulong> alivePlayers;
@@ -47,7 +48,9 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 	public override void OnNetworkSpawn()
 	{
-		leaderboardText.text = "";
+		StartCoroutine(StartDeathZone());
+
+        leaderboardText.text = "";
 
 		startTime.Value = totalTime;
 		currentTime.Value = startTime.Value;
@@ -254,6 +257,11 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		}
 	}
 
-
+    private IEnumerator StartDeathZone()
+    {
+		deathZone.SetActive(false);
+		yield return new WaitForSeconds(3f);
+        deathZone.SetActive(true);
+    }
 
 }
