@@ -7,7 +7,7 @@ public class AttachScript : MonoBehaviour
     public GameObject childObject; // Assign the child object (weapon)
     public GameObject parentObject; // Assign the parent object (character's hand)
     public HotPotatoTag HPT;
-    public bool potatocreated = false;
+    private bool potatocreated = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +27,10 @@ public class AttachScript : MonoBehaviour
                 childObject.transform.localPosition = Vector3.zero;
             }
             potatocreated = true;
+        }
+        if (!HPT.hasHotPotato && potatocreated)
+        {
+            Destroy(childObject);
         }
     }
 }
