@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using System.Collections.Generic;
 
 public class HotPotatoTag : NetworkBehaviour
 {
@@ -48,28 +49,36 @@ public class HotPotatoTag : NetworkBehaviour
     void TryTagAnotherPlayer()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, tagDistance);
+        List<HotPotatoTag> potentialTargets = new List<HotPotatoTag>();
 
         foreach (var hitCollider in hitColliders)
         {
             HotPotatoTag otherPlayer = hitCollider.GetComponent<HotPotatoTag>();
 
+            // Only add players that are not the current one and do not already have the potato
             if (otherPlayer != null && otherPlayer != this && !otherPlayer.hasHotPotato)
             {
-                // Transfer the hot potato
-                hasHotPotato = false;
-                otherPlayer.hasHotPotato = true;
-                UpdateHotPotatoVisibility();
-                otherPlayer.UpdateHotPotatoVisibility();
+                potentialTargets.Add(otherPlayer);
+            }
+        }
 
-                Debug.Log($"{gameObject.name} tagged {otherPlayer.gameObject.name}!");
+        // Randomly select a target from potential targets
+        if (potentialTargets.Count > 0)
+        {
+            HotPotatoTag selectedTarget = potentialTargets[UnityEngine.Random.Range(0, potentialTargets.Count)];
 
-                // Notify the game manager to sync this change
-                if (IsServer)
-                {
-                    gameManager.SetHotPotatoClientRpc(otherPlayer.OwnerClientId);
-                }
+            // Transfer the hot potato
+            hasHotPotato = false;
+            selectedTarget.hasHotPotato = true;
+            UpdateHotPotatoVisibility();
+            selectedTarget.UpdateHotPotatoVisibility();
 
-                break;
+            Debug.Log($"{gameObject.name} tagged {selectedTarget.gameObject.name}!");
+
+            // Notify the game manager to sync this change
+            if (IsServer)
+            {
+                gameManager.SetHotPotatoClientRpc(selectedTarget.OwnerClientId);
             }
         }
     }

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRelay", "SimpleRelay.csproj", "{03A0EC30-C945-5C24-1813-62F9A521F996}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{03A0EC30-C945-5C24-1813-62F9A521F996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03A0EC30-C945-5C24-1813-62F9A521F996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03A0EC30-C945-5C24-1813-62F9A521F996}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

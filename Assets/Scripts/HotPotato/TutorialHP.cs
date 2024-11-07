@@ -3,17 +3,27 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using TMPro; // Import TextMeshPro namespace
+using System.Collections;
+using Unity.Netcode;
 
-public class WaitForAllPlayers : MonoBehaviour
+public class WaitForAllPlayers : NetworkBehaviour
 {
-    public int totalPlayers = 4;               // Set this to the number of players
+    public int totalPlayers = 8;               // Set this to the number of players
     public TextMeshProUGUI playerReadyText;               // Reference to a UI Text element in the scene
     private HashSet<int> playersReady = new HashSet<int>(); // Track players who pressed "R"
-
+    private List<ulong> playerIDs;     // List of player IDs
     void Start()
     {
-        // Initialize the live count display
         UpdatePlayerReadyText();
+        // Ensure we assign the potato only on the server
+        if (IsServer)
+        {
+            playerIDs = new List<ulong>(NetworkManager.Singleton.ConnectedClientsIds);
+        }
+        totalPlayers = playerIDs.Count;
+        Debug.Log("Newer Check" + totalPlayers);
+        // Initialize the live count display
+        
     }
 
     void Update()
@@ -45,7 +55,7 @@ public class WaitForAllPlayers : MonoBehaviour
     {
         if (playerReadyText != null)
         {
-            playerReadyText.text = "Players Ready: " + playersReady.Count + "/" + totalPlayers;
+            playerReadyText.text = "Players Ready: " + (playersReady.Count) + "/" + (totalPlayers + 1);
         }
     }
 }
