@@ -38,4 +38,9 @@ public static class Loader
 	{
 		NetworkManager.Singleton.SceneManager.LoadScene(targetScene.ToString(), LoadSceneMode.Single);
 	}
+
+    public static void LoadNetworkTest(string targetScene)
+    {
+        NetworkManager.Singleton.SceneManager.LoadScene(targetScene, LoadSceneMode.Single);
+    }
 }
