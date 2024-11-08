@@ -19,6 +19,8 @@ public class CuisineClashManager : NetworkBehaviour
 
 	[SerializeField] private SpawnManager spawnManager;
 
+	private NetworkVariable<bool> gameStarted = new NetworkVariable<bool>();
+
 	private enum State
 	{
 		WaitingToStart,
@@ -58,6 +60,7 @@ public class CuisineClashManager : NetworkBehaviour
 
 	public override void OnNetworkSpawn()
 	{
+		gameStarted.Value = false;
 		NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
 		gamemodeManager = GameObject.FindGameObjectWithTag("Gamemode Manager").GetComponent<GamemodeManager>();
 		if (gamemodeManager != null)
@@ -122,9 +125,13 @@ public class CuisineClashManager : NetworkBehaviour
 			}
 		}
 
-		if (allClientsReady && playerReadyDictionary.Count == NetworkManager.ConnectedClientsIds.Count)
+		if (allClientsReady && playerReadyDictionary.Count == NetworkManager.ConnectedClientsIds.Count && gameStarted.Value == false)
 		{
-			Loader.LoadNetwork(gamemodeManager.gamemodeSelector());
+			gameStarted.Value = true;
+			Debug.Log("game started + " + gameStarted.Value);
+			Debug.Log("Gamemode Selector Called in CuisineClashManager");
+			string gamemode = gamemodeManager.GamemodeSelector();
+            Loader.LoadNetwork(gamemode);
 			state.Value = State.GamePlaying;
 		}
 	}

@@ -197,11 +197,11 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 		if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
 		{
-			Loader.LoadNetwork(Loader.Scene.PregameLobby);
+			Loader.LoadNetwork(Loader.Scene.PregameLobby.ToString());
 		}
 		if (GamemodeManager.Instance.GetGamemodeList().Count == 0)
 		{
-			Loader.LoadNetwork(Loader.Scene.GameEnded);
+			Loader.LoadNetwork(Loader.Scene.GameEnded.ToString());
 		}
 	}
 
