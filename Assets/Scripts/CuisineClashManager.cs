@@ -131,7 +131,7 @@ public class CuisineClashManager : NetworkBehaviour
 			Debug.Log("game started + " + gameStarted.Value);
 			Debug.Log("Gamemode Selector Called in CuisineClashManager");
 			string gamemode = gamemodeManager.GamemodeSelector();
-            Loader.LoadNetworkTest(gamemode);
+            Loader.LoadNetwork(gamemode);
 			state.Value = State.GamePlaying;
 		}
 	}

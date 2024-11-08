@@ -14,7 +14,6 @@ public class GamemodeManager : NetworkBehaviour
 
 	private enum Gamemode
 	{
-		GameEnded,
 		RainingMeatball,
 		KingOfTheGrill
 	}

@@ -183,7 +183,7 @@ public class CuisineClashLobby : MonoBehaviour
 			NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
 
 			CuisineClashMultiplayer.Instance.StartHost();
-			Loader.LoadNetwork(Loader.Scene.ConnectionLobby);
+			Loader.LoadNetwork(Loader.Scene.ConnectionLobby.ToString());
 		}
 		catch (LobbyServiceException e)
 		{
