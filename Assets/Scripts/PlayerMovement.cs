@@ -1,15 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : NetworkBehaviour
 {
     public float moveSpeed;
     public float sprintSpeed;
-
 
     public float groundDrag;
 
@@ -38,14 +33,16 @@ public class PlayerMovement : NetworkBehaviour
     Rigidbody rb;
 
     public KeyCode jumpKey = KeyCode.Space;
-    // Start is called before the first frame update
+
+    // Boolean to indicate whether speed is currently boosted
+    private bool isSpeedBoosted = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         canJump = true;
     }
-
 
     void Update()
     {
@@ -54,25 +51,15 @@ public class PlayerMovement : NetworkBehaviour
             return;
         }
 
-        if (rb.velocity.y < 0)
-        {
-            //Debug.Log("rb.velocity.y < 0 : " + rb.velocity.y);
-            //rb.velocity += Vector3.up * (Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime);
-            //rb.velocity += new Vector3(0f, Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime, 0f);
-            //_verticalVelocity += -25f * Time.deltaTime;
-        }
-
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
 
         MyInput();
         SpeedControl();
 
-
-        // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+        // apply gravity over time if under terminal
         if (_verticalVelocity < _terminalVelocity)
         {
             _verticalVelocity += -11f * Time.deltaTime;
-
         }
 
         if (grounded)
@@ -88,8 +75,6 @@ public class PlayerMovement : NetworkBehaviour
         {
             rb.drag = 0;
         }
-
-        //Debug.Log(_verticalVelocity);
     }
 
     private void FixedUpdate()
@@ -105,16 +90,17 @@ public class PlayerMovement : NetworkBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-        Sprint();
+        if (!isSpeedBoosted) // Only adjust speed if it's not boosted
+        {
+            Sprint();
+        }
+
         if (Input.GetKey(jumpKey) && canJump && grounded)
         {
             canJump = false;
             Jump();
             Invoke(nameof(resetJump), jumpCooldown);
-
-
         }
-
     }
 
     private void MovePlayer()
@@ -122,22 +108,12 @@ public class PlayerMovement : NetworkBehaviour
         //calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
-
-        if (grounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
-        }
-        else if (!grounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f /** airMultiplier*/ + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
-        }
     }
 
     private void SpeedControl()
     {
-        Vector3 flatVel = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        //limits velocity
         if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -147,9 +123,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Jump()
     {
-        //rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
         _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * -9.81f);
     }
 
@@ -157,16 +131,13 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            moveSpeed = sprintSpeed;
+            moveSpeed = 10;
         }
         else
         {
             moveSpeed = 5;
         }
     }
-
-
-
 
     private void resetJump()
     {
@@ -183,4 +154,11 @@ public class PlayerMovement : NetworkBehaviour
         return horizontalInput;
     }
 
+    // Set moveSpeed and update the isSpeedBoosted status
+    public void SetMoveSpeed(float newSpeed)
+    {
+        moveSpeed = newSpeed;
+        isSpeedBoosted = (newSpeed != 5f); // true if boosted speed
+        Debug.Log("Current moveSpeed: " + moveSpeed);
+    }
 }
