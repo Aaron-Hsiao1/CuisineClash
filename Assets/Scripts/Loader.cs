@@ -17,6 +17,9 @@ public static class Loader
 		MultiplayerTesting,
 		KingOfTheGrill,
 		RainingMeatball,
+		HotPotato,
+		LoadIntoHP,
+		TutorialHP,
 		GameEnded
 	}
 	private static Scene targetScene;
