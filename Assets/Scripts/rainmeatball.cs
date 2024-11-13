@@ -11,10 +11,14 @@ public class MeatballSpawner : NetworkBehaviour
 	[SerializeField] private float spawnAreaLength = 10f;
 	[SerializeField] private float spawnHeight = 20f;
 	[SerializeField] private float initialSpawnInterval = 1f;
-	[SerializeField] private float speedUpInterval = 60f;
+	[SerializeField] private float speedUpInterval = 10f;
+	[SerializeField] private float initialSpawnDelay = 3f;
 
-	private float spawnInterval; //current spawn interval
-	private float elapsedTime;
+	private float exponentialDecayRate = 0.25f;
+	public float minSpawnInterval = 0;
+
+    [SerializeField] private float spawnInterval; //current spawn interval
+	[SerializeField] private float elapsedTime;
 
 	void Start()
 	{
@@ -45,6 +49,8 @@ public class MeatballSpawner : NetworkBehaviour
 
 	IEnumerator SpawnMeatballLoop()
 	{
+		yield return new WaitForSeconds(initialSpawnDelay);
+		
 		while (true)
 		{
 			yield return new WaitForSeconds(spawnInterval);
@@ -55,7 +61,7 @@ public class MeatballSpawner : NetworkBehaviour
 
 			if (elapsedTime >= speedUpInterval) // if the elapsed time is greater than the time needed to speed up, spawn cd is halved, and elapsed time resets
 			{
-				spawnInterval /= 2;
+				UpdateSpawnInterval();
 				elapsedTime = 0f;
 			}
 		}
@@ -75,18 +81,14 @@ public class MeatballSpawner : NetworkBehaviour
         var meatballNetworkObject = meatball.GetComponent<NetworkObject>();
         meatballNetworkObject.Spawn(true); // Spawns meatball on server
 
-        // Raycast to find terrain height at the x and z coordinates of the meatball
         RaycastHit hit;
         Vector3 indicatorPosition = new Vector3(meatball.transform.position.x, 0, meatball.transform.position.z);
         if (Physics.Raycast(meatball.transform.position, Vector3.down, out hit, Mathf.Infinity))
         {
-            // Adjust indicator's y position based on terrain height, add a vertical offset
-            indicatorPosition.y = hit.point.y + 0.2f; // Offset added to ensure indicator is above ground
+            indicatorPosition.y = hit.point.y + 0.2f;
 
-            // Optional: Adjust rotation to align with surface normal (useful on slants)
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
 
-            // Instantiate the indicator at the correct position and rotation
             GameObject indicator = Instantiate(indicatorPrefab, indicatorPosition, rotation);
             var indicatorNetworkObject = indicator.GetComponent<NetworkObject>();
             indicatorNetworkObject.Spawn(true);
@@ -99,6 +101,12 @@ public class MeatballSpawner : NetworkBehaviour
             var indicatorNetworkObject = indicator.GetComponent<NetworkObject>();
             indicatorNetworkObject.Spawn(true);
         }
+    }
+
+    private void UpdateSpawnInterval()
+    {
+		Debug.Log("spawn interaval updated");
+		spawnInterval = Mathf.Max(spawnInterval * exponentialDecayRate, minSpawnInterval);
     }
 
 

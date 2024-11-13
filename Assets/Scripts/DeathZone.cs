@@ -1,11 +1,11 @@
 using UnityEngine;
 using TMPro;
 using Unity.Netcode;
+using System.Collections;
 
 public class DeathZone : NetworkBehaviour
 {
 	[SerializeField] private RainingMeatballManager meatballManager;
-	[SerializeField] private CountdownTimer timer;
 
 	private TMP_Text gameOverText;
 
@@ -15,7 +15,9 @@ public class DeathZone : NetworkBehaviour
 		{
 			gameOverText.gameObject.SetActive(false);
 		}
-	}
+
+        meatballManager = GameObject.Find("Raining Meatball Manager").GetComponent<RainingMeatballManager>();
+    }
 
 	public override void OnNetworkSpawn()
 	{
@@ -23,8 +25,9 @@ public class DeathZone : NetworkBehaviour
 		gameOverText = GameObject.Find("GameOverText").GetComponent<TMP_Text>();
 		meatballManager = GameObject.Find("Raining Meatball Manager").GetComponent<RainingMeatballManager>();
 		Debug.Log("meatballManager != null" + meatballManager != null);
-	}
 
+    }
+		
 	private void OnTriggerEnter(Collider touch)
 	{
 		if (touch.CompareTag("Player")) //enter death zone
@@ -54,5 +57,6 @@ public class DeathZone : NetworkBehaviour
 		}
 
 	}
+
 
 }

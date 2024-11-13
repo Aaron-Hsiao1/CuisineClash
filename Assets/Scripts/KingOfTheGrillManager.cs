@@ -65,7 +65,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 		leaderboard.SetActive(false);
 		gameOverText.gameObject.SetActive(false);
 
-		cuisineClashMultiplayer = GameObject.Find("Cuisine Clash Multiplayer").GetComponent<CuisineClashMultiplayer>();
+		cuisineClashMultiplayer = GameObject.Find("CuisineClashMultiplayer").GetComponent<CuisineClashMultiplayer>();
 		//Debug.Log("cuisine clash multipalyer = null; " + cuisineClashMultiplayer == null);
 
 		foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds) //populates player score dictionary
@@ -151,7 +151,11 @@ public class KingOfTheGrillManager : NetworkBehaviour
 
 		if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
 		{
-			Loader.LoadNetwork(Loader.Scene.PregameLobby);
+			Loader.LoadNetwork(Loader.Scene.PregameLobby.ToString());
+		}
+		if (GamemodeManager.Instance.GetGamemodeList().Count == 0)
+		{
+			Loader.LoadNetwork(Loader.Scene.GameEnded.ToString());
 		}
 	}
 

@@ -23,9 +23,9 @@ public class SpawnManager : NetworkBehaviour
 			{
 				spawnPoint.isAvailable = false;
 				Vector3 _tempSpawnPoint = spawnPoint.transform.position;
-				Debug.Log($"Spawn Point before addition: {_tempSpawnPoint}");
+				//Debug.Log($"Spawn Point before addition: {_tempSpawnPoint}");
 				_tempSpawnPoint += new Vector3(0, 2, 0);
-				Debug.Log($"Spawn Point: {_tempSpawnPoint}");
+				//Debug.Log($"Spawn Point: {_tempSpawnPoint}");
 				return _tempSpawnPoint;
 			}
 		}
