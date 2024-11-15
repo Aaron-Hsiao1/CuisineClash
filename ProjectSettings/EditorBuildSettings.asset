@@ -39,7 +39,7 @@ EditorBuildSettings:
     path: Assets/Scenes/KingOfTheGrill.unity
     guid: 691da082adab9ac4abbe31522752fd4a
   - enabled: 1
-    path: Assets/Scenes/HotPotato_Profiles/HotPotato.unity
+    path: Assets/Scenes/HotPotato.unity
     guid: 5b79ab67e3d1282409f72f6ac4727807
   - enabled: 1
     path: Assets/Scenes/HotPotato_Profiles/LoadIntoHP.unity
@@ -47,6 +47,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HotPotato_Profiles/TutorialHP.unity
     guid: b2eccf183175f874eb15abc3b1187dc4
-    path: Assets/Scenes/GameEnded.unity
-    guid: 1bf29d6827b58a1409a8d0855600a27b
   m_configObjects: {}

@@ -2411,13 +2411,13 @@ PrefabInstance:
       addedObject: {fileID: 4890964962149568994}
     - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1329060941859186447}
-    - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5540464854178574840}
     - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2979876972396270694}
+    - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3241152277124298276}
   m_SourcePrefab: {fileID: 100100000, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
 --- !u!1 &6623288369113248623 stripped
 GameObject:
@@ -2478,21 +2478,6 @@ CapsuleCollider:
   m_Height: 2.057224
   m_Direction: 1
   m_Center: {x: -0.031471133, y: 0.05539596, z: 0}
---- !u!114 &2979876972396270694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6623288369113248623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faa7158456c74524388fb37bc9e510d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hotPotato: {fileID: 5030878055867935573}
-  player: {fileID: 7039711912111513445}
-  explosionSFX: {fileID: 2497980178836952266, guid: 7d92bae5baecffb4b9fe115eb1b9808f, type: 3}
 --- !u!114 &5540464854178574840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2508,6 +2493,21 @@ MonoBehaviour:
   pushForce: 10
   pushUpForce: 5
   raycastDistance: 5
+--- !u!114 &2979876972396270694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6623288369113248623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa7158456c74524388fb37bc9e510d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hotPotato: {fileID: 5030878055867935573}
+  player: {fileID: 7039711912111513445}
+  explosionSFX: {fileID: 2497980178836952266, guid: 7d92bae5baecffb4b9fe115eb1b9808f, type: 3}
 --- !u!114 &3241152277124298276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2520,14 +2520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cafad96ae33544944b61c485f3a267dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasHotPotato: 1
+  hasHotPotato: 0
   tagDistance: 2
   hotPotatoObject: {fileID: 5030878055867935573}
-  m_Script: {fileID: 11500000, guid: ee295b2a1446d984fbe4a165398c159c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 5773477117779155358}
 --- !u!4 &9076327832988588039 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7006023881434061018, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}

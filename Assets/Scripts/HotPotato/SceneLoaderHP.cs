@@ -16,6 +16,6 @@ public class SceneLoaderHP : MonoBehaviour
     {
         yield return new WaitForSeconds(delayBeforeLoad); // Optional delay for loading screen
 
-        Loader.LoadNetwork(Loader.Scene.HotPotato);
+        Loader.LoadNetwork(Loader.Scene.HotPotato.ToString());
     }
 }

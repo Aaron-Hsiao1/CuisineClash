@@ -36,7 +36,7 @@ public class WaitForAllPlayers : MonoBehaviour
         if (playersReady.Count == totalPlayers)
         {
             Debug.Log("All players are ready. Loading Hot Potato scene.");
-            Loader.LoadNetwork(Loader.Scene.LoadIntoHP);
+            Loader.LoadNetwork(Loader.Scene.LoadIntoHP.ToString());
         }
     }
 

@@ -6,7 +6,7 @@ public class HotPotatoTag : NetworkBehaviour
 {
     public bool hasHotPotato = false; // Whether this player has the hot potato
     public float tagDistance = 2f; // Maximum distance to tag another player
-    public GameObject hotPotatoObject; // Reference to the hot potato object
+    //public GameObject hotPotatoObject; // Reference to the hot potato object
 
     private GiveToRandomHP gameManager;
 
@@ -24,8 +24,8 @@ public class HotPotatoTag : NetworkBehaviour
         // Check if we're in the "HotPotato" scene
         if (SceneManager.GetActiveScene().name != "HotPotato")
         {
-            hasHotPotato = false;
-            UpdateHotPotatoVisibility();
+            //hasHotPotato = false;
+            //UpdateHotPotatoVisibility();
         }
 
         // Check if the player has the hot potato and presses the "B" key
@@ -38,10 +38,10 @@ public class HotPotatoTag : NetworkBehaviour
     // Update visibility of the hot potato object based on hasHotPotato status
     public void UpdateHotPotatoVisibility()
     {
-        if (hotPotatoObject != null)
-        {
-            hotPotatoObject.SetActive(hasHotPotato);
-        }
+        //if (hotPotatoObject != null)
+        //{
+            //hotPotatoObject.SetActive(hasHotPotato);
+        //}
     }
 
     // Attempt to tag another player within range

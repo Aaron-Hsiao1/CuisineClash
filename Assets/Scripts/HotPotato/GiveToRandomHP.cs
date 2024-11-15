@@ -7,16 +7,20 @@ public class GiveToRandomHP : NetworkBehaviour
 {
     public float cooldownTime = 5.0f; // Cooldown time before assigning the hot potato to a new player
 
-    private List<ulong> playerIDs;     // List of player IDs
+    private List<ulong> alivePlayerIds;     // List of player IDs
     private ulong currentPlayerWithPotato; // ID of the player currently holding the potato
 
-    void Start()
+    [SerializeField] private GameObject playerWithPotatoPrefab;
+
+    public override void OnNetworkSpawn()
     {
-        // Ensure we assign the potato only on the server
+        // This logic ensures that playerIDs are only populated once when the network is spawned
         if (IsServer)
         {
-            playerIDs = new List<ulong>(NetworkManager.Singleton.ConnectedClientsIds);
-            if (playerIDs.Count > 1)
+            alivePlayerIds = new List<ulong>(NetworkManager.Singleton.ConnectedClientsIds);
+
+            // Assign the hot potato to a random player at the start if enough players
+            if (alivePlayerIds.Count > 1)
             {
                 AssignRandomPlayerWithPotato();
             }
@@ -24,21 +28,66 @@ public class GiveToRandomHP : NetworkBehaviour
     }
 
     // Reassigns the hot potato to a random player, excluding the current holder
-    private void AssignRandomPlayerWithPotato()
+    private void AssignRandomPlayerWithPotato() //on server
     {
-        if (playerIDs.Count < 2) return; // Ensure there's more than one player available
+        if (alivePlayerIds.Count < 2)
+        {
+            Debug.Log("Less than 2 people alive");
+            return; // Ensure there's more than one player available
+        }
 
-        // Create a list of possible targets by excluding the current player holding the potato
-        List<ulong> possibleTargets = new List<ulong>(playerIDs);
-        possibleTargets.Remove(currentPlayerWithPotato);
-
-        // Randomly select a new player from the possible targets
-        currentPlayerWithPotato = possibleTargets[UnityEngine.Random.Range(0, possibleTargets.Count)];
+        int randomPlayer = Random.Range(0, alivePlayerIds.Count);
+        currentPlayerWithPotato = alivePlayerIds[randomPlayer];
 
         Debug.Log("New player with hot potato: " + currentPlayerWithPotato);
 
         // Inform all clients who now has the potato
         SetHotPotatoClientRpc(currentPlayerWithPotato);
+    }
+
+    // This ClientRpc syncs the hot potato state across clients
+    [ClientRpc]
+    public void SetHotPotatoClientRpc(ulong potatoHolderId)
+    {
+        Debug.Log("Potato holder id: " + potatoHolderId);
+        Debug.Log("is networkmanager null" + NetworkManager.Singleton);
+        //playerWithPotatoPrefab = CuisineClashMultiplayer.Instance.GetPlayerObjectFromPlayerId(potatoHolderId).transform.Find("PlayerObj/CHACTER1animationattempt/temppotato").gameObject;
+        Debug.Log("is potato player prefab null: " + playerWithPotatoPrefab == null);
+        Debug.Log("potato set active");
+        //playerWithPotatoPrefab.SetActive(true);
+        if (NetworkManager.Singleton.LocalClientId == potatoHolderId)
+        {
+            Debug.Log("if statemetn ran");
+            playerWithPotatoPrefab = NetworkManager.Singleton.LocalClient.PlayerObject.transform.Find("PlayerObj/CHACTER1animationattempt/temppotato").gameObject;
+            Debug.Log("playerpotatoprefab set");
+            playerWithPotatoPrefab.SetActive(true);
+        }  
+        
+    }
+
+    [ServerRpc]
+    public void SetHotPotatoClientRpc(ulong potatoHolderId) //TRY AND GET THE SERVER TO RUNT HE CODE, MAYBE SET POTATO TO ALWAYS BE THE HO ST WHEN TESTING
+    {
+        Debug.Log("Potato holder id: " + potatoHolderId);
+        Debug.Log("is networkmanager null" + NetworkManager.Singleton);
+        //playerWithPotatoPrefab = CuisineClashMultiplayer.Instance.GetPlayerObjectFromPlayerId(potatoHolderId).transform.Find("PlayerObj/CHACTER1animationattempt/temppotato").gameObject;
+        Debug.Log("is potato player prefab null: " + playerWithPotatoPrefab == null);
+        Debug.Log("potato set active");
+        //playerWithPotatoPrefab.SetActive(true);
+        if (NetworkManager.Singleton.LocalClientId == potatoHolderId)
+        {
+            Debug.Log("if statemetn ran");
+            playerWithPotatoPrefab = NetworkManager.Singleton.LocalClient.PlayerObject.transform.Find("PlayerObj/CHACTER1animationattempt/temppotato").gameObject;
+            Debug.Log("playerpotatoprefab set");
+            playerWithPotatoPrefab.SetActive(true);
+        }
+
+    }
+
+    [ServerRpc]
+    public void SetHotPotatoServerRpc(ulong potatohHolderId)
+    {
+
     }
 
     // Call this function when the potato explodes
@@ -53,37 +102,7 @@ public class GiveToRandomHP : NetworkBehaviour
         AssignRandomPlayerWithPotato(); // Reassign to a random player
     }
 
-    // This ClientRpc syncs the hot potato state across clients
-    [ClientRpc]
-    public void SetHotPotatoClientRpc(ulong potatoHolderId)
-    {
-        foreach (var player in FindObjectsOfType<HotPotatoTag>())
-        {
-            // Update hasHotPotato status
-            player.hasHotPotato = (player.OwnerClientId == potatoHolderId);
+    
 
-            // Update visibility immediately
-            player.UpdateHotPotatoVisibility();
-
-            if (player.hasHotPotato)
-            {
-                Debug.Log($"{player.gameObject.name} now has the hot potato.");
-            }
-        }
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        // This logic ensures that playerIDs are only populated once when the network is spawned
-        if (IsServer)
-        {
-            playerIDs = new List<ulong>(NetworkManager.Singleton.ConnectedClientsIds);
-
-            // Assign the hot potato to a random player at the start if enough players
-            if (playerIDs.Count > 1)
-            {
-                AssignRandomPlayerWithPotato();
-            }
-        }
-    }
+    
 }

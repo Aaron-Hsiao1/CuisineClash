@@ -36,19 +36,19 @@ public class Player : NetworkBehaviour
 	[ServerRpc(RequireOwnership = false)]
 	private void PlayerSpawnFixServerRpc()
 	{
-        Debug.Log("Player spawned on server, IsServer == true");
-        Debug.Log(NetworkManager.Singleton.LocalClientId);
+        //Debug.Log("Player spawned on server, IsServer == true");
+        //Debug.Log(NetworkManager.Singleton.LocalClientId);
         SpawnManager spawnManager = GameObject.Find("Spawn Points").GetComponent<SpawnManager>();
         Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
         SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
-        Debug.Log($"Transfrom.position: {rb.position}");
+        //Debug.Log($"Transfrom.position: {rb.position}");
     }
 	
 	[ClientRpc]
 	private void SetPlayerLocationClientRpc(float x, float y, float z)
 	{
 		rb.position = new Vector3(x, y, z);
-		Debug.Log($"rb.psition client: {rb.position}");
+		//Debug.Log($"rb.psition client: {rb.position}");
 	}
 
 	private void SetPlayerLocation(float x, float y, float z)
