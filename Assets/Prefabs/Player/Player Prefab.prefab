@@ -2522,7 +2522,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasHotPotato: 0
   tagDistance: 2
-  hotPotatoObject: {fileID: 5030878055867935573}
 --- !u!4 &9076327832988588039 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7006023881434061018, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}

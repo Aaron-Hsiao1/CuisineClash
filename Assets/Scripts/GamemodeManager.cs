@@ -17,9 +17,9 @@ public class GamemodeManager : NetworkBehaviour
 		//MultiplayerTesting,
 		//RainingMeatball
 		//KingOfTheGrill
-		//HotPotato
+		HotPotato
 		//LoadIntoHP
-		TutorialHP
+		//TutorialHP
 	}
 
 
@@ -34,16 +34,16 @@ public class GamemodeManager : NetworkBehaviour
 
 	public override void OnNetworkSpawn()
 	{
-		Debug.Log("on netowrk spawn: " + IsHost);
+		//Debug.Log("on netowrk spawn: " + IsHost);
 		if (IsHost)
 		{
 			foreach (Gamemode gamemode in Enum.GetValues(typeof(Gamemode)))
 			{
-				Debug.Log("insantianteing gamemodeList...");
+				//Debug.Log("insantianteing gamemodeList...");
 				gamemodeList.Add(gamemode.ToString());
 				//gamemodeListInstantiated = true;
 			}
-			Debug.Log("gamemodelist count: " + gamemodeList.Count);
+			//Debug.Log("gamemodelist count: " + gamemodeList.Count);
 		}
 	}
 
@@ -64,22 +64,22 @@ public class GamemodeManager : NetworkBehaviour
 
 	public string GamemodeSelector() //runs every gamemode.
 	{
-        Debug.Log("gamemode selector running");
-        if (IsHost)
+		Debug.Log("gamemode selector running");
+		if (IsHost)
 		{
-			Debug.Log("Is Host ran in GamemodeSelector");
+			//Debug.Log("Is Host ran in GamemodeSelector");
 
 			int random = UnityEngine.Random.Range(0, gamemodeList.Count); //selects a random index from the list of gamemodes
 			string nextGamemode = gamemodeList[random]; //picks the next gamemode based on the index
 
-            Debug.Log("Random index chosen: " + random);
-            Debug.Log("Selected nextGamemode: " + nextGamemode);
+			//Debug.Log("Random index chosen: " + random);
+			//Debug.Log("Selected nextGamemode: " + nextGamemode);
 
-            gamemodeList.RemoveAt(random);
-			Debug.Log("gamemode removed");
+			gamemodeList.RemoveAt(random);
+			//Debug.Log("gamemode removed");
 			return nextGamemode;
 		}
-		Debug.Log("Not Host");
+		//Debug.Log("Not Host");
 		return "MainMenu";
 	}
 

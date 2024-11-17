@@ -13,14 +13,21 @@ public class Player : NetworkBehaviour
 
 	[SerializeField] private Rigidbody rb;
 
+	[SerializeField] private ulong localClientId;
+	private NetworkVariable<ulong> clientId = new NetworkVariable<ulong>();
+
 	public override void OnNetworkSpawn()
 	{
 		Debug.Log("player sapwned on server" + NetworkManager.Singleton.LocalClientId);
 		PlayerSpawnFix();
-		if (IsOwner)
+		if (IsLocalPlayer)
 		{
 			LocalInstance = this;
-
+			localClientId = NetworkManager.Singleton.LocalClientId;
+		}
+		if (IsOwner)
+		{
+			clientId.Value = OwnerClientId;
 		}
 		if (IsServer)
 		{
@@ -28,22 +35,40 @@ public class Player : NetworkBehaviour
 		}
 	}
 
+	// Start is called before the first frame update
+	void Start()
+	{
+		if (IsLocalPlayer)
+		{
+			playerName.gameObject.SetActive(false);
+		}
+		PlayerData playerData = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(OwnerClientId);
+		playerVisual.SetPlayerColor(CuisineClashMultiplayer.Instance.GetPlayerOuterColor(playerData.outerColorId), CuisineClashMultiplayer.Instance.GetPlayerInnerColor(playerData.innerColorId));
+		playerName.text = playerData.playerName.ToString();
+	}
+
+	[ServerRpc(RequireOwnership = false)]
+	private void SetLocalPlayerClientIdServerRpc(ulong clientId)
+	{
+		this.clientId.Value = clientId;
+	}
+
 	private void PlayerSpawnFix()
 	{
 		PlayerSpawnFixServerRpc();
-    }
+	}
 
 	[ServerRpc(RequireOwnership = false)]
 	private void PlayerSpawnFixServerRpc()
 	{
-        //Debug.Log("Player spawned on server, IsServer == true");
-        //Debug.Log(NetworkManager.Singleton.LocalClientId);
-        SpawnManager spawnManager = GameObject.Find("Spawn Points").GetComponent<SpawnManager>();
-        Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
-        SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
-        //Debug.Log($"Transfrom.position: {rb.position}");
-    }
-	
+		//Debug.Log("Player spawned on server, IsServer == true");
+		//Debug.Log(NetworkManager.Singleton.LocalClientId);
+		SpawnManager spawnManager = GameObject.Find("Spawn Points").GetComponent<SpawnManager>();
+		Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
+		SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
+		//Debug.Log($"Transfrom.position: {rb.position}");
+	}
+
 	[ClientRpc]
 	private void SetPlayerLocationClientRpc(float x, float y, float z)
 	{
@@ -64,16 +89,14 @@ public class Player : NetworkBehaviour
 		}
 	}
 
-	// Start is called before the first frame update
-	void Start()
+	public ulong GetClientId()
 	{
-		if (IsLocalPlayer)
-		{
-			playerName.gameObject.SetActive(false);
-		}
-		PlayerData playerData = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(OwnerClientId);
-		playerVisual.SetPlayerColor(CuisineClashMultiplayer.Instance.GetPlayerOuterColor(playerData.outerColorId), CuisineClashMultiplayer.Instance.GetPlayerInnerColor(playerData.innerColorId));
-		playerName.text = playerData.playerName.ToString();
+		return OwnerClientId;
 	}
 
+	public string GetPlayerName()
+	{
+		return playerName.text;
+	}
 }
+

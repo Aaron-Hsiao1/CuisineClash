@@ -1,82 +1,110 @@
 using System;
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
 
-public class HotPotatoTimer : MonoBehaviour
+//NOT USING (?)
+public class HotPotatoTimer : NetworkBehaviour
 {
-    #region Variables
+	[SerializeField] private NetworkVariable<float> startTime = new NetworkVariable<float>(10f);
+	private NetworkVariable<float> currentTime = new NetworkVariable<float>(0f);
+	[SerializeField] private TMP_Text timerText;
 
-    private TMP_Text _timerText;
-    enum TimerType { Countdown, Stopwatch }
-    [SerializeField] private TimerType timerType;
+	private float timeBeforeExplosion;
 
-    [SerializeField] private float timeToDisplay = 60.0f;
-    private float initialTime; // Store the initial time value to reset later
-    private bool _isRunning;
-    public float repeatDelay = 5.0f; // Time to wait before repeating the timer
+	public event EventHandler PotatoTimerEnd;
 
-    #endregion
+	#region Variables
 
-    private void Awake()
-    {
-        _timerText = GetComponent<TMP_Text>();
-        initialTime = timeToDisplay; // Store the initial time at start
-    }
+	private TMP_Text _timerText;
+	enum TimerType { Countdown, Stopwatch }
+	[SerializeField] private TimerType timerType;
 
-    private void OnEnable()
-    {
-        HPEventManager.TimerStart += EventManagerOnTimerStart;
-        HPEventManager.TimerStop += EventManagerOnTimerStop;
-        HPEventManager.TimerUpdate += EventManagerOnTimerUpdate;
-    }
+	private float timeToDisplay = 10.0f;
+	private float initialTime; // Store the initial time value to reset later
+	private bool _isRunning;
+	public float repeatDelay = 5.0f; // Time to wait before repeating the timer
 
-    private void OnDisable()
-    {
-        HPEventManager.TimerStart -= EventManagerOnTimerStart;
-        HPEventManager.TimerStop -= EventManagerOnTimerStop;
-        HPEventManager.TimerUpdate -= EventManagerOnTimerUpdate;
-    }
+	#endregion
 
-    private void EventManagerOnTimerStart() => _isRunning = true;
-    private void EventManagerOnTimerStop() => _isRunning = false;
-    private void EventManagerOnTimerUpdate(float value) => timeToDisplay += value;
+	private void Update()
+	{
+		if (!IsHost)
+		{
+			return;
+		}
 
-    private void Update()
-    {
-        if (!_isRunning) return;
+		currentTime.Value -= Time.deltaTime;
 
-        if (timerType == TimerType.Countdown && timeToDisplay < 0.0f)
-        {
-            _isRunning = false; // Stop the timer
-            _timerText.enabled = false; // Hide the text
+		if (currentTime.Value <= 0)
+		{
+			currentTime.Value = 0;
+			PotatoTimerEnd?.Invoke(this, EventArgs.Empty);
+		}
 
-            // Find all players and check which one has the active hot potato
-            HPDeathTimer[] players = FindObjectsOfType<HPDeathTimer>(); // Assuming you have multiple players
+		UpdateTimerTextClientRpc();
+	}
 
-            foreach (var player in players)
-            {
-                if (player.HasHotPotato()) // Check if this player has the active hot potato
-                {
-                    Debug.Log("EXPLOSION");
-                    player.Eliminate(); // Call the player's elimination method
-                    break;
-                }
-            }
+	public override void OnNetworkSpawn()
+	{
+		PotatoTimerEnd += HotPotatoTimer_PotatoTimerEnd;
 
-            Invoke(nameof(RestartTimer), repeatDelay); // Restart after a delay
-            return;
-        }
+		startTime.Value = timeBeforeExplosion;
+		currentTime.Value = startTime.Value;
+	}
 
-        timeToDisplay += timerType == TimerType.Countdown ? -Time.deltaTime : Time.deltaTime;
+	private void HotPotatoTimer_PotatoTimerEnd(object sender, EventArgs e)
+	{
+		Invoke(nameof(RestartTimer), repeatDelay);
+		KillPlayers();
+	}
 
-        TimeSpan timeSpan = TimeSpan.FromSeconds(timeToDisplay);
-        _timerText.text = timeSpan.ToString(@"ss\:ff");
-    }
+	private void KillPlayers()
+	{
+		Debug.Log("Client ID: " + NetworkManager.Singleton.LocalClientId);
 
-    private void RestartTimer()
-    {
-        timeToDisplay = initialTime; // Reset the timer
-        _timerText.enabled = true; // Show the text again
-        _isRunning = true; // Restart the timer
-    }
+		HotPotatoExplosion[] players = FindObjectsOfType<HotPotatoExplosion>(); // Assuming you have multiple players
+
+		foreach (var player in players)
+		{
+			Debug.Log("Foreach Loop");
+
+			if (player.HasHotPotato()) // Check if this player has the active hot potato
+			{
+				Debug.Log("EXPLOSION");
+				player.Eliminate(); // Call the player's elimination method	
+				break;
+			}
+		}
+	}
+
+	private void Awake()
+	{
+		timeBeforeExplosion = 10f;
+		Debug.Log("Timer Awake!");
+		_timerText = GetComponent<TMP_Text>();
+		initialTime = timeToDisplay; // Store the initial time at start
+	}
+
+	void UpdateTimerText()
+	{
+		int minutes = Mathf.FloorToInt(currentTime.Value / 60);
+		int seconds = Mathf.FloorToInt(currentTime.Value % 60);
+		timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+	}
+
+	[ClientRpc]
+	private void UpdateTimerTextClientRpc()
+	{
+		UpdateTimerText();
+	}
+
+	private void RestartTimer()
+	{
+		currentTime.Value = timeBeforeExplosion;
+
+		timeToDisplay = initialTime; // Reset the timer
+		_timerText.enabled = true; // Show the text again
+		_isRunning = true; // Restart the timer
+	}
 }

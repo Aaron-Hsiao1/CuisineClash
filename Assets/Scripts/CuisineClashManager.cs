@@ -21,6 +21,8 @@ public class CuisineClashManager : NetworkBehaviour
 
 	private NetworkVariable<bool> gameStarted = new NetworkVariable<bool>();
 
+	public EventHandler AllPlayerObjectsSpawned;
+
 	private enum State
 	{
 		WaitingToStart,
@@ -83,7 +85,7 @@ public class CuisineClashManager : NetworkBehaviour
 		NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
 	}
 
-	private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+	private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
 	{
 		if (IsHost)
 		{
@@ -92,7 +94,10 @@ public class CuisineClashManager : NetworkBehaviour
 			{
 				Transform playerTransform = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 				playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+				Debug.Log("Spawning Player Object!");
 			}
+
+			AllPlayerObjectsSpawned?.Invoke(this, EventArgs.Empty);
 		}
 	}
 
@@ -128,10 +133,8 @@ public class CuisineClashManager : NetworkBehaviour
 		if (allClientsReady && playerReadyDictionary.Count == NetworkManager.ConnectedClientsIds.Count && gameStarted.Value == false)
 		{
 			gameStarted.Value = true;
-			Debug.Log("game started + " + gameStarted.Value);
-			Debug.Log("Gamemode Selector Called in CuisineClashManager");
 			string gamemode = gamemodeManager.GamemodeSelector();
-            Loader.LoadNetwork(gamemode);
+			Loader.LoadNetwork(gamemode);
 			state.Value = State.GamePlaying;
 		}
 	}

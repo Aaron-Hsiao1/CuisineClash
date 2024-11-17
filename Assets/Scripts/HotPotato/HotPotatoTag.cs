@@ -8,12 +8,12 @@ public class HotPotatoTag : NetworkBehaviour
     public float tagDistance = 2f; // Maximum distance to tag another player
     //public GameObject hotPotatoObject; // Reference to the hot potato object
 
-    private GiveToRandomHP gameManager;
+    private HotPotatoManager gameManager;
 
     void Start()
     {
         // Find the game manager in the scene
-        gameManager = FindObjectOfType<GiveToRandomHP>();
+        gameManager = FindObjectOfType<HotPotatoManager>();
 
         // Update visibility based on initial hot potato state
         UpdateHotPotatoVisibility();
@@ -40,7 +40,7 @@ public class HotPotatoTag : NetworkBehaviour
     {
         //if (hotPotatoObject != null)
         //{
-            //hotPotatoObject.SetActive(hasHotPotato);
+        //hotPotatoObject.SetActive(hasHotPotato);
         //}
     }
 

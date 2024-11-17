@@ -11,8 +11,8 @@ public class SpawnManager : NetworkBehaviour
 	public override void OnNetworkSpawn()
 	{
 		spawnPoints = GetComponentsInChildren<SpawnPoint>();
-		Debug.Log($"is spawn points null: {spawnPoints == null}"); ;
-		Debug.Log($"SpawnPoints.Count: {spawnPoints.Count()}");
+		//Debug.Log($"is spawn points null: {spawnPoints == null}"); ;
+		//Debug.Log($"SpawnPoints.Count: {spawnPoints.Count()}");
 	}
 
 	public Vector3 GetNextSpawnPoint()
@@ -30,7 +30,7 @@ public class SpawnManager : NetworkBehaviour
 			}
 		}
 		// Fallback if no spawn points are available
-		Debug.Log("no spaw poitns ofund");
+		//Debug.Log("no spaw poitns ofund");
 		return new Vector3(0, 0, 0);
 	}
 }

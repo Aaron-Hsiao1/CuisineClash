@@ -2847,7 +2847,6 @@ GameObject:
   - component: {fileID: 643003252}
   - component: {fileID: 643003251}
   - component: {fileID: 643003254}
-  - component: {fileID: 643003253}
   m_Layer: 5
   m_Name: Timer Text
   m_TagString: Untagged
@@ -2971,21 +2970,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 643003249}
   m_CullTransparentMesh: 1
---- !u!114 &643003253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 643003249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82f5255d7a82c9646a55bd6ad046aba5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timerType: 0
-  timeToDisplay: 10
-  repeatDelay: 5
 --- !u!114 &643003254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2995,9 +2979,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 643003249}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08571ccc829820f438c0b91f92c7a019, type: 3}
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3376565205
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!64 &644715641
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11480,9 +11473,13 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 2050042056
       objectReference: {fileID: 0}
+    - target: {fileID: 3409087715836813921, guid: 66478453cb1d87a4dbfb81498fcaac8a, type: 3}
+      propertyPath: timerText
+      value: 
+      objectReference: {fileID: 643003251}
     - target: {fileID: 6205619585253540720, guid: 66478453cb1d87a4dbfb81498fcaac8a, type: 3}
       propertyPath: m_Name
-      value: HPGameManager
+      value: Hot Potato Manager
       objectReference: {fileID: 0}
     - target: {fileID: 8533981309440596740, guid: 66478453cb1d87a4dbfb81498fcaac8a, type: 3}
       propertyPath: m_LocalPosition.x
