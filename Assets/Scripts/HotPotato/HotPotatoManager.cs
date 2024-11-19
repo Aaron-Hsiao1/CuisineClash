@@ -4,12 +4,14 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 using System;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class HotPotatoManager : NetworkBehaviour
 {
 	private NetworkVariable<ulong> currentPlayerWithPotato = new NetworkVariable<ulong>(0);
 
 	private List<ulong> alivePlayerIds;
+	private List<ulong> topThreePlayers;
 
 	//Timer things
 	[SerializeField] private NetworkVariable<float> startTime = new NetworkVariable<float>(10f);
@@ -24,17 +26,33 @@ public class HotPotatoManager : NetworkBehaviour
 
 	[SerializeField] private Player[] players;
 
-	public override void OnNetworkSpawn()
+	//End Game UIs
+    [SerializeField] private Camera secondaryCamera;
+    [SerializeField] private TMP_Text gameOverText;
+    private CuisineClashMultiplayer cuisineClashMultiplayer;
+    [SerializeField] private GameObject leaderboard;
+    [SerializeField] private TMP_Text leaderboardText;
+
+    public event EventHandler OnGameEnd;
+
+    public override void OnNetworkSpawn()
 	{
 		CuisineClashManager.Instance.AllPlayerObjectsSpawned += HotPotatoManager_AllPlayerObjectsSpawned;
+        cuisineClashMultiplayer = GameObject.Find("CuisineClashMultiplayer").GetComponent<CuisineClashMultiplayer>();
 
-		PotatoTimerEnd += HotPotatoManager_PotatoTimerEnd;
+        PotatoTimerEnd += HotPotatoManager_PotatoTimerEnd;
 
 		startTime.Value = timeBeforeExplosion;
 		currentTime.Value = startTime.Value;
-	}
 
-	private void Update()
+        leaderboardText.text = "";
+    }
+    public override void OnNetworkDespawn()
+    {
+        CuisineClashManager.Instance.AllPlayerObjectsSpawned -= HotPotatoManager_AllPlayerObjectsSpawned;
+    }
+
+    private void Update()
 	{
 		if (!IsHost)
 		{
@@ -53,9 +71,15 @@ public class HotPotatoManager : NetworkBehaviour
 		UpdateTimerTextClientRpc();
 	}
 
-	private void Awake()
+    private void Start()
+    {
+        OnGameEnd += HotPotatoManager_OnGameEnd;
+    }
+
+    private void Awake()
 	{
 		timeBeforeExplosion = 10f;
+		topThreePlayers = new List<ulong>();
 		Debug.Log("Timer Awake!");
 	}
 
@@ -91,23 +115,95 @@ public class HotPotatoManager : NetworkBehaviour
 			if (player.HasHotPotato()) // Check if this player has the active hot potato
 			{
 				Debug.Log("EXPLOSION");
-				player.Eliminate(); // Call the player's elimination method	
-				break;
+				player.Eliminate(); // Call the player's elimination method
+
+				if (alivePlayerIds.Count <= 3)
+				{
+					topThreePlayers.Insert(0, currentPlayerWithPotato.Value);
+				}
+
+                alivePlayerIds.Remove(currentPlayerWithPotato.Value); //Remove from alive players
+
+                if (alivePlayerIds.Count == 0)
+				{
+					OnGameEnd?.Invoke(this, EventArgs.Empty);
+				}
+
+                StartCoroutine(ReassignPotatoAfterCooldown());
+                break;
 			}
 		}
-
-		/*
-			HotPotatoExplosion[] players = FindObjectsOfType<HotPotatoExplosion>(); // Assuming you have multiple players
-
-			foreach (var player in players)
-			{
-				Debug.Log("Foreach Loop");
-
-
-			}*/
 	}
 
-	void UpdateTimerText()
+    IEnumerator ShowEndGameUIs()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        timerText.gameObject.SetActive(false);
+        secondaryCamera.gameObject.SetActive(true);
+        gameOverText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        gameOverText.gameObject.SetActive(false);
+        UpdateLeaderboardClientRpc();
+        leaderboard.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
+        {
+            Loader.LoadNetwork(Loader.Scene.PregameLobby.ToString());
+        }
+        if (GamemodeManager.Instance.GetGamemodeList().Count == 0)
+        {
+            Loader.LoadNetwork(Loader.Scene.GameEnded.ToString());
+        }
+    }
+
+    private void UpdateLeaderboard()
+    {
+        Debug.Log("updating leaderboard...");
+        foreach (KeyValuePair<ulong, int> player in cuisineClashMultiplayer.GetPlayerPoints())
+        {
+            var playerName = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(player.Key).playerName;
+            leaderboardText.text += $"{playerName}: {player.Value}\n";
+        }
+        Debug.Log($"leaderboradString: {leaderboardText.text}");
+        //leaderboardText.text = leaderboardString.Value.ToString();
+    }
+
+    private void HotPotatoManager_OnGameEnd(object sender, EventArgs e)
+    {
+		EndGameClientRpc();
+    }
+
+    [ClientRpc]
+    private void EndGameClientRpc()
+    {
+        CalculatePoints();
+        EndGame();
+        Debug.Log("timer.gameEnded()");
+    }
+
+    public void EndGame()
+    {
+        StartCoroutine(ShowEndGameUIs());
+    }
+
+	private void CalculatePoints()
+	{
+		for (int i = 0; i < topThreePlayers.Count; i++)
+		{
+			cuisineClashMultiplayer.AddPoints(topThreePlayers[i], 3 - i);
+		}
+	}
+
+
+    [ClientRpc]
+    private void UpdateLeaderboardClientRpc()
+    {
+        UpdateLeaderboard();
+    }
+
+    void UpdateTimerText()
 	{
 		int minutes = Mathf.FloorToInt(currentTime.Value / 60);
 		int seconds = Mathf.FloorToInt(currentTime.Value % 60);
@@ -125,10 +221,6 @@ public class HotPotatoManager : NetworkBehaviour
 		currentTime.Value = timeBeforeExplosion;
 		timerRunning.Value = true;
 		ShowTimerTextClientRpc();
-
-		//timeToDisplay = initialTime; // Reset the timer
-		//_timerText.enabled = true; // Show the text again
-		//_isRunning = true; // Restart the timer
 	}
 
 	private void HotPotatoManager_AllPlayerObjectsSpawned(object sender, EventArgs e)
@@ -149,6 +241,11 @@ public class HotPotatoManager : NetworkBehaviour
 
 	private void AssignRandomPlayerWithPotato() //Server selects a random player to recieve hot potato
 	{
+		if (alivePlayerIds.Count == 0)
+		{
+			return;
+		}
+		
 		int randomPlayer = UnityEngine.Random.Range(0, alivePlayerIds.Count);
 		currentPlayerWithPotato.Value = alivePlayerIds[randomPlayer];
 
@@ -167,12 +264,10 @@ public class HotPotatoManager : NetworkBehaviour
 	[ClientRpc]
 	public void SetHotPotatoClientRpc(ulong potatoHolderId)  //client sets hot potato to active based on potatoholderid
 	{
-		//Debug.Log("if statemetn ran");
-		//Client cannot access connectedclients
 		players = FindObjectsOfType<Player>(); // Assuming you have multiple players
 		foreach (var player in players)
 		{
-			Debug.Log("GetClientID: " + player.GetClientId()); //server detecting client id on client 1 is 0 when it should be 1
+			Debug.Log("GetClientID: " + player.GetClientId());
 			Debug.Log("Potato Holder Id: " + potatoHolderId);
 			GameObject potatoObject = player.gameObject.transform.Find("PlayerObj/CHACTER1animationattempt/temppotato").gameObject;
 			if (player.GetClientId() == potatoHolderId)
@@ -188,11 +283,6 @@ public class HotPotatoManager : NetworkBehaviour
 		}
 	}
 
-	public void OnPotatoExploded()
-	{
-		StartCoroutine(ReassignPotatoAfterCooldown());
-	}
-
 	private IEnumerator ReassignPotatoAfterCooldown()
 	{
 		Debug.Log("Reassigning potato");
@@ -205,8 +295,4 @@ public class HotPotatoManager : NetworkBehaviour
 		return currentPlayerWithPotato.Value;
 	}
 
-	public override void OnNetworkDespawn()
-	{
-		CuisineClashManager.Instance.AllPlayerObjectsSpawned -= HotPotatoManager_AllPlayerObjectsSpawned;
-	}
 }

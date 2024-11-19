@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HotPotato_Profiles/TutorialHP.unity
     guid: b2eccf183175f874eb15abc3b1187dc4
+  - enabled: 1
+    path: Assets/Scenes/GameEnded.unity
+    guid: 1bf29d6827b58a1409a8d0855600a27b
   m_configObjects: {}

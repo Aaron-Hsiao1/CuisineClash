@@ -132,20 +132,20 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		Debug.Log("timer.gameEnded()");
 	}
 
-	void UpdateTimerText()
+    public void EndGame()
+    {
+        gamePlaying = false;
+        gameEnded = true;
+        StartCoroutine(ShowEndGameUIs());
+
+        //Destroy(gameObject);
+    }
+
+    void UpdateTimerText()
 	{
 		int minutes = Mathf.FloorToInt(currentTime.Value / 60);
 		int seconds = Mathf.FloorToInt(currentTime.Value % 60);
 		timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-	}
-
-	public void EndGame()
-	{
-		gamePlaying = false;
-		gameEnded = true;
-		StartCoroutine(ShowEndGameUIs());
-
-		//Destroy(gameObject);
 	}
 
 	public void StartTimer(float newTime)

@@ -770,6 +770,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6069305632654943269, guid: ffa6e7e5f716add41ba93d99fdd63d66, type: 3}
   m_PrefabInstance: {fileID: 102714033}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &102714035 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4427049299218647575, guid: ffa6e7e5f716add41ba93d99fdd63d66, type: 3}
+  m_PrefabInstance: {fileID: 102714033}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &102714036 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7096488651445246740, guid: ffa6e7e5f716add41ba93d99fdd63d66, type: 3}
+  m_PrefabInstance: {fileID: 102714033}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &104875229
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2167,6 +2183,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c5265a70522d7544bb6c0799d88dbf8, type: 3}
+--- !u!20 &413113064 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6227584920203554593, guid: 6c5265a70522d7544bb6c0799d88dbf8, type: 3}
+  m_PrefabInstance: {fileID: 413113063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &436338652
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4571,6 +4592,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3204355313396934867, guid: 8e5cb9cc35146074180bbecefe9b6e21, type: 3}
   m_PrefabInstance: {fileID: 1123679884}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1123679886 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7769662029042250154, guid: 8e5cb9cc35146074180bbecefe9b6e21, type: 3}
+  m_PrefabInstance: {fileID: 1123679884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &1123807933
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11477,6 +11509,22 @@ PrefabInstance:
       propertyPath: timerText
       value: 
       objectReference: {fileID: 643003251}
+    - target: {fileID: 3409087715836813921, guid: 66478453cb1d87a4dbfb81498fcaac8a, type: 3}
+      propertyPath: leaderboard
+      value: 
+      objectReference: {fileID: 102714036}
+    - target: {fileID: 3409087715836813921, guid: 66478453cb1d87a4dbfb81498fcaac8a, type: 3}
+      propertyPath: gameOverText
+      value: 
+      objectReference: {fileID: 1123679886}
+    - target: {fileID: 3409087715836813921, guid: 66478453cb1d87a4dbfb81498fcaac8a, type: 3}
+      propertyPath: leaderboardText
+      value: 
+      objectReference: {fileID: 102714035}
+    - target: {fileID: 3409087715836813921, guid: 66478453cb1d87a4dbfb81498fcaac8a, type: 3}
+      propertyPath: secondaryCamera
+      value: 
+      objectReference: {fileID: 413113064}
     - target: {fileID: 6205619585253540720, guid: 66478453cb1d87a4dbfb81498fcaac8a, type: 3}
       propertyPath: m_Name
       value: Hot Potato Manager
