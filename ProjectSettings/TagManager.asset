@@ -11,6 +11,9 @@ TagManager:
   - Gamemode Manager
   - Undefined
   - Meatball
+  - Tomato
+  - DeathZone
+  - CuttingBoard
   layers:
   - Default
   - TransparentFX
