@@ -36,7 +36,7 @@ public class CuttingBoard : MonoBehaviour
     void Update()
     {
         // Handle cutting if an item is on the board and the player right-clicks
-        if (itemOnBoard != null && Input.GetMouseButtonDown(1))
+        if (itemOnBoard != null && Input.GetMouseButtonDown(0))
         {
             HandleCutting();
         }

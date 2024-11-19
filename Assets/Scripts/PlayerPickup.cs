@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 public class PlayerPickup : MonoBehaviour
 {
     public float raycastRange = 100f; // Range for the raycast to detect items
     private GameObject heldItem = null; // Reference to the currently held item
+
 
 void Update()
 {
@@ -27,11 +29,12 @@ void Update()
             if (Physics.Raycast(ray, out hit, raycastRange))
             {
                 // Check if the hit object is a grocery item and player isn't holding anything
-                if (hit.collider.CompareTag("CanPickUp") || hit.collider.CompareTag("Tomato"))
+                if ((hit.collider.CompareTag("CanPickUp") || hit.collider.CompareTag("Tomato") || hit.collider.CompareTag("Bacon")))
                 {
-                    PickupItem(hit.collider.gameObject);
+                   PickupItem(hit.collider.gameObject);
                 }
             }
+
         }
     }
 }
@@ -40,17 +43,13 @@ void PickupItem(GameObject item)
 {
     heldItem = item;
 
-    // Disable item's physics (e.g., gravity) and make it a child of the player
     Rigidbody itemRb = item.GetComponent<Rigidbody>();
     if (itemRb != null)
     {
         itemRb.isKinematic = true;
     }
 
-    // Attach the item to the player
     item.transform.SetParent(transform);
-
-    // Set item's position in front and above the player
     item.transform.localPosition = new Vector3(0, 2f, 2.5f); // Adjusted position
 }
 
@@ -68,6 +67,23 @@ void PickupItem(GameObject item)
               }
             }
         // If not dropping on cutting board, drop on ground as usual
+        DropItem();
+    }
+
+    void HandlePan()
+    {
+        // Raycast to check if the held item is over the cutting board
+        if (CompareTag("FryingPan") && heldItem.CompareTag("Bacon"))
+        {
+            FryingPan FryingPan = GetComponent<Collider>().GetComponent<FryingPan>();
+            if (FryingPan != null)
+            {
+                FryingPan.PlaceItemOnPan(heldItem);
+                Debug.Log("OnPan");
+                heldItem = null;
+                return;
+            }
+        }
         DropItem();
     }
 
@@ -90,7 +106,6 @@ void PickupItem(GameObject item)
     // Clear the reference to the held item
     heldItem = null;
 }
-
-
+    
 
 }
