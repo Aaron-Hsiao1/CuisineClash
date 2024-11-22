@@ -72,13 +72,12 @@ void PickupItem(GameObject item)
 
     void HandlePan()
     {
-        // Raycast to check if the held item is over the cutting board
         if (CompareTag("FryingPan") && heldItem.CompareTag("Bacon"))
         {
-            FryingPan FryingPan = GetComponent<Collider>().GetComponent<FryingPan>();
-            if (FryingPan != null)
+            FryingPan fryingPan = GetComponent<Collider>().GetComponent<FryingPan>();
+            if (fryingPan != null)
             {
-                FryingPan.PlaceItemOnPan(heldItem);
+                fryingPan.PlaceItemOnPan(heldItem);
                 Debug.Log("OnPan");
                 heldItem = null;
                 return;
