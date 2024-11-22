@@ -8,7 +8,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class HotPotatoManager : NetworkBehaviour
 {
-	private NetworkVariable<ulong> currentPlayerWithPotato = new NetworkVariable<ulong>(0);
+	public NetworkVariable<ulong> currentPlayerWithPotato = new NetworkVariable<ulong>();
 
 	private List<ulong> alivePlayerIds;
 	private List<ulong> topThreePlayers;
@@ -78,7 +78,7 @@ public class HotPotatoManager : NetworkBehaviour
 
     private void Awake()
 	{
-		timeBeforeExplosion = 10f;
+		timeBeforeExplosion = 100000f;
 		topThreePlayers = new List<ulong>();
 		Debug.Log("Timer Awake!");
 	}
@@ -250,25 +250,23 @@ public class HotPotatoManager : NetworkBehaviour
 		currentPlayerWithPotato.Value = alivePlayerIds[randomPlayer];
 
 		Debug.Log("players length: " + alivePlayerIds.Count);
-		Debug.Log("New player with hot potato: " + currentPlayerWithPotato);
+		Debug.Log("New player with hot potato: " + currentPlayerWithPotato.Value);
 
-		// Inform all clients who now has the potato
-		SetHotPotato(currentPlayerWithPotato.Value);
+        // Inform all clients who now has the potato
+        SetHotPotatoActive(currentPlayerWithPotato.Value);
 	}
 
-	public void SetHotPotato(ulong potatoHolderId) //server sets hot potato to active based on who has it
+	public void SetHotPotatoActive(ulong potatoHolderId) //server sets hot potato to active based on who has it
 	{
-		SetHotPotatoClientRpc(potatoHolderId);
+        SetHotPotatoActiveClientRpc(potatoHolderId);
 	}
 
 	[ClientRpc]
-	public void SetHotPotatoClientRpc(ulong potatoHolderId)  //client sets hot potato to active based on potatoholderid
+	public void SetHotPotatoActiveClientRpc(ulong potatoHolderId)  //client sets hot potato to active based on potatoholderid
 	{
 		players = FindObjectsOfType<Player>(); // Assuming you have multiple players
 		foreach (var player in players)
 		{
-			Debug.Log("GetClientID: " + player.GetClientId());
-			Debug.Log("Potato Holder Id: " + potatoHolderId);
 			GameObject potatoObject = player.gameObject.transform.Find("PlayerObj/CHACTER1animationattempt/temppotato").gameObject;
 			if (player.GetClientId() == potatoHolderId)
 			{
@@ -283,6 +281,28 @@ public class HotPotatoManager : NetworkBehaviour
 		}
 	}
 
+    public void SetHotPotatoInactive(ulong potatoHolderId)
+	{
+		SetHotPotatoInactiveClientRpc(potatoHolderId);
+
+    }
+
+    [ClientRpc]
+	private void SetHotPotatoInactiveClientRpc(ulong potatoHolderId)
+	{
+        players = FindObjectsOfType<Player>(); // Assuming you have multiple players
+        foreach (var player in players)
+        {
+            GameObject potatoObject = player.gameObject.transform.Find("PlayerObj/CHACTER1animationattempt/temppotato").gameObject;
+            if (player.GetClientId() == potatoHolderId)
+            {
+                Debug.Log("Setting hot potato inactive on player: " + player.GetClientId());
+
+				potatoObject.SetActive(false);
+            }
+        }
+    }
+
 	private IEnumerator ReassignPotatoAfterCooldown()
 	{
 		Debug.Log("Reassigning potato");
@@ -295,4 +315,19 @@ public class HotPotatoManager : NetworkBehaviour
 		return currentPlayerWithPotato.Value;
 	}
 
+	public void TransferHotPotato(ulong newPotatoHolderId){
+		TransferHotPotatoServerRpc(newPotatoHolderId);
+	}
+
+	[ServerRpc(RequireOwnership = false)]
+	public void TransferHotPotatoServerRpc(ulong newPotatoHolderId)
+	{
+        Debug.Log("transferring potato to: " + newPotatoHolderId);
+		Debug.Log("Is server?" + IsServer);	
+        SetHotPotatoInactive(currentPlayerWithPotato.Value);
+        SetHotPotatoActive(newPotatoHolderId);
+        currentPlayerWithPotato.Value = newPotatoHolderId;
+        Debug.Log("Current player with potato after transfer: " + currentPlayerWithPotato.Value);
+        
+    }
 }
