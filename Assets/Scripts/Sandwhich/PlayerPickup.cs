@@ -29,13 +29,17 @@ void Update()
             if (Physics.Raycast(ray, out hit, raycastRange))
             {
                 // Check if the hit object is a grocery item and player isn't holding anything
-                if ((hit.collider.CompareTag("CanPickUp") || hit.collider.CompareTag("Tomato") || hit.collider.CompareTag("Bacon")))
+                if ((hit.collider.CompareTag("CanPickUp") || hit.collider.CompareTag("Tomato") || hit.collider.CompareTag("Bacon") || hit.collider.CompareTag("Bread")))
                 {
                    PickupItem(hit.collider.gameObject);
                 }
             }
 
         }
+    }
+    if (Input.GetKeyDown(KeyCode.B) && heldItem != null){
+        TryUseCondiment();
+        Debug.Log("trying to use condiment");
     }
 }
 
@@ -87,24 +91,76 @@ void PickupItem(GameObject item)
     }
 
 
-    void DropItem()
+void DropItem()
 {
+    if (heldItem == null) return;
+
     // Detach the item from the player
     heldItem.transform.SetParent(null);
 
-    // Re-enable physics for the item
     Rigidbody itemRb = heldItem.GetComponent<Rigidbody>();
     if (itemRb != null)
     {
-        itemRb.isKinematic = false;
+        itemRb.isKinematic = false; // Enable physics for the dropped item
     }
 
-    // Place the item on the ground in front of the player
-    heldItem.transform.position = transform.position + transform.forward * 2f;
+    // Handle bread-specific behavior
+    if (heldItem.CompareTag("Bread"))
+    {
+        // Place the bread slightly above the floor
+        Vector3 dropPosition = transform.position + transform.forward * 2f;
+        if (Physics.Raycast(dropPosition, Vector3.down, out RaycastHit hit, Mathf.Infinity))
+        {
+            dropPosition.y = hit.point.y + 0.1f; // Adjust to be slightly above the ground
+        }
+        heldItem.transform.position = dropPosition;
+
+        // Ensure ingredients stay with the bread
+        StackOnBread breadStack = heldItem.GetComponent<StackOnBread>();
+        if (breadStack != null)
+        {
+            foreach (Transform ingredient in heldItem.transform)
+            {
+                Rigidbody ingredientRb = ingredient.GetComponent<Rigidbody>();
+                if (ingredientRb != null)
+                {
+                    ingredientRb.isKinematic = true; // Keep ingredients stable
+                }
+            }
+        }
+    }
+    else
+    {
+        // For other items, drop normally
+        heldItem.transform.position = transform.position + transform.forward * 2f;
+    }
 
     // Clear the reference to the held item
     heldItem = null;
 }
-    
 
+
+
+
+    void TryUseCondiment()
+    {
+        BreadScriptC breadScript = null;
+        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, 2f); 
+        Debug.Log("Try to use condiment again");
+        foreach (var collider in nearbyColliders)
+        {
+            if (collider.CompareTag("Bread"))
+            {
+                Debug.Log("Once more");
+                breadScript = collider.GetComponent<BreadScriptC>();
+                if (breadScript != null && heldItem != null)
+                {
+                    Debug.Log("Last one");
+                    breadScript.AddCondiment(heldItem.GetComponent<CondementScript>().condimentType);
+                    heldItem.SetActive(false); // Deactivate the condiment bottle
+                    break;
+                }
+            }
+        }
+    }
 }

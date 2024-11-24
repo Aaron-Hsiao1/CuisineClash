@@ -159,6 +159,5 @@ public class PlayerMovement : NetworkBehaviour
     {
         moveSpeed = newSpeed;
         isSpeedBoosted = (newSpeed != 5f); // true if boosted speed
-        Debug.Log("Current moveSpeed: " + moveSpeed);
     }
 }

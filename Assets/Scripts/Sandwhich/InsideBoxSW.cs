@@ -26,7 +26,6 @@ public class SpeedBoostZone : MonoBehaviour
 
                 // Set player speed based on position
                 playerMovement.SetMoveSpeed(isOutsideCube ? boostedSpeed : normalSpeed);
-                Debug.Log(isOutsideCube ? "Player is OUTSIDE the cube" : "Player is INSIDE the cube");
             }
         }
     }

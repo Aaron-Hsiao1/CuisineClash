@@ -16,6 +16,7 @@ TagManager:
   - CuttingBoard
   - FryingPan
   - Bacon
+  - Bread
   layers:
   - Default
   - TransparentFX
