@@ -3,64 +3,87 @@ using UnityEngine;
 
 public class StackOnBread : MonoBehaviour
 {
-    public float stackHeight = 0.2f; // Height between stacked items
+    public float stackHeight = 0.8f; // Height between stacked items
     private List<GameObject> stackedIngredients = new List<GameObject>();
-    private Vector3 basePosition;
+    public Vector3 basePosition = Vector3.zero;
 
     private void Start()
     {
         basePosition = transform.position; // Initial position of the bread
     }
 
-    public void AddIngredient(GameObject ingredient)
+public void AddIngredient(GameObject ingredient)
 {
-    // Check if the ingredient object has the Ingredient script attached
+    Debug.Log("Step 0: AddIngredient method called.");
+
     Ingredient ingredientScript = ingredient.GetComponent<Ingredient>();
     if (ingredientScript == null)
     {
-        // If the object does not have the Ingredient script, ignore it
         Debug.Log("This object is not a valid ingredient. Ignoring it.");
         return;
     }
 
-    // If the ingredient is already stacked, do nothing
+    Debug.Log($"Step 1: {ingredient.name} is a valid ingredient.");
+
     if (stackedIngredients.Contains(ingredient))
     {
         Debug.Log("Ingredient is already stacked!");
         return;
     }
 
-    Debug.Log($"Adding ingredient: {ingredient.name}");
+    Debug.Log("Step 2: Ingredient is not already stacked. Proceeding to add.");
 
-    // Calculate the stacking position (height adjustment based on the number of stacked ingredients)
-    Vector3 stackPosition = basePosition + Vector3.up * (stackHeight * stackedIngredients.Count);
-    
-    // Set the position and parent of the ingredient
-    ingredient.transform.SetParent(transform);
-    ingredient.transform.localPosition = new Vector3(0, stackHeight * stackedIngredients.Count, 0);
+    Vector3 stackPosition;
+    if (stackedIngredients.Count == 0)
+    {
+        stackPosition = basePosition + Vector3.up * 0.1f; // Slight offset above the bread
+    }
+    else
+    {
+        stackPosition = basePosition + Vector3.up * (stackHeight * stackedIngredients.Count);
+    }
+
+    Debug.Log($"Step 3: Calculated stack position: {stackPosition}");
+
+    // Save the ingredient's original world scale before parenting
+    Vector3 originalWorldScale = ingredient.transform.lossyScale;
+
+    // Parent the ingredient to the bread
+    ingredient.transform.SetParent(transform, true); // Preserve world position/rotation
+
+    // Adjust local scale to counteract parent's scale
+    Vector3 parentScale = transform.lossyScale; // Get the bread's world scale
+    ingredient.transform.localScale = new Vector3(
+        originalWorldScale.x / parentScale.x,
+        originalWorldScale.y / parentScale.y,
+        originalWorldScale.z / parentScale.z
+    );
+
+    // Set position and rotation
+    ingredient.transform.localPosition = new Vector3(0, stackPosition.y, 0);
     ingredient.transform.localRotation = Quaternion.identity;
 
-    // Disable Rigidbody to stop physics interference
+    Debug.Log($"Step 4: Parent set to {transform.name}, position set to {ingredient.transform.localPosition}, scale preserved as: {ingredient.transform.localScale}");
+
     Rigidbody ingredientRb = ingredient.GetComponent<Rigidbody>();
     if (ingredientRb != null)
     {
         ingredientRb.isKinematic = true;
     }
 
-    // Optionally, disable the collider (so it doesn't interfere with stacking)
     Collider ingredientCollider = ingredient.GetComponent<Collider>();
     if (ingredientCollider != null)
     {
         ingredientCollider.enabled = false;
     }
 
-    // Change the tag to prevent re-picking
+    Debug.Log("Step 5: Disabled Rigidbody physics and collider.");
+
     ingredient.tag = "PlacedIngredient";
 
-    // Add the ingredient to the stacked ingredients list
     stackedIngredients.Add(ingredient);
 
-    Debug.Log($"Ingredient {ingredient.name} successfully added to stack.");
+    Debug.Log($"Step 6: Ingredient {ingredient.name} successfully added to stack. Stack count: {stackedIngredients.Count}");
 }
 
 

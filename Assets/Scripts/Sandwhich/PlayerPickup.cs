@@ -104,18 +104,14 @@ void DropItem()
         itemRb.isKinematic = false; // Enable physics for the dropped item
     }
 
-    // Handle bread-specific behavior
     if (heldItem.CompareTag("Bread"))
     {
-        // Place the bread slightly above the floor
         Vector3 dropPosition = transform.position + transform.forward * 2f;
         if (Physics.Raycast(dropPosition, Vector3.down, out RaycastHit hit, Mathf.Infinity))
         {
-            dropPosition.y = hit.point.y + 0.1f; // Adjust to be slightly above the ground
+            dropPosition.y = hit.point.y + 0.1f; 
         }
         heldItem.transform.position = dropPosition;
-
-        // Ensure ingredients stay with the bread
         StackOnBread breadStack = heldItem.GetComponent<StackOnBread>();
         if (breadStack != null)
         {
@@ -124,23 +120,17 @@ void DropItem()
                 Rigidbody ingredientRb = ingredient.GetComponent<Rigidbody>();
                 if (ingredientRb != null)
                 {
-                    ingredientRb.isKinematic = true; // Keep ingredients stable
+                    ingredientRb.isKinematic = true; 
                 }
             }
         }
     }
     else
     {
-        // For other items, drop normally
         heldItem.transform.position = transform.position + transform.forward * 2f;
     }
-
-    // Clear the reference to the held item
     heldItem = null;
 }
-
-
-
 
     void TryUseCondiment()
     {
@@ -157,7 +147,7 @@ void DropItem()
                 {
                     Debug.Log("Last one");
                     breadScript.AddCondiment(heldItem.GetComponent<CondementScript>().condimentType);
-                    heldItem.SetActive(false); // Deactivate the condiment bottle
+                    heldItem.SetActive(false); 
                     break;
                 }
             }
