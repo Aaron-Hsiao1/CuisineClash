@@ -2,38 +2,53 @@ using UnityEngine;
 
 public class SpeedBoostZone : MonoBehaviour
 {
-    public BoxCollider cubeBounds;   // Reference to the cube's BoxCollider
-    public float boostedSpeed;// Speed when outside the cube
-    public float normalSpeed = 5f;   // Speed inside the cube
+    public BoxCollider cubeBounds;       // Reference to the cube's BoxCollider
+    public float boostedSpeed = 10f;     // Speed when outside the cube
+    public float normalSpeed = 5f;       // Speed inside the cube
+    public string shoppingCartObjectName = "ShoppingCart"; // Name of the shopping cart object in the player prefab
 
-    private void Update()
-    {
-        CheckPlayerPosition();
-    }
+    private PlayerMovement playerMovement; // Reference to the player's movement script
+    private GameObject shoppingCart;       // Reference to the shopping cart object
 
-    private void CheckPlayerPosition()
+    private void Start()
     {
-        // Find the player object with the tag "Player"
+        // Find the player and cache the PlayerMovement component
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null)
         {
-            // Access the PlayerMovement component on the player
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            if (playerMovement != null)
-            {
-                // Check if the player's position is outside the cube's bounds
-                bool isOutsideCube = !IsInsideCube(player.transform.position);
+            playerMovement = player.GetComponent<PlayerMovement>();
 
-                // Set player speed based on position
-                playerMovement.SetMoveSpeed(isOutsideCube ? boostedSpeed : normalSpeed);
-            }
+            // Find the shopping cart object inside the player
+            shoppingCart = player.transform.Find(shoppingCartObjectName)?.gameObject;
+
+            if (shoppingCart != null)
+                shoppingCart.SetActive(false);
+            else
+                Debug.LogWarning($"Shopping cart object '{shoppingCartObjectName}' not found in player prefab.");
+        }
+        else
+        {
+            Debug.LogWarning("Player object not found! Make sure the player has the tag 'Player'.");
         }
     }
 
-    // Helper function to check if a position is inside the cube bounds
-    private bool IsInsideCube(Vector3 position)
+    private void Update()
     {
-        // Check if the position is within the bounds of the cube
-        return cubeBounds.bounds.Contains(position);
+        if (playerMovement != null && shoppingCart != null)
+        {
+            HandleSpeedBoostAndCart();
+        }
+    }
+
+    private void HandleSpeedBoostAndCart()
+    {
+        // Check if the player is outside the box
+        bool isOutsideCube = !cubeBounds.bounds.Contains(playerMovement.transform.position);
+
+        // Adjust speed
+        playerMovement.SetMoveSpeed(isOutsideCube ? boostedSpeed : normalSpeed);
+
+        // Enable or disable shopping cart based on position
+        shoppingCart.SetActive(isOutsideCube);
     }
 }

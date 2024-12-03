@@ -9,26 +9,21 @@ public class PlayerPickup : MonoBehaviour
 
 void Update()
 {
-    // Check for right mouse button click
     if (Input.GetMouseButtonDown(1))
     {
-        // If holding an item, drop it
         if (heldItem != null)
         {
             DropItem();
         }
         else
         {
-            // Perform a raycast from the camera in the forward direction to pick up an item
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            // Draw the raycast line in the Scene view for debugging
             Debug.DrawLine(ray.origin, ray.origin + ray.direction * raycastRange, Color.green, 0.1f);
 
             if (Physics.Raycast(ray, out hit, raycastRange))
             {
-                // Check if the hit object is a grocery item and player isn't holding anything
                 if ((hit.collider.CompareTag("CanPickUp") || hit.collider.CompareTag("Tomato") || hit.collider.CompareTag("Bacon") || hit.collider.CompareTag("Bread")))
                 {
                    PickupItem(hit.collider.gameObject);
@@ -54,7 +49,7 @@ void PickupItem(GameObject item)
     }
 
     item.transform.SetParent(transform);
-    item.transform.localPosition = new Vector3(0, 2f, 2.5f); // Adjusted position
+    item.transform.localPosition = new Vector3(0, 2f, 2.5f); 
 }
 
     void HandleDrop()
@@ -70,7 +65,6 @@ void PickupItem(GameObject item)
               return;
               }
             }
-        // If not dropping on cutting board, drop on ground as usual
         DropItem();
     }
 
@@ -94,8 +88,6 @@ void PickupItem(GameObject item)
 void DropItem()
 {
     if (heldItem == null) return;
-
-    // Detach the item from the player
     heldItem.transform.SetParent(null);
 
     Rigidbody itemRb = heldItem.GetComponent<Rigidbody>();

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StackOnBread : MonoBehaviour
 {
-    public float stackHeight = 0.8f; // Height between stacked items
+    public float stackHeight = 1f; // Height between stacked items
     private List<GameObject> stackedIngredients = new List<GameObject>();
     public Vector3 basePosition = Vector3.zero;
 
@@ -14,24 +14,17 @@ public class StackOnBread : MonoBehaviour
 
 public void AddIngredient(GameObject ingredient)
 {
-    Debug.Log("Step 0: AddIngredient method called.");
 
     Ingredient ingredientScript = ingredient.GetComponent<Ingredient>();
     if (ingredientScript == null)
     {
-        Debug.Log("This object is not a valid ingredient. Ignoring it.");
         return;
     }
-
-    Debug.Log($"Step 1: {ingredient.name} is a valid ingredient.");
 
     if (stackedIngredients.Contains(ingredient))
     {
-        Debug.Log("Ingredient is already stacked!");
         return;
     }
-
-    Debug.Log("Step 2: Ingredient is not already stacked. Proceeding to add.");
 
     Vector3 stackPosition;
     if (stackedIngredients.Count == 0)
@@ -63,7 +56,6 @@ public void AddIngredient(GameObject ingredient)
     ingredient.transform.localPosition = new Vector3(0, stackPosition.y, 0);
     ingredient.transform.localRotation = Quaternion.identity;
 
-    Debug.Log($"Step 4: Parent set to {transform.name}, position set to {ingredient.transform.localPosition}, scale preserved as: {ingredient.transform.localScale}");
 
     Rigidbody ingredientRb = ingredient.GetComponent<Rigidbody>();
     if (ingredientRb != null)
