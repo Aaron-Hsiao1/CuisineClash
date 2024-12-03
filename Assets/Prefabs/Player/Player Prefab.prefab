@@ -1638,6 +1638,7 @@ MonoBehaviour:
   playerVisual: {fileID: 1776249479091991107}
   playerName: {fileID: 5281499095278877415}
   rb: {fileID: 6774906967980962924}
+  localClientId: 0
 --- !u!114 &4774095168795398064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2131,6 +2132,61 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 7793983115930690947}
   m_maskType: 0
+--- !u!1 &8457282952435006869
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7261889090268001137}
+  - component: {fileID: 506650017733168472}
+  m_Layer: 2
+  m_Name: NoFrictionCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7261889090268001137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457282952435006869}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9076327832988588039}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &506650017733168472
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457282952435006869}
+  m_Material: {fileID: 13400000, guid: d4743c6502da4ee479d0d1b14a11410a, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.96489227
+  m_Height: 2.057224
+  m_Direction: 1
+  m_Center: {x: -0.031471133, y: 0.05539596, z: 0}
 --- !u!1 &8627463102481795908
 GameObject:
   m_ObjectHideFlags: 0
@@ -2402,6 +2458,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7006023881434061018, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9140947846255457079}
+    - targetCorrespondingSourceObject: {fileID: 7006023881434061018, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7261889090268001137}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
       insertIndex: -1
@@ -2472,7 +2531,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.96489227
   m_Height: 2.057224
@@ -2508,6 +2567,7 @@ MonoBehaviour:
   hotPotato: {fileID: 5030878055867935573}
   player: {fileID: 7039711912111513445}
   explosionSFX: {fileID: 2497980178836952266, guid: 7d92bae5baecffb4b9fe115eb1b9808f, type: 3}
+  hotPotatoManager: {fileID: 0}
 --- !u!114 &3241152277124298276
 MonoBehaviour:
   m_ObjectHideFlags: 0
