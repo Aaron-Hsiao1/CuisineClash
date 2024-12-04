@@ -19,7 +19,7 @@ public class Player : NetworkBehaviour
 	public override void OnNetworkSpawn()
 	{
 		Debug.Log("player sapwned on server" + NetworkManager.Singleton.LocalClientId);
-		PlayerSpawnFix();
+		//PlayerSpawnFix();
 		if (IsLocalPlayer)
 		{
 			LocalInstance = this;
@@ -35,8 +35,13 @@ public class Player : NetworkBehaviour
 		}
 	}
 
-	// Start is called before the first frame update
-	void Start()
+    private void Update()
+    {
+        Debug.Log("Player position: " + transform.position.ToString());
+    }
+
+    // Start is called before the first frame update
+    void Start()
 	{
 		if (IsLocalPlayer)
 		{
@@ -76,7 +81,7 @@ public class Player : NetworkBehaviour
 		//Debug.Log($"rb.psition client: {rb.position}");
 	}
 
-	private void SetPlayerLocation(float x, float y, float z)
+	public void SetPlayerLocation(float x, float y, float z)
 	{
 		SetPlayerLocationClientRpc(x, y, z);
 	}

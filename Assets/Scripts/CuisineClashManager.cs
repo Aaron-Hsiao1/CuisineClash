@@ -89,12 +89,21 @@ public class CuisineClashManager : NetworkBehaviour
 	{
 		if (IsHost)
 		{
+			Debug.Log("client list count that finished loadign: " + clientsCompleted.Count);
 			//Debug.Log("current scene, # of connected clients" + SceneManager.GetActiveScene().name + ", " + NetworkManager.Singleton.ConnectedClientsIds.Count);
 			foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
 			{
-				Transform playerTransform = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-				playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
-				Debug.Log("Spawning Player Object!");
+				Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
+				Debug.Log("POlayer id: " + clientId);
+				Debug.Log("nxt spawn point:" + nextSpawnPoint.ToString());
+				Transform playerTransform = Instantiate(playerPrefab, nextSpawnPoint, Quaternion.identity);
+				Debug.Log("before spawn as player object location: " + playerTransform.position.ToString());
+				NetworkObject playerTransformNetwork = playerTransform.GetComponent<NetworkObject>();
+				playerTransformNetwork.SpawnAsPlayerObject(clientId, true);
+				playerTransform.gameObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
+                Debug.Log("after spawn as player object location: " + playerTransform.position.ToString());
+
+                Debug.Log("Spawning Player Object!");
 			}
 
 			AllPlayerObjectsSpawned?.Invoke(this, EventArgs.Empty);
