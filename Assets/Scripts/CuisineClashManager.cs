@@ -94,14 +94,12 @@ public class CuisineClashManager : NetworkBehaviour
 			foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
 			{
 				Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
-				Debug.Log("POlayer id: " + clientId);
-				Debug.Log("nxt spawn point:" + nextSpawnPoint.ToString());
+
 				Transform playerTransform = Instantiate(playerPrefab, nextSpawnPoint, Quaternion.identity);
-				Debug.Log("before spawn as player object location: " + playerTransform.position.ToString());
+
 				NetworkObject playerTransformNetwork = playerTransform.GetComponent<NetworkObject>();
 				playerTransformNetwork.SpawnAsPlayerObject(clientId, true);
 				playerTransform.gameObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
-                Debug.Log("after spawn as player object location: " + playerTransform.position.ToString());
 
                 Debug.Log("Spawning Player Object!");
 			}

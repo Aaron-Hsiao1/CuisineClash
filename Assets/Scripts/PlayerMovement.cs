@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : NetworkBehaviour
 {
 	[SerializeField] private float moveSpeed;
+	[SerializeField] private float walkSpeed;
 	[SerializeField] private float sprintSpeed;
+	[SerializeField] private float hasPotatoSpeedMultiplier;
 
 	[SerializeField] private float groundDrag;
 
@@ -37,6 +40,8 @@ public class PlayerMovement : NetworkBehaviour
 	[SerializeField] private Rigidbody rb;
 
 	public KeyCode jumpKey = KeyCode.Space;
+
+	[SerializeField] private HotPotatoManager hotPotatoManager;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -45,8 +50,19 @@ public class PlayerMovement : NetworkBehaviour
 		canJump = true;
 	}
 
+    public override void OnNetworkSpawn()
+    {
+		hasPotatoSpeedMultiplier = 1.25f;
+		walkSpeed = 5f;
 
-	void Update()
+        if (SceneManager.GetActiveScene().name == "HotPotato")
+		{
+			hotPotatoManager = GameObject.Find("Hot Potato Manager").GetComponent<HotPotatoManager>();
+		}
+    }
+
+
+    void Update()
 	{
 		if (!IsLocalPlayer)
 		{
@@ -160,7 +176,12 @@ public class PlayerMovement : NetworkBehaviour
 		}
 		else
 		{
-			moveSpeed = 5;
+			moveSpeed = walkSpeed;
+		}
+
+		if (SceneManager.GetActiveScene().name == "HotPotato" && NetworkManager.Singleton.LocalClientId == hotPotatoManager.currentPlayerWithPotato.Value)
+		{
+			moveSpeed *= hasPotatoSpeedMultiplier;
 		}
 	}
 
