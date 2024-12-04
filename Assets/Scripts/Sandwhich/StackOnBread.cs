@@ -92,5 +92,18 @@ public void AddIngredient(GameObject ingredient)
     {
         Debug.Log($"{other.name} is not a valid ingredient, so it will be ignored.");
     }
+
+
 }
+    public List<string> GetStackedIngredients()
+    {
+        List<string> ingredientNames = new List<string>();
+        foreach (var ingredient in stackedIngredients)
+        {
+            ingredientNames.Add(ingredient.name);
+            Debug.Log("ingredientNames");
+        }
+        return ingredientNames;
+        
+    }
 }
