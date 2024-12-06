@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RecipeManager : MonoBehaviour
 {
@@ -10,20 +10,27 @@ public class RecipeManager : MonoBehaviour
         public List<string> requiredIngredients;
     }
 
-    public List<Recipe> recipes; // List of available recipes
+    public List<Recipe> recipes; // List of all recipes
+    private Recipe currentRecipe;
 
-    public bool CheckSandwich(List<string> sandwichIngredients, out Recipe matchedRecipe)
+    // Get a random recipe
+    public Recipe GetRandomRecipe()
     {
-        foreach (var recipe in recipes)
-        {
-            if (IsMatch(sandwichIngredients, recipe.requiredIngredients))
-            {
-                matchedRecipe = recipe;
-                return true;
-            }
-        }
-        matchedRecipe = null;
-        return false;
+        if (recipes.Count == 0) return null;
+        int index = Random.Range(0, recipes.Count);
+        currentRecipe = recipes[index];
+        return currentRecipe;
+    }
+
+    public Recipe GetCurrentRecipe()
+    {
+        return currentRecipe;
+    }
+
+    public bool CheckCurrentRecipe(List<string> sandwichIngredients)
+    {
+        if (currentRecipe == null) return false;
+        return IsMatch(sandwichIngredients, currentRecipe.requiredIngredients);
     }
 
     private bool IsMatch(List<string> sandwichIngredients, List<string> requiredIngredients)

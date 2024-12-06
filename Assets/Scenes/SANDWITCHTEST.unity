@@ -5876,7 +5876,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 921a52f4145ba734796327bac26827e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipeManager: {fileID: 512263027}
 --- !u!65 &294466549
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12092,6 +12091,7 @@ GameObject:
   - component: {fileID: 512263026}
   - component: {fileID: 512263025}
   - component: {fileID: 512263027}
+  - component: {fileID: 512263028}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -12145,19 +12145,29 @@ MonoBehaviour:
   recipes:
   - recipeName: TEST
     requiredIngredients:
-    - CookedMeat
-    - SlicedTomato
-    - Bread
+    - SlicedTomato(Clone)
+    - CookedMeat(Clone)
+    - TopBread
   - recipeName: BLT
     requiredIngredients:
-    - SlicedTomato
-    - CookedMeat
-    - Bread
-  - recipeName: KG
-    requiredIngredients:
-    - Bread
-    - SlicedTomato
-    - CookedMeat
+    - Bacon
+    - Stick
+    - TopBread
+--- !u!114 &512263028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512263024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d8ca63e2a793a45b3a86d0a974abbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipeManager: {fileID: 512263027}
+  recipeText: {fileID: 1802152330}
+  plate: {fileID: 294466548}
 --- !u!1 &515795633
 GameObject:
   m_ObjectHideFlags: 0
@@ -13930,11 +13940,9 @@ GameObject:
   - component: {fileID: 605282402}
   - component: {fileID: 605282406}
   - component: {fileID: 605282408}
-  - component: {fileID: 605282409}
-  - component: {fileID: 605282410}
   - component: {fileID: 605282411}
   m_Layer: 0
-  m_Name: Bread
+  m_Name: TopBread
   m_TagString: Bread
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14077,35 +14085,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.99999994, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &605282409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605282401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df898ffdc162b4fd49624947fa13fbfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hasCondiment: 0
-  appliedCondiment: Ketchup
-  ketchupLayer: {fileID: 1319945879}
---- !u!114 &605282410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605282401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e86d9870b6aa4d34b765b43f63efe2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stackHeight: 0.5
-  basePosition: {x: 0, y: 0, z: 0}
 --- !u!114 &605282411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18474,6 +18453,7 @@ GameObject:
   - component: {fileID: 768849601}
   - component: {fileID: 768849603}
   - component: {fileID: 768849602}
+  - component: {fileID: 768849605}
   - component: {fileID: 768849604}
   m_Layer: 5
   m_Name: Timer
@@ -18610,6 +18590,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0244cb788ad40dd9254d31b6ab86e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &768849605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768849600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 4291111906
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &791013130
 GameObject:
   m_ObjectHideFlags: 0
@@ -44532,7 +44533,7 @@ GameObject:
   - component: {fileID: 1802152331}
   - component: {fileID: 1802152330}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: RECIPE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44687,8 +44688,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802152329}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 32.27}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 32.269993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44696,7 +44697,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.91, y: 13.91}
+  m_AnchoredPosition: {x: 18.910278, y: 13.910156}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1809846774
@@ -51982,10 +51983,10 @@ SceneRoots:
   - {fileID: 446455826}
   - {fileID: 1595366283}
   - {fileID: 1039161159}
+  - {fileID: 1802152332}
   - {fileID: 740504728}
   - {fileID: 606924583}
   - {fileID: 86512610}
-  - {fileID: 1802152332}
   - {fileID: 1055129082}
   - {fileID: 554185152}
   - {fileID: 2061733151}

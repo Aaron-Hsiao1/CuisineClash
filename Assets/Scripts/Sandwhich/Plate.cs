@@ -1,9 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
+using System;
 
 public class Plate : MonoBehaviour
 {
-    public RecipeManager recipeManager; // Reference to RecipeManager
+    private List<string> sandwichIngredients = new List<string>();
+    private Boolean finished = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,17 +14,31 @@ public class Plate : MonoBehaviour
             StackOnBread breadStack = other.GetComponent<StackOnBread>();
             if (breadStack != null)
             {
-                List<string> ingredients = breadStack.GetStackedIngredients();
-                if (recipeManager.CheckSandwich(ingredients, out RecipeManager.Recipe matchedRecipe))
-                {
-                    Debug.Log($"Sandwich completed! Recipe: {matchedRecipe.recipeName}");
-                    Destroy(other.gameObject); // Destroy the sandwich
-                }
-                else
-                {
-                    Debug.Log("Sandwich does not match any recipe!");
-                }
+                sandwichIngredients = breadStack.GetStackedIngredients(); // No error now
             }
         }
+        if (finished)
+        {
+           Destroy(other.gameObject);
+           finished = false;
+        }
     }
+
+    public bool IsSandwichReady()
+    {
+        return sandwichIngredients.Count > 0;
+    }
+
+    public List<string> GetSandwichIngredients()
+    {
+        return sandwichIngredients;
+    }
+
+    public void ClearSandwich()
+    {
+        sandwichIngredients.Clear();
+        finished = true;
+        
+    }
+
 }

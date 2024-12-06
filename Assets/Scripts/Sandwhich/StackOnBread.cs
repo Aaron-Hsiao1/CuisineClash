@@ -101,7 +101,7 @@ public void AddIngredient(GameObject ingredient)
         foreach (var ingredient in stackedIngredients)
         {
             ingredientNames.Add(ingredient.name);
-            Debug.Log("ingredientNames");
+            Debug.Log(ingredientNames);
         }
         return ingredientNames;
         
