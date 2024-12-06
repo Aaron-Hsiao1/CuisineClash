@@ -13,6 +13,7 @@ public class HostDisconnectUI : NetworkBehaviour
 
 	private void Awake()
 	{
+		Hide();
 		returnToMainMenu.onClick.AddListener(() =>
 		{
 			Hide();
@@ -28,13 +29,38 @@ public class HostDisconnectUI : NetworkBehaviour
 
 	private void NetworkManager_OnClientDisconnectedCallback(ulong clientId)
 	{
+		Debug.Log("Some dced");
 		if (clientId == NetworkManager.ServerClientId || clientId == NetworkManager.Singleton.LocalClientId)
 		{
-			secondaryCamera.gameObject.SetActive(true);
-			secondaryCamera.tag = "MainCamera";
-			Show();
-		}
+			Debug.Log("It was the host");
+			ShowSecondaryCamera();
+
+        }
 	}
+
+	private void ShowSecondaryCamera()
+	{
+        Debug.Log("Secondary camera being set to active...");
+        secondaryCamera.gameObject.SetActive(true);
+        //secondaryCamera.tag = "MainCamera";
+        Cursor.lockState = CursorLockMode.None;
+        disconnectUI.SetActive(true);
+
+        Debug.Log("Show secondary camera non client rpc called");
+		//ShowSecondaryCameraClientRpc();
+
+	}
+	
+	[ClientRpc()]
+	private void ShowSecondaryCameraClientRpc()
+	{
+		Debug.Log("Secondary camera being set to active...");
+		secondaryCamera.gameObject.SetActive(true);
+        secondaryCamera.tag = "MainCamera";
+        Cursor.lockState = CursorLockMode.None;
+        disconnectUI.SetActive(true);
+        //Show();
+    }
 
 	private void Show()
 	{

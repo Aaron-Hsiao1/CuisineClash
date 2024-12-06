@@ -75,6 +75,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 				playerDataNetworkList.RemoveAt(i);
 			}
 		}
+		playerPoints.Remove(clientId);
 	}
 
 	private void NetworkManager_OnClientConnectedCallback(ulong clientId)

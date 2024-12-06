@@ -37,7 +37,7 @@ public class Player : NetworkBehaviour
 
     private void Update()
     {
-        Debug.Log("Player position: " + transform.position.ToString());
+        //Debug.Log("Player position: " + transform.position.ToString());
     }
 
     // Start is called before the first frame update

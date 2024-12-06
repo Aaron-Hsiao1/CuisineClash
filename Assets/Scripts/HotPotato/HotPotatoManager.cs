@@ -38,6 +38,8 @@ public class HotPotatoManager : NetworkBehaviour
     public override void OnNetworkSpawn()
 	{
 		CuisineClashManager.Instance.AllPlayerObjectsSpawned += HotPotatoManager_AllPlayerObjectsSpawned;
+		NetworkManager.Singleton.OnClientDisconnectCallback += HotPotatoManager_OnClientDisconnectCallback;
+
         cuisineClashMultiplayer = GameObject.Find("CuisineClashMultiplayer").GetComponent<CuisineClashMultiplayer>();
 
         PotatoTimerEnd += HotPotatoManager_PotatoTimerEnd;
@@ -47,9 +49,25 @@ public class HotPotatoManager : NetworkBehaviour
 
         leaderboardText.text = "";
     }
+
+    private void HotPotatoManager_OnClientDisconnectCallback(ulong clientId)
+    {
+        if (currentPlayerWithPotato.Value == clientId)
+		{
+            currentTime.Value = 0;
+            timerRunning.Value = false;
+            PotatoTimerEnd?.Invoke(this, EventArgs.Empty);
+
+            StartCoroutine(ReassignPotatoAfterCooldown());
+			Debug.Log("Current player with potato disconnected! Reassigning player with potato..."); //add this to the screen as text to let palyers know
+            alivePlayerIds.Remove(clientId);
+        }
+    }
+
     public override void OnNetworkDespawn()
     {
         CuisineClashManager.Instance.AllPlayerObjectsSpawned -= HotPotatoManager_AllPlayerObjectsSpawned;
+        NetworkManager.Singleton.OnClientDisconnectCallback -= HotPotatoManager_OnClientDisconnectCallback;
     }
 
     private void Update()
@@ -124,8 +142,9 @@ public class HotPotatoManager : NetworkBehaviour
 
                 alivePlayerIds.Remove(currentPlayerWithPotato.Value); //Remove from alive players
 
-                if (alivePlayerIds.Count == 0)
+                if (alivePlayerIds.Count == 1)
 				{
+					topThreePlayers.Insert(0, alivePlayerIds[0]);
 					OnGameEnd?.Invoke(this, EventArgs.Empty);
 				}
 
