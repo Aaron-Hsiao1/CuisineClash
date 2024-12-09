@@ -8,6 +8,8 @@ public class DashMechanic : MonoBehaviour
 	[SerializeField] private float dashTime;
 	[SerializeField] private float cooldownTime = 5f;
 	private float lastUsedTime;
+	public GameObject dashParticles;
+	private GameObject particles;
 
 
 
@@ -22,7 +24,13 @@ public class DashMechanic : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Q) && Time.time > lastUsedTime + cooldownTime)
 		{
 			StartCoroutine(Dash());
+			particles = Instantiate(dashParticles, transform.position, Quaternion.identity);
 			lastUsedTime = Time.time;
+		}
+		if (particles != null)
+		{
+			particles.transform.position = transform.position;
+			particles.transform.rotation = transform.rotation;
 		}
 	}
 
@@ -44,5 +52,6 @@ public class DashMechanic : MonoBehaviour
 		}
 
 		rb.velocity = Vector3.zero; // Stop movement after the dash
+		//Destroy(particles);
 	}
 }
