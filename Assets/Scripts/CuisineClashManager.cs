@@ -80,7 +80,7 @@ public class CuisineClashManager : NetworkBehaviour
 			}
 		}*/
 	}
-	public override void OnNetworkDespawn()
+	void OnDisable()
 	{
 		NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
 	}

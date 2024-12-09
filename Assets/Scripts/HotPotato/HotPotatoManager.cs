@@ -64,7 +64,7 @@ public class HotPotatoManager : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkDespawn()
+    void OnDisable()
     {
         CuisineClashManager.Instance.AllPlayerObjectsSpawned -= HotPotatoManager_AllPlayerObjectsSpawned;
         NetworkManager.Singleton.OnClientDisconnectCallback -= HotPotatoManager_OnClientDisconnectCallback;
