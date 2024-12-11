@@ -15,6 +15,27 @@ public class PlayerPush : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            int LayerIgnoreRaycast = LayerMask.NameToLayer("Ignore Raycast");
+            gameObject.layer = LayerIgnoreRaycast;
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2.0f);
+
+            if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Player"))
+            {
+                PushPlayer(hit.collider.gameObject);
+            }
+
+            int layerDefault = LayerMask.NameToLayer("Default");
+            gameObject.layer = layerDefault;
+            
+        }
+        
+        /*
         // Check if the right mouse button is pressed
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit; // Variable to store information about what the raycast hits
@@ -23,14 +44,18 @@ public class PlayerPush : MonoBehaviour
         // Perform the raycast
         if (Physics.Raycast(ray, out hit))
         {
-            //Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2.0f);
+            //EditorGUIUtility.PingObject(hit.collider.gameObject);
+            //EditorGUIUtility.PingObject(gameObject);
+            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2.0f);
+            Debug.Log("Is the raycast hit the own player object?" + (hit.collider.gameObject == gameObject));
+
+            
             // Check if the hit object is another player
             if (hit.collider.CompareTag("Player") && Input.GetKeyDown(KeyCode.B))
             {
-                Debug.Log("raycast is hit");
                 PushPlayer(hit.collider.gameObject);
             }
-        }
+        }*/
 
     }
 
