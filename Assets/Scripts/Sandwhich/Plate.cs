@@ -36,6 +36,7 @@ public class Plate : MonoBehaviour
 
     public void ClearSandwich()
     {
+        Debug.Log("Finished Making");
         sandwichIngredients.Clear();
         finished = true;
         
