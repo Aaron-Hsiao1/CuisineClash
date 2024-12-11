@@ -15,8 +15,7 @@ public class HostDisconnectUI : NetworkBehaviour
     {
         returnToMainMenu.onClick.AddListener(() =>
         {
-            ShowSecondaryCamera();
-                
+            Loader.Load(Loader.Scene.MainMenu);    
         });
     }
     private void OnEnable()
@@ -25,7 +24,6 @@ public class HostDisconnectUI : NetworkBehaviour
     }
     private void OnDisable()
     {
-        Debug.Log("On Disbale");
         NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectedCallback;
     }
 
@@ -34,27 +32,9 @@ public class HostDisconnectUI : NetworkBehaviour
     {
         if (clientId == NetworkManager.ServerClientId || clientId == NetworkManager.Singleton.LocalClientId)
         {
-            ShowSecondaryCamera();
-            
-            //Show();
+            secondaryCamera.gameObject.SetActive(true);
+            Show();
         }
-    }
-
-    private void ShowSecondaryCamera()
-    {
-        ShowSecondaryCameraClientRpc();
-        Debug.Log("Client rpc called");
-    }
-
-    [ClientRpc()]
-    private void ShowSecondaryCameraClientRpc()
-    {
-        Debug.Log("Secondary camera being set to active...");
-        secondaryCamera.gameObject.SetActive(true);
-        secondaryCamera.tag = "MainCamera";
-        Cursor.lockState = CursorLockMode.None;
-        disconnectUI.SetActive(true);
-        //Show();
     }
 
     private void Show()

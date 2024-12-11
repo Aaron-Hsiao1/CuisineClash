@@ -12,7 +12,7 @@ public class HotPotatoTag : NetworkBehaviour
     private HotPotatoManager hotPotatoManager;
 
     [SerializeField] private bool canTagPlayer;
-    private float tagCooldown = 1f;
+    private float tagCooldown = 0.01f;
 
     private bool isTagging = false;
 

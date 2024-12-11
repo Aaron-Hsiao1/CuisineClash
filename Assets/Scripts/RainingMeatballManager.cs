@@ -86,7 +86,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		{
 			currentTime.Value -= Time.deltaTime;
 
-			if (currentTime.Value <= 0)
+			if (currentTime.Value <= 0 || alivePlayers.Count <= 1)
 			{
 				currentTime.Value = 0;
 				OnGameEnd?.Invoke(this, EventArgs.Empty);
