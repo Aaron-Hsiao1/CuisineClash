@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyCreateUI : MonoBehaviour
@@ -15,6 +16,7 @@ public class LobbyCreateUI : MonoBehaviour
 	{
 		createPublicButton.onClick.AddListener(() =>
 		{
+			LoadNextLevel();
 			CuisineClashLobby.Instance.CreateLobby(lobbyNameInputField.text, false);
 		});
 		createPrivateButton.onClick.AddListener(() =>
@@ -40,4 +42,21 @@ public class LobbyCreateUI : MonoBehaviour
 	{
 		gameObject.SetActive(false);
 	}
+
+    public Animator transition;
+
+    public float transitionTime = 1f;
+    public void LoadNextLevel()
+    {
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
+    }
+
+    IEnumerator LoadLevel(int levelIndex)
+    {
+        transition.SetTrigger("Start");
+
+        yield return new WaitForSeconds(transitionTime);
+
+        SceneManager.LoadScene(levelIndex);
+    }
 }
