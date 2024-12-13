@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -69,9 +70,8 @@ public class PlayerPush : MonoBehaviour
         if (rb != null)
         {
             Debug.Log("rb not null adding force");
-            Debug.Log("player.transformp osition: " + player.transform.position);
-            Debug.Log("transform.position: " + transform.position);
             Vector3 pushDirection = (player.transform.position - transform.position).normalized;
+            Debug.Log("rb networkobject id that hit: " + rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId);
 
             PushPlayerClientRpc(rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId, pushDirection);
 
@@ -85,7 +85,7 @@ public class PlayerPush : MonoBehaviour
     {
         Debug.Log("push player client rpc called");
         GameObject playerToPush = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
-        Debug.Log("player top push null ? " + playerToPush == null);
+        Debug.Log("player top push rigidbody null ? " + playerToPush.GetComponent<Rigidbody>() == null);
 
 #if UNITY_EDITOR
         EditorGUIUtility.PingObject(playerToPush);
