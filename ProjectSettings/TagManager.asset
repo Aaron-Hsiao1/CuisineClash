@@ -17,6 +17,8 @@ TagManager:
   - FryingPan
   - Bacon
   - Bread
+  - TopBread
+  - PlacedIngredient
   layers:
   - Default
   - TransparentFX

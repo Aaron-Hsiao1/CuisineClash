@@ -1,25 +1,34 @@
-using System;
 using UnityEngine;
 
 public class Trashbin : MonoBehaviour
 {
+    private GameObject itemToDestroy;
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Bread"))
         {
-            CheckifPressed(other.gameObject);
-            Debug.Log("triggered");
+            itemToDestroy = other.gameObject;
         }
     }
-    private void CheckifPressed(GameObject item)
-    {
-        Debug.Log("CheckIfpressed");
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("destroy bread");
-            Destroy(item.gameObject);
-        }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Bread"))
+        {
+            if (itemToDestroy == other.gameObject)
+            {
+                itemToDestroy = null;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (itemToDestroy != null && Input.GetMouseButtonDown(0))
+        {
+            Destroy(itemToDestroy);
+            itemToDestroy = null; 
+        }
     }
 }

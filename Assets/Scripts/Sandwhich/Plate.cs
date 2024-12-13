@@ -7,7 +7,7 @@ public class Plate : MonoBehaviour
     private List<string> sandwichIngredients = new List<string>();
     private Boolean finished = false;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Bread"))
         {
@@ -19,8 +19,11 @@ public class Plate : MonoBehaviour
         }
         if (finished)
         {
-           Destroy(other.gameObject);
-           finished = false;
+            if (other.CompareTag("Bread"))
+            {
+                Destroy(other.gameObject);
+                finished = false;
+            }
         }
     }
 
@@ -36,7 +39,6 @@ public class Plate : MonoBehaviour
 
     public void ClearSandwich()
     {
-        Debug.Log("Finished Making");
         sandwichIngredients.Clear();
         finished = true;
         

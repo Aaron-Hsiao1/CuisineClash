@@ -36,7 +36,6 @@ public void AddIngredient(GameObject ingredient)
         stackPosition = basePosition + Vector3.up * (stackHeight * stackedIngredients.Count);
     }
 
-    Debug.Log($"Step 3: Calculated stack position: {stackPosition}");
 
     // Save the ingredient's original world scale before parenting
     Vector3 originalWorldScale = ingredient.transform.lossyScale;
@@ -68,14 +67,11 @@ public void AddIngredient(GameObject ingredient)
     {
         ingredientCollider.enabled = false;
     }
-
-    Debug.Log("Step 5: Disabled Rigidbody physics and collider.");
-
+    
     ingredient.tag = "PlacedIngredient";
+    ingredient.layer = LayerMask.NameToLayer("Ignore Raycast");
 
     stackedIngredients.Add(ingredient);
-
-    Debug.Log($"Step 6: Ingredient {ingredient.name} successfully added to stack. Stack count: {stackedIngredients.Count}");
 }
 
 
@@ -85,14 +81,8 @@ public void AddIngredient(GameObject ingredient)
     Ingredient ingredientScript = other.GetComponent<Ingredient>();
     if (ingredientScript != null)
     {
-        Debug.Log($"{other.name} is a valid ingredient and will be added to the bread stack.");
         AddIngredient(other.gameObject);
     }
-    else
-    {
-        Debug.Log($"{other.name} is not a valid ingredient, so it will be ignored.");
-    }
-
 
 }
     public List<string> GetStackedIngredients()
@@ -101,7 +91,6 @@ public void AddIngredient(GameObject ingredient)
         foreach (var ingredient in stackedIngredients)
         {
             ingredientNames.Add(ingredient.name);
-            Debug.Log(ingredientNames);
         }
         return ingredientNames;
         
