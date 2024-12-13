@@ -10,7 +10,7 @@ public class RecipeDisplay : MonoBehaviour
     public TextMeshProUGUI congratsText; 
     public Plate plate;
     public TextMeshProUGUI failedText;
-
+    private int points = 0;
     private bool isMessageActive = false; 
     private bool isSandwichProcessed = false;
     private RecipeManager.Recipe currentRecipe;
@@ -37,6 +37,8 @@ public class RecipeDisplay : MonoBehaviour
                 StartCoroutine(ShowCongratsMessage("Congrats! Recipe completed: " + currentRecipe.recipeName));
                 ShowNewRecipe();
                 plate.ClearSandwich();
+                points = points + 1;
+                Debug.Log(points);
             }
             else
             {
