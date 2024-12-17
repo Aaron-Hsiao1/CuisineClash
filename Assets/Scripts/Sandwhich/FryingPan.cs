@@ -20,7 +20,7 @@ public class FryingPan : MonoBehaviour
         {
             itemOnPan = item;
             // Position and lock the item on the board
-            item.transform.position = transform.position + new Vector3(0, 1f, 0);
+            item.transform.position = transform.position;
             item.transform.rotation = Quaternion.identity;
             item.transform.SetParent(transform);
 

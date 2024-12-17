@@ -24,7 +24,7 @@ void Update()
 
             if (Physics.Raycast(ray, out hit, raycastRange))
             {
-                if ((hit.collider.CompareTag("CanPickUp") || hit.collider.CompareTag("Tomato") || hit.collider.CompareTag("Bacon") || hit.collider.CompareTag("Bread") || hit.collider.CompareTag("TopBread")))
+                if ((hit.collider.CompareTag("CanPickUp") || hit.collider.CompareTag("Tomato") || hit.collider.CompareTag("Bacon") || hit.collider.CompareTag("Bread") || hit.collider.CompareTag("TopBread") || hit.collider.CompareTag("Ingredient")))
                 {
                    PickupItem(hit.collider.gameObject);
                 }

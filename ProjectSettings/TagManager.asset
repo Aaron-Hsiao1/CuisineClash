@@ -19,6 +19,7 @@ TagManager:
   - Bread
   - TopBread
   - PlacedIngredient
+  - Ingredient
   layers:
   - Default
   - TransparentFX
