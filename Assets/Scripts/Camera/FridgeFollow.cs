@@ -16,36 +16,41 @@ public class FridgeFollow : MonoBehaviour
     public Vector3 Position4 = new Vector3(0f, 0f ,0f);
     public Vector3 Rotation4 = new Vector3(0f, 0f ,0f); 
 
-    public Vector3 Position5 = new Vector3(0f, 0f, 0f);
+    public Transform target;
 
-    private Vector3 velocity = Vector3.zero;
+    public bool finalMove;
     
     // Start is called before the first frame update
     void Start()
     {
+        finalMove = false;
         StartCoroutine(CameraAnimation());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (finalMove)
+        {
+            transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * 5f);
+        }
     }
 
     IEnumerator CameraAnimation()
     {
         transform.localPosition = Position1;
         transform.localRotation = Quaternion.Euler(Rotation1);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1.2f);
         transform.localPosition = Position2;
         transform.localRotation = Quaternion.Euler(Rotation2);
         yield return new WaitForSeconds(1f);
         transform.localPosition = Position3;
         transform.localRotation = Quaternion.Euler(Rotation3);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1f);
         transform.localPosition = Position4;
         transform.localRotation = Quaternion.Euler(Rotation4);
-        yield return new WaitForSeconds(0.2f);
-        transform.localPosition = Vector3.SmoothDamp(transform.position, Position5, ref velocity, Time.deltaTime * 0.001f);
+        yield return new WaitForSeconds(1.4f);
+        Debug.Log("going");
+        finalMove = true;
     }
 }
