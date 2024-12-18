@@ -17,6 +17,7 @@ public class FridgeOpeningIcon : MonoBehaviour
     {
         start = false;
         iconRect.anchoredPosition = startPosition;
+        StartCoroutine(DelayCode());
     }
 
     // Update is called once per frame
@@ -38,5 +39,12 @@ public class FridgeOpeningIcon : MonoBehaviour
         startPosition = iconRect.anchoredPosition;  // Current position becomes start
         endPosition = newEndPosition;  // New end position
         timeElapsed = 0f;  // Reset the time
+    }
+
+    IEnumerator DelayCode()
+    {
+        // Wait for 2 seconds
+        yield return new WaitForSeconds(5f);
+        start = true;
     }
 }
