@@ -96,7 +96,7 @@ public class HotPotatoManager : NetworkBehaviour
 
     private void Awake()
 	{
-		timeBeforeExplosion = 30f;
+		timeBeforeExplosion = 30;
 		topThreePlayers = new List<ulong>();
 		Debug.Log("Timer Awake!");
 	}
