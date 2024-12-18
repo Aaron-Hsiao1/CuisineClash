@@ -35,7 +35,7 @@ public class ConnectionLobbyUI : NetworkBehaviour
 		startGameButton.onClick.AddListener(() =>
 		{
 			CuisineClashLobby.Instance.DeleteLobby();
-			Loader.LoadNetwork(Loader.Scene.PregameLobby);
+			Loader.LoadNetwork(Loader.Scene.PregameLobby.ToString());
 		});
 		mainMenuButton.onClick.AddListener(() =>
 		{

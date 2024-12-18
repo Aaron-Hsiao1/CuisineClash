@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6639cc8635692aa48963a542498098c5, type: 3}
+  m_Name: Player Sandwich
+  m_EditorClassIdentifier: 
+  playerSandwichSO: []
+  playerSandwich: {fileID: 6436775033439381198, guid: b5a052fc590b4304880325a89209ef8b, type: 3}

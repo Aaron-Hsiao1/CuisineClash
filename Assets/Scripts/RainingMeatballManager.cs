@@ -15,6 +15,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 	[SerializeField] private bool gamePlaying = false;
 	[SerializeField] private TMP_Text gameOverText;
 	[SerializeField] private RainingMeatballManager rainingMeatballManager;
+	[SerializeField] private GameObject deathZone;
 
 	[SerializeField] private GameObject leaderboard;
 	[SerializeField] private TMP_Text leaderboardText;
@@ -27,7 +28,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 	public event EventHandler OnGameEnd;
 
-	private float totalTime = 300f; //Total Game Time in seconds
+	private float totalTime = 60f; //Total Game Time in seconds
 
 	// Meatball manager stuff
 	private List<ulong> alivePlayers;
@@ -47,7 +48,9 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 	public override void OnNetworkSpawn()
 	{
-		leaderboardText.text = "";
+		StartCoroutine(StartDeathZone());
+
+        leaderboardText.text = "";
 
 		startTime.Value = totalTime;
 		currentTime.Value = startTime.Value;
@@ -83,7 +86,7 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		{
 			currentTime.Value -= Time.deltaTime;
 
-			if (currentTime.Value <= 0)
+			if (currentTime.Value <= 0 || alivePlayers.Count <= 1)
 			{
 				currentTime.Value = 0;
 				OnGameEnd?.Invoke(this, EventArgs.Empty);
@@ -129,20 +132,20 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		Debug.Log("timer.gameEnded()");
 	}
 
-	void UpdateTimerText()
+    public void EndGame()
+    {
+        gamePlaying = false;
+        gameEnded = true;
+        StartCoroutine(ShowEndGameUIs());
+
+        //Destroy(gameObject);
+    }
+
+    void UpdateTimerText()
 	{
 		int minutes = Mathf.FloorToInt(currentTime.Value / 60);
 		int seconds = Mathf.FloorToInt(currentTime.Value % 60);
 		timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-	}
-
-	public void EndGame()
-	{
-		gamePlaying = false;
-		gameEnded = true;
-		StartCoroutine(ShowEndGameUIs());
-
-		//Destroy(gameObject);
 	}
 
 	public void StartTimer(float newTime)
@@ -194,11 +197,11 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 		if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
 		{
-			Loader.LoadNetwork(Loader.Scene.PregameLobby);
+			Loader.LoadNetwork(Loader.Scene.PregameLobby.ToString());
 		}
 		if (GamemodeManager.Instance.GetGamemodeList().Count == 0)
 		{
-			Loader.LoadNetwork(Loader.Scene.GameEnded);
+			Loader.LoadNetwork(Loader.Scene.GameEnded.ToString());
 		}
 	}
 
@@ -254,6 +257,11 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 		}
 	}
 
-
+    private IEnumerator StartDeathZone()
+    {
+		deathZone.SetActive(false);
+		yield return new WaitForSeconds(3f);
+        deathZone.SetActive(true);
+    }
 
 }

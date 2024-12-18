@@ -240,6 +240,10 @@ PrefabInstance:
       propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 953433530169862128, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1038446610475096423, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -1309,6 +1313,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4967887445743603329, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1927486874}
+    - targetCorrespondingSourceObject: {fileID: 4967887445743603329, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1927486875}
     - targetCorrespondingSourceObject: {fileID: 3478890725374963064, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 60686577}
@@ -1345,9 +1352,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 953433530169862128, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1127086459}
-    - targetCorrespondingSourceObject: {fileID: 953433530169862128, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1127086460}
     - targetCorrespondingSourceObject: {fileID: 953433530169862128, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1127086461}
@@ -4392,27 +4396,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   riseSpeed: 0.1
   riseInterval: 2
---- !u!114 &1127086460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 60686562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1972607352
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &1127086461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4425,8 +4408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3595220337d99f478c5e7a5596c0612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meatballManager: {fileID: 0}
-  timer: {fileID: 0}
+  meatballManager: {fileID: 7405633099303609787}
 --- !u!64 &1197122979
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6290,6 +6272,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &1927486875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60686488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 4243371613
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &1934531921
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6948,14 +6951,6 @@ PrefabInstance:
       propertyPath: spawnAreaLength
       value: 75
       objectReference: {fileID: 0}
-    - target: {fileID: 7868775385892559804, guid: e71ee690a4e08874ab6280cb93604776, type: 3}
-      propertyPath: speedUpInterval
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7868775385892559804, guid: e71ee690a4e08874ab6280cb93604776, type: 3}
-      propertyPath: initialSpawnInterval
-      value: 0.08
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6977,6 +6972,10 @@ PrefabInstance:
       propertyPath: timer
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4176346093104246727, guid: 0d20e8f9b015cf642b1827efa26c4bc3, type: 3}
+      propertyPath: deathZone
+      value: 
+      objectReference: {fileID: 60686562}
     - target: {fileID: 4176346093104246727, guid: 0d20e8f9b015cf642b1827efa26c4bc3, type: 3}
       propertyPath: timerText
       value: 

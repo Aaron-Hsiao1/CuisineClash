@@ -75,6 +75,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 				playerDataNetworkList.RemoveAt(i);
 			}
 		}
+		playerPoints.Remove(clientId);
 	}
 
 	private void NetworkManager_OnClientConnectedCallback(ulong clientId)
@@ -204,6 +205,11 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 	public void ChangePlayerColor(int outerColorId, int innerColorId)
 	{
 		ChangePlayerColorServerRpc(outerColorId, innerColorId);
+	}
+
+	public GameObject GetPlayerObjectFromPlayerId(ulong playerId)
+	{
+		return NetworkManager.Singleton.ConnectedClients[playerId].PlayerObject.gameObject;
 	}
 
 	[ServerRpc(RequireOwnership = false)]

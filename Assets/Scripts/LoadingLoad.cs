@@ -10,7 +10,7 @@ public class LoadingLoad : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(UpdateLoadingText());
+        //StartCoroutine(UpdateLoadingText());
     }
 
     IEnumerator UpdateLoadingText()
