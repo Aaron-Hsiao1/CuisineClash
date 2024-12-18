@@ -11,6 +11,8 @@ TagManager:
   - Gamemode Manager
   - Undefined
   - Meatball
+  - DeathZone
+  - Ladder
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - UI
   - Ground
   - No Collisionwefewfewfwefwefwe
-  - 
+  - Ladder
   - 
   - 
   - 
