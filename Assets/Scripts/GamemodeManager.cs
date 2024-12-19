@@ -15,9 +15,9 @@ public class GamemodeManager : NetworkBehaviour
 	private enum Gamemode
 	{
 		//MultiplayerTesting,
-		//RainingMeatball,
+		RainingMeatball,
 		//KingOfTheGrill,
-		HotPotato
+		//HotPotato
 		//LoadIntoHP
 		//TutorialHP
 		//GameEnded
