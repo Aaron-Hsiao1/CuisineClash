@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -28,9 +29,7 @@ public class PlayerPush : MonoBehaviour
             {
                 Debug.Log("hit");
                 Debug.DrawRay(playerPushLocation.transform.position, playerPushLocation.transform.forward, Color.red, 2);
-#if UNITY_EDITOR
-                    //EditorGUIUtility.PingObject(hit.collider.gameObject);
-#endif
+
                 PushPlayer(hit.collider.gameObject);
             }
             
@@ -69,11 +68,11 @@ public class PlayerPush : MonoBehaviour
         if (rb != null)
         {
             Debug.Log("rb not null adding force");
-            Debug.Log("player.transformp osition: " + player.transform.position);
-            Debug.Log("transform.position: " + transform.position);
             Vector3 pushDirection = (player.transform.position - transform.position).normalized;
+            Debug.Log("rb networkobject id that hit: " + rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId);
+            Debug.Log("rb owner id: " + rb.gameObject.GetComponent<NetworkObject>().OwnerClientId); 
 
-            PushPlayerClientRpc(rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId, pushDirection);
+            PushPlayerClientRpc(rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId, Vector3.up * 5);
 
             //rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
             //rb.AddForce(Vector3.up * pushUpForce, ForceMode.Impulse);
@@ -83,16 +82,24 @@ public class PlayerPush : MonoBehaviour
     [ClientRpc()]
     private void PushPlayerClientRpc(ulong networkObjectId, Vector3 pushDirection)
     {
-        Debug.Log("push player client rpc called");
         GameObject playerToPush = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
-        Debug.Log("player top push null ? " + playerToPush == null);
+        if (playerToPush.GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId)
+        {
+            return;
+        }
+
+
+        Debug.Log("push player client rpc called on client: " + NetworkManager.Singleton.LocalClientId);
+        Debug.Log("Networkobject id: " + networkObjectId);
+        
+        Debug.Log("player top push rigidbody null ? " + playerToPush.GetComponent<Rigidbody>() == null);
 
 #if UNITY_EDITOR
         EditorGUIUtility.PingObject(playerToPush);
 #endif
 
         playerToPush.GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.Impulse);
-        playerToPush.GetComponent<Rigidbody>().AddForce(Vector3.up * pushUpForce, ForceMode.Impulse);
+        //playerToPush.GetComponent<Rigidbody>().AddForce(Vector3.up * pushUpForce, ForceMode.Impulse);
     }
 
 }
