@@ -13,6 +13,8 @@ TagManager:
   - Meatball
   - DeathZone
   - Ingredient
+  - Ladder
+  - Water
   layers:
   - Default
   - TransparentFX
@@ -23,6 +25,7 @@ TagManager:
   - Ground
   - No Collisionwefewfewfwefwefwe
   - PostProcessing
+  - Ladder
   - 
   - 
   - 
