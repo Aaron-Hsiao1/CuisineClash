@@ -24,7 +24,9 @@ public class AttachScript : MonoBehaviour
                 childObject = Instantiate(childObject, transform.position, Quaternion.identity);
                 childObject.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
                 childObject.transform.SetParent(parentObject.transform, true);
-                childObject.transform.localPosition = Vector3.zero;
+                childObject.transform.localPosition = new Vector3(0.0204f, 0.0111f, 0.0106f);
+                childObject.transform.localRotation = Quaternion.Euler(-97.53f, 125.794f, -292.38f);
+
             }
             potatocreated = true;
         }
