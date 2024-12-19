@@ -48,7 +48,7 @@ Material:
     - _RippleSpeed: 1
     - _Surface: 1
     - _WaveSpeed: 0.1
-    - _Waveheight: 0.13
+    - _Waveheight: 0.12
     - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 0.23137254, g: 0.450572, b: 0.6039216, a: 1}

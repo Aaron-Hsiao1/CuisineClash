@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Services.Lobbies;
 using UnityEngine;
 
 public class FridgeFollow : MonoBehaviour
 {
+    [SerializeField] private GameObject lobbyPeople;
+    
     public Vector3 Position1 = new Vector3(-25.05f, -8.95f, 29.29f);
     public Vector3 Rotation1 = new Vector3(0.396f, 38.18f, -0.372f); 
 
@@ -25,6 +28,11 @@ public class FridgeFollow : MonoBehaviour
     {
         finalMove = false;
         StartCoroutine(CameraAnimation());
+    }
+
+    private void Awake()
+    {
+        lobbyPeople.SetActive(false);
     }
 
     // Update is called once per frame
@@ -52,5 +60,6 @@ public class FridgeFollow : MonoBehaviour
         yield return new WaitForSeconds(1.4f);
         Debug.Log("going");
         finalMove = true;
+        lobbyPeople.SetActive(true);
     }
 }
