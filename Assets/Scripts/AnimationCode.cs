@@ -13,6 +13,8 @@ public class AnimationCode : NetworkBehaviour
     public LayerMask Ground;
     public float playerHeight;
     public KeyCode jumpKey = KeyCode.Space;
+    public HotPotatoTag HPT;
+
     void Start()
     {
         mAnimator = otherObject.GetComponent<Animator>();
@@ -50,6 +52,14 @@ public class AnimationCode : NetworkBehaviour
                 {
                     mAnimator.SetBool("IsInAir", false);
                 }
+            }
+            if (HPT.hasHotPotato)
+            {
+                mAnimator.SetBool("hasPotato", true);
+            }
+            else
+            {
+                mAnimator.SetBool("hasPotato", false);
             }
         }
     }
