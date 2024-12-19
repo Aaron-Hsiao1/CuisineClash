@@ -2787,6 +2787,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: 5095040602539442429, guid: c92f8b5c87d49c5468902829cee8f5fd, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3832.3313
+      objectReference: {fileID: 0}
+    - target: {fileID: 5095040602539442429, guid: c92f8b5c87d49c5468902829cee8f5fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 69.312
+      objectReference: {fileID: 0}
     - target: {fileID: 5115252502634573072, guid: c92f8b5c87d49c5468902829cee8f5fd, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -11240,8 +11248,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.78000027, y: 0.02203897, z: 0.020000003}
-  m_Center: {x: -0.37999824, y: -0.001019602, z: -0.000000029375588}
+  m_Size: {x: 0.78000027, y: 0.019444246, z: 0.020000003}
+  m_Center: {x: -0.37999824, y: 0.00027775945, z: -0.000000029375588}
 --- !u!64 &763179675
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -15147,8 +15155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab2864a339b234bb8a8265f47bd86d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 8
-  rotationDirection: {x: 0, y: 0, z: 1}
+  rotateSpeed: 1000
+  rotationDirection: {x: 0, y: 1, z: 0}
 --- !u!64 &1538637222
 MeshCollider:
   m_ObjectHideFlags: 0
