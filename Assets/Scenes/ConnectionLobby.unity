@@ -2508,6 +2508,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 628844022}
     m_Modifications:
+    - target: {fileID: 1416532798257068521, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
+      propertyPath: playButton
+      value: 
+      objectReference: {fileID: 1872768360}
+    - target: {fileID: 1416532798257068521, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
+      propertyPath: quitButton
+      value: 
+      objectReference: {fileID: 1562750481}
     - target: {fileID: 1611299170915080848, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
       propertyPath: m_Name
       value: LevelLoader
