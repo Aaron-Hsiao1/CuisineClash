@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ConnectionLobby.unity
     guid: 930e516f3c42f974ebb3ee7fe7522e3f
   - enabled: 1
-    path: Assets/Scenes/SANDWITCHTEST.unity
+    path: Assets/ScriptableObjects/Testing Scenes/SANDWITCHTEST.unity
     guid: 566c47f5497ca4e05ad887472c47082a
   - enabled: 1
     path: Assets/ScriptableObjects/Testing Scenes/KOTGSCORE.unity

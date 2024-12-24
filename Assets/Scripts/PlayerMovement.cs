@@ -38,6 +38,7 @@ public class PlayerMovement : NetworkBehaviour
 	[SerializeField] private Vector3 moveDirection;
 
 	[SerializeField] private Rigidbody rb;
+	[SerializeField] private FreeCam freeCam;
 
 	public KeyCode jumpKey = KeyCode.Space;
 
@@ -50,21 +51,21 @@ public class PlayerMovement : NetworkBehaviour
 		canJump = true;
 	}
 
-    public override void OnNetworkSpawn()
-    {
+	public override void OnNetworkSpawn()
+	{
 		hasPotatoSpeedMultiplier = 1.25f;
 		walkSpeed = 5f;
 
-        if (SceneManager.GetActiveScene().name == "HotPotato")
+		if (SceneManager.GetActiveScene().name == "HotPotato")
 		{
 			hotPotatoManager = GameObject.Find("Hot Potato Manager").GetComponent<HotPotatoManager>();
 		}
-    }
+	}
 
 
-    void Update()
+	void Update()
 	{
-		if (!IsLocalPlayer)
+		if (!IsLocalPlayer || freeCam.looking == true)
 		{
 			return;
 		}

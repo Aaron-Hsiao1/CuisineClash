@@ -19,6 +19,8 @@ public class ThirdPersonCam : NetworkBehaviour
 	[SerializeField] private Transform combatLookAt;
 
 	[SerializeField] private CameraStyle currentStyle;
+
+	[SerializeField] private FreeCam freeCam;
 	public enum CameraStyle
 	{
 		Basic,
@@ -27,6 +29,10 @@ public class ThirdPersonCam : NetworkBehaviour
 
 	public override void OnNetworkSpawn()
 	{
+		if (!IsOwner)
+		{
+			transform.gameObject.SetActive(false);
+		}
 		if (IsOwner)
 		{
 			fL.Priority = 1;
@@ -57,7 +63,7 @@ public class ThirdPersonCam : NetworkBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (!IsLocalPlayer)
+		if (!IsLocalPlayer || freeCam.looking == true)
 		{
 			return;
 		}

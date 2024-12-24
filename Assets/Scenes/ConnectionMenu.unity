@@ -1137,7 +1137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1611299170915080848, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1687040031498899584, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
       propertyPath: m_LocalScale.x
@@ -4920,7 +4920,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1046, y: -425}
+  m_AnchoredPosition: {x: 1173, y: -540}
   m_SizeDelta: {x: 119.3182, y: 65.0774}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1830694662
@@ -5848,6 +5848,10 @@ PrefabInstance:
     - target: {fileID: 1158004106473488673, guid: 240d7ea4df539aa47aa71b6d8c95897c, type: 3}
       propertyPath: m_Name
       value: Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158004106473488673, guid: 240d7ea4df539aa47aa71b6d8c95897c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7231296056456102149, guid: 240d7ea4df539aa47aa71b6d8c95897c, type: 3}
       propertyPath: m_LocalPosition.x
