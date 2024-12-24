@@ -13,6 +13,7 @@ public class AnimationCode : NetworkBehaviour
 	public LayerMask Ground;
 	public float playerHeight;
 	public KeyCode jumpKey = KeyCode.Space;
+	public HotPotatoExplosion HPT;
 
 	[SerializeField] private PlayerMovement playerMovement;
 
@@ -51,6 +52,16 @@ public class AnimationCode : NetworkBehaviour
 				{
 					mAnimator.SetBool("IsInAir", false);
 				}
+			}
+			if (HPT.HasHotPotato())
+			{
+				mAnimator.SetBool("hasPotato", true);
+				Debug.Log("HAS HOT POTATO");
+			}
+			else
+			{
+				mAnimator.SetBool("hasPotato", false);
+				Debug.Log("DOES NOT HAVE HOT POTATO");
 			}
 		}
 	}

@@ -96,7 +96,7 @@ public class HotPotatoManager : NetworkBehaviour
 
 	private void Awake()
 	{
-		timeBeforeExplosion = 30;
+		timeBeforeExplosion = 3000000;
 		topThreePlayers = new List<ulong>();
 		Debug.Log("Timer Awake!");
 	}
@@ -286,7 +286,7 @@ public class HotPotatoManager : NetworkBehaviour
 		players = FindObjectsOfType<Player>(); // Assuming you have multiple players
 		foreach (var player in players)
 		{
-			GameObject potatoObject = player.gameObject.transform.Find("PlayerObj/CHACTER1animationattempt/temppotato").gameObject;
+			GameObject potatoObject = player.gameObject.transform.Find("PlayerObj/CHACTER1animationattempt/Armature/Bone/Bone.001/Bone.003/Bone.005.R/Bone.006.R/Bone.006.R_end/temppotato").gameObject;
 			if (player.GetClientId() == potatoHolderId)
 			{
 				Debug.Log("Setting hot potato active on player: " + player.GetClientId());
@@ -312,7 +312,7 @@ public class HotPotatoManager : NetworkBehaviour
 		players = FindObjectsOfType<Player>(); // Assuming you have multiple players
 		foreach (var player in players)
 		{
-			GameObject potatoObject = player.gameObject.transform.Find("PlayerObj/CHACTER1animationattempt/temppotato").gameObject;
+			GameObject potatoObject = player.gameObject.transform.Find("PlayerObj/CHACTER1animationattempt/Armature/Bone/Bone.001/Bone.003/Bone.005.R/Bone.006.R/Bone.006.R_end/temppotato").gameObject;
 			if (player.GetClientId() == potatoHolderId)
 			{
 				Debug.Log("Setting hot potato inactive on player: " + player.GetClientId());
