@@ -2133,7 +2133,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 914, y: -10}
+  m_AnchoredPosition: {x: 864, y: -10}
   m_SizeDelta: {x: 1134.8489, y: 256.2829}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1066449572
@@ -2188,7 +2188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconRect: {fileID: 1066449571}
   startPosition: {x: 1568, y: -72.5}
-  endPosition: {x: 1134, y: -72.5}
+  endPosition: {x: 864, y: -72.5}
   slideDuration: 0.2
 --- !u!1001 &1083871908
 PrefabInstance:
