@@ -77,6 +77,16 @@ public class HotPotatoManager : NetworkBehaviour
 			return;
 		}
 
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			currentTime.Value = 0;
+			timerRunning.Value = false;
+			PotatoTimerEnd?.Invoke(this, EventArgs.Empty);
+
+			StartCoroutine(ReassignPotatoAfterCooldown());
+			Debug.Log("Potato Manually Detonated by Host!");
+		}
+
 		currentTime.Value -= Time.deltaTime;
 
 		if (currentTime.Value <= 0 && timerRunning.Value)

@@ -2133,7 +2133,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 986, y: -10}
+  m_AnchoredPosition: {x: 914, y: -10}
   m_SizeDelta: {x: 1134.8489, y: 256.2829}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1066449572
@@ -2188,7 +2188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconRect: {fileID: 1066449571}
   startPosition: {x: 1568, y: -72.5}
-  endPosition: {x: 986, y: -72.5}
+  endPosition: {x: 1134, y: -72.5}
   slideDuration: 0.2
 --- !u!1001 &1083871908
 PrefabInstance:
@@ -2245,6 +2245,18 @@ PrefabInstance:
     - target: {fileID: 7231296056456102149, guid: 240d7ea4df539aa47aa71b6d8c95897c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984303511910879601, guid: 240d7ea4df539aa47aa71b6d8c95897c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984303511910879601, guid: 240d7ea4df539aa47aa71b6d8c95897c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 56.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984303511910879601, guid: 240d7ea4df539aa47aa71b6d8c95897c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.56
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
