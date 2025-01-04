@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 public class AnimationCode : NetworkBehaviour
 {
@@ -53,16 +54,20 @@ public class AnimationCode : NetworkBehaviour
 					mAnimator.SetBool("IsInAir", false);
 				}
 			}
-			if (HPT.HasHotPotato())
+			if (SceneManager.GetActiveScene().name == "HotPotato")
 			{
-				mAnimator.SetBool("hasPotato", true);
-				Debug.Log("HAS HOT POTATO");
+				if (HPT.HasHotPotato())
+				{
+					mAnimator.SetBool("hasPotato", true);
+					//Debug.Log("HAS HOT POTATO");
+				}
+				else
+				{
+					mAnimator.SetBool("hasPotato", false);
+					//Debug.Log("DOES NOT HAVE HOT POTATO");
+				}
 			}
-			else
-			{
-				mAnimator.SetBool("hasPotato", false);
-				Debug.Log("DOES NOT HAVE HOT POTATO");
-			}
+
 		}
 	}
 }

@@ -1985,7 +1985,7 @@ PrefabInstance:
     - target: {fileID: -4762016707945881806, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: playerVisual
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1015199692}
     - target: {fileID: 2164948240608790722, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.68
@@ -2094,6 +2094,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
+--- !u!114 &1015199692 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1362538608265753917, guid: 26b6f35aaa8f2ef448ff8b8a5058c45a, type: 3}
+  m_PrefabInstance: {fileID: 1015199691}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659b399117bc59d4c85c1c9f0f1965e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1066449570
 GameObject:
   m_ObjectHideFlags: 0

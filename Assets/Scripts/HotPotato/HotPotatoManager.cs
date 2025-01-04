@@ -35,6 +35,8 @@ public class HotPotatoManager : NetworkBehaviour
 
 	public event EventHandler OnGameEnd;
 
+	[SerializeField] private SpectateManager spectateManager;
+
 	public override void OnNetworkSpawn()
 	{
 		CuisineClashManager.Instance.AllPlayerObjectsSpawned += HotPotatoManager_AllPlayerObjectsSpawned;
@@ -130,6 +132,16 @@ public class HotPotatoManager : NetworkBehaviour
 		timerText.gameObject.SetActive(true);
 	}
 
+	[ClientRpc]
+	private void StartSpectatingClientRpc()
+	{
+		if (NetworkManager.Singleton.LocalClientId == currentPlayerWithPotato.Value)
+		{
+			spectateManager.RemovePlayerFromSpectatingList(currentPlayerWithPotato.Value);
+			spectateManager.StartSpectating(currentPlayerWithPotato.Value);
+		}
+	}
+
 	private void KillPlayers()
 	{
 		Debug.Log("Client ID: " + NetworkManager.Singleton.LocalClientId);
@@ -143,6 +155,8 @@ public class HotPotatoManager : NetworkBehaviour
 			if (player.HasHotPotato()) // Check if this player has the active hot potato
 			{
 				Debug.Log("EXPLOSION");
+
+				StartSpectatingClientRpc();
 				player.Eliminate(); // Call the player's elimination method
 
 				if (alivePlayerIds.Count <= 3)
