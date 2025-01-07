@@ -15,6 +15,7 @@ TagManager:
   - Ingredient
   - Ladder
   - Water
+  - PlayerPush
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,6 @@ TagManager:
   - No Collisionwefewfewfwefwefwe
   - PostProcessing
   - Ladder
-  - 
   - 
   - 
   - 

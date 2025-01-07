@@ -9,23 +9,28 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerPush : MonoBehaviour
+public class PlayerPush : NetworkBehaviour
 {
     // Public variables that can be adjusted in the Unity Inspector
     public float pushForce = 100f; // Force to push the other player
-    public float pushUpForce = 50f; // Upward force to push the other player
+    public float pushUpForce = 2f; // Upward force to push the other player
     public float raycastDistance = 100f; // Distance for the raycast
+    public float pushCooldown = 0.5f;
+
+    private bool canPush = true;
 
     [SerializeField] private GameObject playerPushLocation;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && canPush)
         {
             RaycastHit hit;
+            canPush = false;
+            StartCoroutine(ResetPlayerCooldown());
             Debug.Log("B pressed");
 
-            if (Physics.Raycast(playerPushLocation.transform.position, playerPushLocation.transform.forward, out hit, raycastDistance) && hit.collider.CompareTag("Player"))
+            if (Physics.Raycast(playerPushLocation.transform.position, playerPushLocation.transform.forward, out hit, raycastDistance) && hit.collider.CompareTag("PlayerPush"))
             {
                 Debug.Log("hit");
                 Debug.DrawRay(playerPushLocation.transform.position, playerPushLocation.transform.forward, Color.red, 2);
@@ -34,32 +39,8 @@ public class PlayerPush : MonoBehaviour
             }
             
         }
-        
-        /*
-        // Check if the right mouse button is pressed
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit; // Variable to store information about what the raycast hits
-                        //Vector3 forward = transform.TransformDirection(Vector3.forward) * raycastDistance;
-
-        // Perform the raycast
-        if (Physics.Raycast(ray, out hit))
-        {
-            //EditorGUIUtility.PingObject(hit.collider.gameObject);
-            //EditorGUIUtility.PingObject(gameObject);
-            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2.0f);
-            Debug.Log("Is the raycast hit the own player object?" + (hit.collider.gameObject == gameObject));
-
-            
-            // Check if the hit object is another player
-            if (hit.collider.CompareTag("Player") && Input.GetKeyDown(KeyCode.B))
-            {
-                PushPlayer(hit.collider.gameObject);
-            }
-        }*/
-
     }
 
-    // Method to apply forces to push the other player
     void PushPlayer(GameObject player)
     {
         Debug.Log("push player called");
@@ -72,7 +53,15 @@ public class PlayerPush : MonoBehaviour
             Debug.Log("rb networkobject id that hit: " + rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId);
             Debug.Log("rb owner id: " + rb.gameObject.GetComponent<NetworkObject>().OwnerClientId); 
 
-            PushPlayerClientRpc(rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId, Vector3.up * 5);
+            if (IsHost)
+            {
+                PushPlayerClientRpc(rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId, pushDirection);
+            }
+            else if (IsClient)
+            {
+                PushPlayerServerRpc(rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId, pushDirection);
+            }
+            
 
             //rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
             //rb.AddForce(Vector3.up * pushUpForce, ForceMode.Impulse);
@@ -82,24 +71,30 @@ public class PlayerPush : MonoBehaviour
     [ClientRpc()]
     private void PushPlayerClientRpc(ulong networkObjectId, Vector3 pushDirection)
     {
+        Debug.Log("push player client rpc called");
         GameObject playerToPush = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
         if (playerToPush.GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId)
         {
             return;
         }
 
+        playerToPush.GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.Impulse);
+        playerToPush.GetComponent<Rigidbody>().AddForce(Vector3.up * pushUpForce, ForceMode.Impulse);
+    }
 
-        Debug.Log("push player client rpc called on client: " + NetworkManager.Singleton.LocalClientId);
-        Debug.Log("Networkobject id: " + networkObjectId);
-        
-        Debug.Log("player top push rigidbody null ? " + playerToPush.GetComponent<Rigidbody>() == null);
-
-#if UNITY_EDITOR
-        EditorGUIUtility.PingObject(playerToPush);
-#endif
+    [ServerRpc()]
+    private void PushPlayerServerRpc(ulong networkObjectId, Vector3 pushDirection)
+    {
+        GameObject playerToPush = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
 
         playerToPush.GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.Impulse);
-        //playerToPush.GetComponent<Rigidbody>().AddForce(Vector3.up * pushUpForce, ForceMode.Impulse);
+        playerToPush.GetComponent<Rigidbody>().AddForce(Vector3.up * pushUpForce, ForceMode.Impulse);
+    }
+
+    public IEnumerator ResetPlayerCooldown()
+    {
+        yield return new WaitForSeconds(pushCooldown);
+        canPush = true;
     }
 
 }
