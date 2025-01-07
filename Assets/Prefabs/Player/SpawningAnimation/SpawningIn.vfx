@@ -19,8 +19,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 347
     y: -288
-    width: 2423
-    height: 2449
+    width: 1020
+    height: 1503
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -923,7 +923,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children:
   - {fileID: 8926484042661614619}
-  m_UIPosition: {x: 931, y: 862}
+  m_UIPosition: {x: 931, y: 864}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -1782,7 +1782,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":102.75569915771485,"b":98.1166000366211,"a":1.0}'
+      m_SerializableObject: '{"r":1.7449378967285157,"g":55.54718017578125,"b":1.5411180257797242,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
@@ -2006,7 +2006,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":1.0,"inTangent":-1.0,"outTangent":-1.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":1.0,"value":0.0,"inTangent":-1.0,"outTangent":-1.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.0,"value":1.0,"inTangent":-0.6000000238418579,"outTangent":-0.6000000238418579,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":1.0,"value":0.4000000059604645,"inTangent":-0.6000000238418579,"outTangent":-0.6000000238418579,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: curve
