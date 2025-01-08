@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerPickup : MonoBehaviour
@@ -7,64 +6,65 @@ public class PlayerPickup : MonoBehaviour
     private GameObject heldItem = null; // Reference to the currently held item
 
 
-void Update()
-{
-    if (Input.GetMouseButtonDown(1))
+    void Update()
     {
-        if (heldItem != null)
+        if (Input.GetMouseButtonDown(1))
         {
-            DropItem();
-        }
-        else
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            Debug.DrawLine(ray.origin, ray.origin + ray.direction * raycastRange, Color.green, 0.1f);
-
-            if (Physics.Raycast(ray, out hit, raycastRange))
+            if (heldItem != null)
             {
-                if ((hit.collider.CompareTag("CanPickUp") || hit.collider.CompareTag("Tomato") || hit.collider.CompareTag("Bacon") || hit.collider.CompareTag("Bread") || hit.collider.CompareTag("TopBread") || hit.collider.CompareTag("Ingredient")))
-                {
-                   PickupItem(hit.collider.gameObject);
-                }
+                DropItem();
             }
+            else
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
 
+                Debug.DrawLine(ray.origin, ray.origin + ray.direction * raycastRange, Color.green, 0.1f);
+
+                if (Physics.Raycast(ray, out hit, raycastRange))
+                {
+                    if ((hit.collider.CompareTag("CanPickUp") || hit.collider.CompareTag("Tomato") || hit.collider.CompareTag("Bacon") || hit.collider.CompareTag("Bread") || hit.collider.CompareTag("TopBread") || hit.collider.CompareTag("Ingredient")))
+                    {
+                        PickupItem(hit.collider.gameObject);
+                    }
+                }
+
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.B) && heldItem != null)
+        {
+            TryUseCondiment();
+            Debug.Log("trying to use condiment");
         }
     }
-    if (Input.GetKeyDown(KeyCode.B) && heldItem != null){
-        TryUseCondiment();
-        Debug.Log("trying to use condiment");
-    }
-}
 
-void PickupItem(GameObject item)
-{
-    heldItem = item;
-
-    Rigidbody itemRb = item.GetComponent<Rigidbody>();
-    if (itemRb != null)
+    void PickupItem(GameObject item)
     {
-        itemRb.isKinematic = true;
-    }
+        heldItem = item;
 
-    item.transform.SetParent(transform);
-    item.transform.localPosition = new Vector3(0, 2f, 2.5f); 
-}
+        Rigidbody itemRb = item.GetComponent<Rigidbody>();
+        if (itemRb != null)
+        {
+            itemRb.isKinematic = true;
+        }
+
+        item.transform.SetParent(transform);
+        item.transform.localPosition = new Vector3(0, 2f, 2.5f);
+    }
 
     void HandleDrop()
     {
         // Raycast to check if the held item is over the cutting board
         if (CompareTag("CuttingBoard") && heldItem.CompareTag("Tomato"))
+        {
+            CuttingBoard cuttingBoard = GetComponent<Collider>().GetComponent<CuttingBoard>();
+            if (cuttingBoard != null)
             {
-             CuttingBoard cuttingBoard = GetComponent<Collider>().GetComponent<CuttingBoard>();
-             if (cuttingBoard != null)
-             {
-              cuttingBoard.PlaceItemOnBoard(heldItem);
-              heldItem = null;
-              return;
-              }
+                cuttingBoard.PlaceItemOnBoard(heldItem);
+                heldItem = null;
+                return;
             }
+        }
         DropItem();
     }
 
@@ -85,49 +85,49 @@ void PickupItem(GameObject item)
     }
 
 
-void DropItem()
-{
-    if (heldItem == null) return;
-    heldItem.transform.SetParent(null);
-
-    Rigidbody itemRb = heldItem.GetComponent<Rigidbody>();
-    if (itemRb != null)
+    void DropItem()
     {
-        itemRb.isKinematic = false; // Enable physics for the dropped item
-    }
+        if (heldItem == null) return;
+        heldItem.transform.SetParent(null);
 
-    if (heldItem.CompareTag("Bread"))
-    {
-        Vector3 dropPosition = transform.position + transform.forward * 2f;
-        if (Physics.Raycast(dropPosition, Vector3.down, out RaycastHit hit, Mathf.Infinity))
+        Rigidbody itemRb = heldItem.GetComponent<Rigidbody>();
+        if (itemRb != null)
         {
-            dropPosition.y = hit.point.y + 0.1f; 
+            itemRb.isKinematic = false; // Enable physics for the dropped item
         }
-        heldItem.transform.position = dropPosition;
-        StackOnBread breadStack = heldItem.GetComponent<StackOnBread>();
-        if (breadStack != null)
+
+        if (heldItem.CompareTag("Bread"))
         {
-            foreach (Transform ingredient in heldItem.transform)
+            Vector3 dropPosition = transform.position + transform.forward * 2f;
+            if (Physics.Raycast(dropPosition, Vector3.down, out RaycastHit hit, Mathf.Infinity))
             {
-                Rigidbody ingredientRb = ingredient.GetComponent<Rigidbody>();
-                if (ingredientRb != null)
+                dropPosition.y = hit.point.y + 0.1f;
+            }
+            heldItem.transform.position = dropPosition;
+            StackOnBread breadStack = heldItem.GetComponent<StackOnBread>();
+            if (breadStack != null)
+            {
+                foreach (Transform ingredient in heldItem.transform)
                 {
-                    ingredientRb.isKinematic = true; 
+                    Rigidbody ingredientRb = ingredient.GetComponent<Rigidbody>();
+                    if (ingredientRb != null)
+                    {
+                        ingredientRb.isKinematic = true;
+                    }
                 }
             }
         }
+        else
+        {
+            heldItem.transform.position = transform.position + transform.forward * 2f;
+        }
+        heldItem = null;
     }
-    else
-    {
-        heldItem.transform.position = transform.position + transform.forward * 2f;
-    }
-    heldItem = null;
-}
 
     void TryUseCondiment()
     {
         BreadScriptC breadScript = null;
-        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, 2f); 
+        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, 2f);
         Debug.Log("Try to use condiment again");
         foreach (var collider in nearbyColliders)
         {
@@ -139,7 +139,7 @@ void DropItem()
                 {
                     Debug.Log("Last one");
                     breadScript.AddCondiment(heldItem.GetComponent<CondementScript>().condimentType);
-                    heldItem.SetActive(false); 
+                    heldItem.SetActive(false);
                     break;
                 }
             }

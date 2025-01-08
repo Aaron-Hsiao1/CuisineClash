@@ -24,7 +24,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - HeldItem
   - Water
   - UI
   - Ground
