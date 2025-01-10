@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -26,6 +27,7 @@ public class PlayerMovement : NetworkBehaviour
     public float JumpHeight = 1.5f;
     private float _terminalVelocity = 53.0f;
 
+
     [SerializeField] private float fallMultiplier = 50f;
 
     Vector3 moveDirection;
@@ -46,11 +48,12 @@ public class PlayerMovement : NetworkBehaviour
 
     void Update()
     {
+       
         if (!IsLocalPlayer)
         {
             return;
         }
-
+      
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
 
         MyInput();
@@ -154,7 +157,6 @@ public class PlayerMovement : NetworkBehaviour
         return horizontalInput;
     }
 
-    // Set moveSpeed and update the isSpeedBoosted status
     public void SetMoveSpeed(float newSpeed)
     {
         moveSpeed = newSpeed;
