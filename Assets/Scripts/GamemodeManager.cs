@@ -15,9 +15,14 @@ public class GamemodeManager : NetworkBehaviour
 	private enum Gamemode
 	{
 		//MultiplayerTesting,
-		RainingMeatball
-		//KingOfTheGrill
+		//RainingMeatball,
+		//KingOfTheGrill,
+		HotPotato
+		//LoadIntoHP
+		//TutorialHP
+		//GameEnded
 	}
+
 
 	private void Awake()
 	{
@@ -30,16 +35,16 @@ public class GamemodeManager : NetworkBehaviour
 
 	public override void OnNetworkSpawn()
 	{
-		Debug.Log("on netowrk spawn: " + IsHost);
+		//Debug.Log("on netowrk spawn: " + IsHost);
 		if (IsHost)
 		{
 			foreach (Gamemode gamemode in Enum.GetValues(typeof(Gamemode)))
 			{
-				Debug.Log("insantianteing gamemodeList...");
+				//Debug.Log("insantianteing gamemodeList...");
 				gamemodeList.Add(gamemode.ToString());
 				//gamemodeListInstantiated = true;
 			}
-			Debug.Log("gamemodelist count: " + gamemodeList.Count);
+			//Debug.Log("gamemodelist count: " + gamemodeList.Count);
 		}
 	}
 
@@ -58,29 +63,25 @@ public class GamemodeManager : NetworkBehaviour
 		}
 	}
 
-	public Loader.Scene gamemodeSelector()
+	public string GamemodeSelector() //runs every gamemode.
 	{
-		Debug.Log("gamemode selectoer rnning");
+		Debug.Log("gamemode selector running");
 		if (IsHost)
 		{
+			//Debug.Log("Is Host ran in GamemodeSelector");
+
 			int random = UnityEngine.Random.Range(0, gamemodeList.Count); //selects a random index from the list of gamemodes
 			string nextGamemode = gamemodeList[random]; //picks the next gamemode based on the index
 
-			foreach (Loader.Scene scene in Enum.GetValues(typeof(Loader.Scene))) //loops through the Loader.Scene to find the scene that matches with the gamemode
-			{
-				if (scene.ToString() == nextGamemode)
-				{
-					Debug.Log("random: " + random);
-					Debug.Log("gamemode count: " + gamemodeList.Count);
-					gamemodeList.RemoveAt(random);
-					Debug.Log("gamemode removed!");
-					Debug.Log("gamemode count: " + gamemodeList.Count);
-					return scene; //loads the gamemode
-				}
-			}
+			//Debug.Log("Random index chosen: " + random);
+			//Debug.Log("Selected nextGamemode: " + nextGamemode);
+
+			gamemodeList.RemoveAt(random);
+			//Debug.Log("gamemode removed");
+			return nextGamemode;
 		}
-		Debug.Log("Not HOst");
-		return Loader.Scene.MainMenu;
+		//Debug.Log("Not Host");
+		return "MainMenu";
 	}
 
 	public List<string> GetGamemodeList()

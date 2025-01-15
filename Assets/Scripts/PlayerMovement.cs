@@ -4,183 +4,216 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    public float moveSpeed;
-    public float sprintSpeed;
+	[SerializeField] private float moveSpeed;
+	[SerializeField] private float walkSpeed;
+	[SerializeField] private float sprintSpeed;
+	[SerializeField] private float hasPotatoSpeedMultiplier;
+
+	[SerializeField] private float groundDrag;
+
+	[SerializeField] private float playerHeight;
+	[SerializeField] private LayerMask Ground;
+	[SerializeField] private bool grounded;
+
+	[SerializeField] private float jumpForce;
+	[SerializeField] private float jumpCooldown;
+	[SerializeField] private float airMultiplier;
+	[SerializeField] private bool canJump;
+
+	[SerializeField] private Transform orientation;
+
+	[SerializeField] private float horizontalInput;
+	[SerializeField] private float verticalInput;
+
+	private float _verticalVelocity;
+	[SerializeField] private float JumpHeight = 1.5f;
+	private float _terminalVelocity = 53.0f;
+
+	[SerializeField] private float fallMultiplier = 50f;
+
+	[SerializeField] private Vector3 moveDirection;
+
+	[SerializeField] private Rigidbody rb;
+	[SerializeField] private FreeCam freeCam;
+
+	public KeyCode jumpKey = KeyCode.Space;
+
+	[SerializeField] private HotPotatoManager hotPotatoManager;
+	// Start is called before the first frame update
+	void Start()
+	{
+		rb = GetComponent<Rigidbody>();
+		rb.freezeRotation = true;
+		canJump = true;
+	}
+
+	public override void OnNetworkSpawn()
+	{
+		hasPotatoSpeedMultiplier = 1.25f;
+		walkSpeed = 5f;
+
+		if (SceneManager.GetActiveScene().name == "HotPotato")
+		{
+			hotPotatoManager = GameObject.Find("Hot Potato Manager").GetComponent<HotPotatoManager>();
+		}
+	}
 
 
-    public float groundDrag;
+	void Update()
+	{
+		if (!IsLocalPlayer || freeCam.looking == true)
+		{
+			return;
+		}
 
-    public float playerHeight;
-    public LayerMask Ground;
-    bool grounded;
+		if (rb.velocity.y < 0)
+		{
+			//Debug.Log("rb.velocity.y < 0 : " + rb.velocity.y);
+			//rb.velocity += Vector3.up * (Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime);
+			//rb.velocity += new Vector3(0f, Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime, 0f);
+			//_verticalVelocity += -25f * Time.deltaTime;
+		}
 
-    public float jumpForce;
-    public float jumpCooldown;
-    public float airMultiplier;
-    bool canJump;
+		grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
 
-    public Transform orientation;
-
-    public float horizontalInput;
-    public float verticalInput;
-
-    private float _verticalVelocity;
-    public float JumpHeight = 1.5f;
-    private float _terminalVelocity = 53.0f;
-
-    [SerializeField] private float fallMultiplier = 50f;
-
-    Vector3 moveDirection;
-
-    Rigidbody rb;
-
-    public KeyCode jumpKey = KeyCode.Space;
-    // Start is called before the first frame update
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-        canJump = true;
-    }
+		MyInput();
+		SpeedControl();
 
 
-    void Update()
-    {
-        if (!IsLocalPlayer)
-        {
-            return;
-        }
+		// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+		if (_verticalVelocity < _terminalVelocity)
+		{
+			_verticalVelocity += -11f * Time.deltaTime;
 
-        if (rb.velocity.y < 0)
-        {
-            //Debug.Log("rb.velocity.y < 0 : " + rb.velocity.y);
-            //rb.velocity += Vector3.up * (Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime);
-            //rb.velocity += new Vector3(0f, Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime, 0f);
-            //_verticalVelocity += -25f * Time.deltaTime;
-        }
+		}
 
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
+		if (grounded)
+		{
+			rb.drag = groundDrag;
+			_verticalVelocity = 0f;
+			if (_verticalVelocity < 0.0f)
+			{
+				_verticalVelocity = -2f;
+			}
+		}
+		else
+		{
+			rb.drag = 0;
+		}
 
-        MyInput();
-        SpeedControl();
+		//Debug.Log(_verticalVelocity);
+	}
 
+	private void FixedUpdate()
+	{
+		if (!IsLocalPlayer)
+		{
+			return;
+		}
+		MovePlayer();
+	}
 
-        // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-        if (_verticalVelocity < _terminalVelocity)
-        {
-            _verticalVelocity += -11f * Time.deltaTime;
-
-        }
-
-        if (grounded)
-        {
-            rb.drag = groundDrag;
-            _verticalVelocity = 0f;
-            if (_verticalVelocity < 0.0f)
-            {
-                _verticalVelocity = -2f;
-            }
-        }
-        else
-        {
-            rb.drag = 0;
-        }
-
-        //Debug.Log(_verticalVelocity);
-    }
-
-    private void FixedUpdate()
-    {
-        if (!IsLocalPlayer)
-        {
-            return;
-        }
-        MovePlayer();
-    }
-
-    private void MyInput()
-    {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
-        Sprint();
-        if (Input.GetKey(jumpKey) && canJump && grounded)
-        {
-            canJump = false;
-            Jump();
-            Invoke(nameof(resetJump), jumpCooldown);
+	private void MyInput()
+	{
+		horizontalInput = Input.GetAxisRaw("Horizontal");
+		verticalInput = Input.GetAxisRaw("Vertical");
+		Sprint();
+		if (Input.GetKey(jumpKey) && canJump && grounded)
+		{
+			canJump = false;
+			Jump();
+			Invoke(nameof(ResetJump), jumpCooldown);
 
 
-        }
+		}
 
-    }
+	}
 
-    private void MovePlayer()
-    {
-        //calculate movement direction
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
+	private void MovePlayer()
+	{
+		//calculate movement direction
+		moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+		rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
 
-        if (grounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
-        }
-        else if (!grounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f /** airMultiplier*/ + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
-        }
-    }
+		if (grounded)
+		{
+			rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
+		}
+		else if (!grounded)
+		{
+			rb.AddForce(moveDirection.normalized * moveSpeed * 10f /** airMultiplier*/ + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
+		}
+	}
 
-    private void SpeedControl()
-    {
-        Vector3 flatVel = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
+	private void SpeedControl()
+	{
+		Vector3 flatVel = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
 
-        //limits velocity
-        if (flatVel.magnitude > moveSpeed)
-        {
-            Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
-        }
-    }
+		//limits velocity
+		if (flatVel.magnitude > moveSpeed)
+		{
+			Vector3 limitedVel = flatVel.normalized * moveSpeed;
+			rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+		}
+	}
 
-    private void Jump()
-    {
-        //rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+	private void Jump()
+	{
+		//rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+		rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
-        _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * -9.81f);
-    }
+		_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * -9.81f);
+	}
 
-    private void Sprint()
-    {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            moveSpeed = sprintSpeed;
-        }
-        else
-        {
-            moveSpeed = 5;
-        }
-    }
+	private void Sprint()
+	{
+		if (Input.GetKey(KeyCode.LeftShift))
+		{
+			moveSpeed = sprintSpeed;
+		}
+		else
+		{
+			moveSpeed = walkSpeed;
+		}
+
+		if (SceneManager.GetActiveScene().name == "HotPotato" && NetworkManager.Singleton.LocalClientId == hotPotatoManager.currentPlayerWithPotato.Value)
+		{
+			moveSpeed *= hasPotatoSpeedMultiplier;
+		}
+	}
+
+	public Vector3 GetMoveDirection()
+	{
+		return moveDirection;
+	}
 
 
+	private void ResetJump()
+	{
+		canJump = true;
+	}
 
+	public float GetVerticalInput()
+	{
+		return verticalInput;
+	}
 
-    private void resetJump()
-    {
-        canJump = true;
-    }
+	public float GetHorizontalInput()
+	{
+		return horizontalInput;
+	}
 
-    public float GetVerticalInput()
-    {
-        return verticalInput;
-    }
+	public Transform GetOrientation()
+	{
+		return orientation;
+	}
 
-    public float GetHorizontalInput()
-    {
-        return horizontalInput;
-    }
-
+	public bool IsGrounded()
+	{
+		return grounded;
+	}
 }

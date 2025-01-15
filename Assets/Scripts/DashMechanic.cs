@@ -3,46 +3,46 @@ using UnityEngine;
 
 public class DashMechanic : MonoBehaviour
 {
-    PlayerMovement moveScript;
-    public float dashSpeed;
-    public float dashTime;
-    public float cooldownTime = 5f;
-    private float lastUsedTime; 
+	[SerializeField] private PlayerMovement moveScript;
+	[SerializeField] private float dashSpeed;
+	[SerializeField] private float dashTime;
+	[SerializeField] private float cooldownTime = 5f;
+	private float lastUsedTime;
 
 
 
-    private void Start()
-    {
-        moveScript = GetComponent<PlayerMovement>();
-    }
+	private void Start()
+	{
+		moveScript = GetComponent<PlayerMovement>();
+	}
 
-    private void Update()
-    {
-        // Check if the Q key is pressed and the dash is not on cooldown
-        if (Input.GetKeyDown(KeyCode.Q) && Time.time > lastUsedTime + cooldownTime)
-        {
-            StartCoroutine(Dash());
-            lastUsedTime = Time.time;
-        }
-    }
+	private void Update()
+	{
+		// Check if the Q key is pressed and the dash is not on cooldown
+		if (Input.GetKeyDown(KeyCode.Q) && Time.time > lastUsedTime + cooldownTime)
+		{
+			StartCoroutine(Dash());
+			lastUsedTime = Time.time;
+		}
+	}
 
-    IEnumerator Dash()
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        float startTime = Time.time;
+	IEnumerator Dash()
+	{
+		Rigidbody rb = GetComponent<Rigidbody>();
+		float startTime = Time.time;
 
-        // Get dash direction from player movement input
-        Vector3 dashDirection = moveScript.orientation.forward * moveScript.GetVerticalInput() +
-                                moveScript.orientation.right * moveScript.GetHorizontalInput();
-        dashDirection = dashDirection.normalized;
+		// Get dash direction from player movement input
+		Vector3 dashDirection = moveScript.GetOrientation().forward * moveScript.GetVerticalInput() +
+								moveScript.GetOrientation().right * moveScript.GetHorizontalInput();
+		dashDirection = dashDirection.normalized;
 
-        // Perform the dash
-        while (Time.time < startTime + dashTime)
-        {
-            rb.velocity = dashDirection * dashSpeed;
-            yield return null;
-        }
+		// Perform the dash
+		while (Time.time < startTime + dashTime)
+		{
+			rb.velocity = dashDirection * dashSpeed;
+			yield return null;
+		}
 
-        rb.velocity = Vector3.zero; // Stop movement after the dash
-    }
+		rb.velocity = Vector3.zero; // Stop movement after the dash
+	}
 }

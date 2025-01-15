@@ -21,7 +21,8 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 	public event EventHandler OnFailedToJoinGame;
 	public event EventHandler OnPlayerDataNetworkListChanged;
 
-	[SerializeField] private List<Color> playerColorList;
+	[SerializeField] private List<Color> playerOuterColorList;
+	[SerializeField] private List<Color> playerInnerColorList;
 	private Dictionary<ulong, int> playerPoints;
 
 	private NetworkList<PlayerData> playerDataNetworkList;
@@ -74,6 +75,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 				playerDataNetworkList.RemoveAt(i);
 			}
 		}
+		playerPoints.Remove(clientId);
 	}
 
 	private void NetworkManager_OnClientConnectedCallback(ulong clientId)
@@ -81,7 +83,8 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		playerDataNetworkList.Add(new PlayerData
 		{
 			clientId = clientId,
-			colorId = GetFirstUnusedColorId(),
+			outerColorId = GetFirstUnusedColorId(),
+			innerColorId = GetFirstUnusedColorId(),
 		});
 		SetPlayerNameServerRpc(GetPlayerName());
 		SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
@@ -154,9 +157,14 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		return playerIndex < playerDataNetworkList.Count;
 	}
 
-	public Color getPlayerColor(int colorId)
+	public Color GetPlayerOuterColor(int colorId)
 	{
-		return playerColorList[colorId];
+		return playerOuterColorList[colorId];
+	}
+
+	public Color GetPlayerInnerColor(int colorId)
+	{
+		return playerInnerColorList[colorId];
 	}
 
 	public PlayerData GetPlayerDataFromClientId(ulong clientId)
@@ -194,30 +202,36 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		return GetPlayerDataFromClientId(NetworkManager.Singleton.LocalClientId);
 	}
 
-	public void ChangePlayerColor(int colorId)
+	public void ChangePlayerColor(int outerColorId, int innerColorId)
 	{
-		ChangePlayerColorServerRpc(colorId);
+		ChangePlayerColorServerRpc(outerColorId, innerColorId);
+	}
+
+	public GameObject GetPlayerObjectFromPlayerId(ulong playerId)
+	{
+		return NetworkManager.Singleton.ConnectedClients[playerId].PlayerObject.gameObject;
 	}
 
 	[ServerRpc(RequireOwnership = false)]
-	public void ChangePlayerColorServerRpc(int colorId, ServerRpcParams serverRpcParams = default)
+	public void ChangePlayerColorServerRpc(int outerColorId, int innerColorId, ServerRpcParams serverRpcParams = default)
 	{
-		if (!IsColorAvailable(colorId))
+		if (!IsColorAvailable(outerColorId, innerColorId))
 		{
 			return;
 		}
 
 		int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
 		PlayerData playerData = playerDataNetworkList[playerDataIndex];
-		playerData.colorId = colorId;
+		playerData.outerColorId = outerColorId;
+		playerData.innerColorId = innerColorId;
 		playerDataNetworkList[playerDataIndex] = playerData;
 	}
 
-	private bool IsColorAvailable(int colorId)
+	private bool IsColorAvailable(int outerColorId, int innerColorId)
 	{
 		foreach (PlayerData playerData in playerDataNetworkList)
 		{
-			if (playerData.colorId == colorId)
+			if (playerData.outerColorId == outerColorId && playerData.innerColorId == innerColorId)
 			{
 				return false;
 			}
@@ -227,9 +241,9 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 
 	private int GetFirstUnusedColorId()
 	{
-		for (int i = 0; i < playerColorList.Count; i++)
+		for (int i = 0; i < playerInnerColorList.Count; i++)
 		{
-			if (IsColorAvailable(i))
+			if (IsColorAvailable(i, i))
 			{
 				return i;
 			}

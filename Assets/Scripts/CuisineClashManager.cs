@@ -19,6 +19,10 @@ public class CuisineClashManager : NetworkBehaviour
 
 	[SerializeField] private SpawnManager spawnManager;
 
+	private NetworkVariable<bool> gameStarted = new NetworkVariable<bool>();
+
+	public EventHandler AllPlayerObjectsSpawned;
+
 	private enum State
 	{
 		WaitingToStart,
@@ -58,6 +62,7 @@ public class CuisineClashManager : NetworkBehaviour
 
 	public override void OnNetworkSpawn()
 	{
+		gameStarted.Value = false;
 		NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
 		gamemodeManager = GameObject.FindGameObjectWithTag("Gamemode Manager").GetComponent<GamemodeManager>();
 		if (gamemodeManager != null)
@@ -75,25 +80,31 @@ public class CuisineClashManager : NetworkBehaviour
 			}
 		}*/
 	}
-	public override void OnNetworkDespawn()
+	void OnDisable()
 	{
 		NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
 	}
 
-	private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+	private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
 	{
 		if (IsHost)
 		{
+			Debug.Log("client list count that finished loadign: " + clientsCompleted.Count);
 			//Debug.Log("current scene, # of connected clients" + SceneManager.GetActiveScene().name + ", " + NetworkManager.Singleton.ConnectedClientsIds.Count);
 			foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
 			{
-				//Debug.Log("current scene spawned in player" + SceneManager.GetActiveScene().name);
-				//Vector3 spawnPoint = spawnManager.GetNextSpawnPoint();
-				//Debug.Log($"Spawn point in manager: {spawnPoint}");
-				Transform playerTransform = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-				//Debug.Log($"spawnPoint: {spawnPoint}");
-				playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+				Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
+
+				Transform playerTransform = Instantiate(playerPrefab, nextSpawnPoint, Quaternion.identity);
+
+				NetworkObject playerTransformNetwork = playerTransform.GetComponent<NetworkObject>();
+				playerTransformNetwork.SpawnAsPlayerObject(clientId, true);
+				playerTransform.gameObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
+
+                Debug.Log("Spawning Player Object!");
 			}
+
+			AllPlayerObjectsSpawned?.Invoke(this, EventArgs.Empty);
 		}
 	}
 
@@ -126,36 +137,14 @@ public class CuisineClashManager : NetworkBehaviour
 			}
 		}
 
-		if (allClientsReady && playerReadyDictionary.Count == NetworkManager.ConnectedClientsIds.Count)
+		if (allClientsReady && playerReadyDictionary.Count == NetworkManager.ConnectedClientsIds.Count && gameStarted.Value == false)
 		{
-			Loader.LoadNetwork(gamemodeManager.gamemodeSelector());
+			gameStarted.Value = true;
+			string gamemode = gamemodeManager.GamemodeSelector();
+			Loader.LoadNetwork(gamemode);
 			state.Value = State.GamePlaying;
 		}
 	}
-
-	/*public Loader.Scene gamemodeSelector()
-	{
-		Debug.Log("gamemode selectoer rnning");
-		if (IsHost)
-		{
-			int random = UnityEngine.Random.Range(0, gamemodeList.Count); //selects a random index from the list of gamemodes
-			string nextGamemode = gamemodeList[random]; //picks the next gamemode based on the index
-
-			foreach (Loader.Scene scene in Enum.GetValues(typeof(Loader.Scene))) //loops through the Loader.Scene to find the scene that matches with the gamemode
-			{
-				if (scene.ToString() == nextGamemode)
-				{
-					Debug.Log("random: " + random);
-					Debug.Log("gamemode count: " + gamemodeList.Count);
-					gamemodeList.RemoveAt(random);
-					Debug.Log("gamemode removed!");
-					Debug.Log("gamemode count: " + gamemodeList.Count);
-					return scene; //loads the gamemode
-				}
-			}
-		}
-		return Loader.Scene.MainMenu;
-	}*/
 
 	public void SetPlayerUnready()
 	{

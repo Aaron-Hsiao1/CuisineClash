@@ -6,6 +6,16 @@ TagManager:
   tags:
   - CanPickUp
   - Placing Zone
+  - Ground
+  - Ready Area
+  - Gamemode Manager
+  - Undefined
+  - Meatball
+  - DeathZone
+  - Ingredient
+  - Ladder
+  - Water
+  - PlayerPush
   layers:
   - Default
   - TransparentFX
@@ -15,8 +25,8 @@ TagManager:
   - UI
   - Ground
   - No Collisionwefewfewfwefwefwe
-  - 
-  - 
+  - PostProcessing
+  - Ladder
   - 
   - 
   - 
