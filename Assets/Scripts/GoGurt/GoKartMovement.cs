@@ -1,19 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class GoKartMovement : NetworkBehaviour
+public class GoKartMovement : MonoBehaviour
 {
-    [SerializeField] private float acceleration;
-    [SerializeField] private float maxSpeed;
-    [SerializeField] private float steeringSpeed;
-    [SerializeField] private float driftForce;
-    [SerializeField] private float driftBoostForce;
-    [SerializeField] private float driftBoostDuration;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float groundDrag;
+    public float acceleration = 10f;
+    public float maxSpeed = 20f;
+    public float steeringSpeed = 2f;
+    public float driftForce = 5f;
+    public float driftBoostForce = 10f;
+    public float driftBoostDuration = 2f;
+    public LayerMask groundLayer;
+    public float groundDrag = 5f;
 
     private Rigidbody rb;
     private bool isDrifting = false;
@@ -21,9 +19,7 @@ public class GoKartMovement : NetworkBehaviour
     private float driftTime = 0f;
     private Vector3 moveDirection;
 
-    public KeyCode driftKey = KeyCode.LeftShift;
-
-    private void Start()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
@@ -31,48 +27,34 @@ public class GoKartMovement : NetworkBehaviour
 
     void Update()
     {
-        if (!IsLocalPlayer)
-        {
-            return;
-        }
-
         float forwardInput = Input.GetAxisRaw("Vertical"); // W/S or Up/Down arrow
         float steeringInput = Input.GetAxisRaw("Horizontal"); // A/D or Left/Right arrow
 
         moveDirection = transform.forward * forwardInput;
 
         // Steering
-        if (!isDrifting && Mathf.Abs(steeringInput) > 0)
+        if (!isDrifting && Mathf.Abs(steeringInput) > 0 && rb.velocity.magnitude > 1f)
         {
             float rotation = steeringInput * steeringSpeed * Time.deltaTime;
             transform.Rotate(Vector3.up * rotation);
         }
 
         // Start drifting
-        if (Input.GetKeyDown(driftKey) && Mathf.Abs(steeringInput) > 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Mathf.Abs(steeringInput) > 0)
         {
             StartDrift(steeringInput);
         }
 
         // End drifting
-        if (Input.GetKeyUp(driftKey) && isDrifting)
+        if (Input.GetKeyUp(KeyCode.LeftShift) && isDrifting)
         {
             EndDrift();
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        if (!IsLocalPlayer)
-        {
-            return;
-        }
-
-        MoveKart();
-    }
-
-    private void MoveKart()
-    {
+        // Acceleration
         if (rb.velocity.magnitude < maxSpeed)
         {
             rb.AddForce(moveDirection * acceleration, ForceMode.Acceleration);
@@ -89,7 +71,7 @@ public class GoKartMovement : NetworkBehaviour
         }
     }
 
-    private void StartDrift(float steeringInput)
+    void StartDrift(float steeringInput)
     {
         isDrifting = true;
         driftBoostReady = true;
@@ -99,7 +81,7 @@ public class GoKartMovement : NetworkBehaviour
         rb.AddForce(transform.right * driftDirection * driftForce, ForceMode.Acceleration);
     }
 
-    private void EndDrift()
+    void EndDrift()
     {
         isDrifting = false;
 
@@ -110,7 +92,7 @@ public class GoKartMovement : NetworkBehaviour
         }
     }
 
-    private IEnumerator DriftBoost()
+    IEnumerator DriftBoost()
     {
         float originalMaxSpeed = maxSpeed;
         maxSpeed += driftBoostForce;
@@ -120,7 +102,7 @@ public class GoKartMovement : NetworkBehaviour
         maxSpeed = originalMaxSpeed;
     }
 
-    private bool IsGrounded()
+    bool IsGrounded()
     {
         return Physics.Raycast(transform.position, Vector3.down, 0.2f, groundLayer);
     }
