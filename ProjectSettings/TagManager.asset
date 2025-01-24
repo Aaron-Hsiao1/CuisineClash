@@ -16,6 +16,7 @@ TagManager:
   - Ladder
   - Water
   - PlayerPush
+  - Cake
   layers:
   - Default
   - TransparentFX

@@ -138,7 +138,7 @@ public class HotPotatoManager : NetworkBehaviour
 		if (NetworkManager.Singleton.LocalClientId == currentPlayerWithPotato.Value)
 		{
 			spectateManager.RemovePlayerFromSpectatingList(currentPlayerWithPotato.Value);
-			spectateManager.StartSpectating(currentPlayerWithPotato.Value);
+			spectateManager.StartSpectating();
 		}
 	}
 

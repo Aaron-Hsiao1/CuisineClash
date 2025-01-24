@@ -46,8 +46,8 @@ public class MeatballManager : NetworkBehaviour
 
         if (collision.gameObject.CompareTag("Ground") && IsServer)
 		{
-			//DestroyMeatballServerRpc();
-		}
+            DestroyMeatballServerRpc();
+        }
 
         
     }

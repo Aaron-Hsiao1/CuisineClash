@@ -1083,7 +1083,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9172133818248910431}
   m_Layer: 0
-  m_Name: PlayerPushLocation
+  m_Name: PlayerRaycastLocation
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1611,6 +1611,8 @@ GameObject:
   - component: {fileID: 4774095168795398064}
   - component: {fileID: 6481650225822335286}
   - component: {fileID: 2062153363066417111}
+  - component: {fileID: 1733986459588743159}
+  - component: {fileID: 9114223758202294182}
   m_Layer: 2
   m_Name: Player Prefab
   m_TagString: Player
@@ -1847,6 +1849,45 @@ MonoBehaviour:
   childObject: {fileID: 5030878055867935573}
   parentObject: {fileID: 2101014668747409606}
   HPT: {fileID: 2979876972396270694}
+--- !u!114 &1733986459588743159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039711912111513445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b779beaaaf5c384f960e919957d8f1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  eatAmount: 10
+  cake: {fileID: 0}
+  damage: 1
+  attackRange: 100
+  playerRaycastLocation: {fileID: 6572824482099773384}
+  captureTheCakeManager: {fileID: 0}
+  team:
+    m_InternalValue: 0
+--- !u!114 &9114223758202294182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039711912111513445}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b98645841b60947950ab6bb11ff956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  attackRange: 100
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  playerRaycastLocation: {fileID: 0}
 --- !u!1 &7394634557177857571
 GameObject:
   m_ObjectHideFlags: 0
@@ -2713,6 +2754,7 @@ MonoBehaviour:
   pushForce: 50
   pushUpForce: 5
   raycastDistance: 5
+  pushCooldown: 0.5
   playerPushLocation: {fileID: 6572824482099773384}
 --- !u!114 &2979876972396270694
 MonoBehaviour:

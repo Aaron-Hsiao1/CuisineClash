@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameEnded.unity
     guid: 1bf29d6827b58a1409a8d0855600a27b
+  - enabled: 1
+    path: Assets/Scenes/CaptureTheCake.unity
+    guid: 2c9b9c2e99bcc4c84bba473d2d0d56e2
   m_configObjects: {}
