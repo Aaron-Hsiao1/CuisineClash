@@ -9,6 +9,7 @@ public class Cake : NetworkBehaviour
     public float maxHP = 100f;  // Maximum health of the cake
     public NetworkVariable<float> currentHp; //Current HP of the cake
     [SerializeField] private NetworkVariable<int> cakeTeam = new NetworkVariable<int>();
+    [SerializeField] private CaptureTheCakeManager captureTheCakeManager;
     //public float decayTime = 2f; // Time in seconds for the decay to occur
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class Cake : NetworkBehaviour
         }
         if (currentHp.Value <= 0)
         {
+            CakeDestroyedServerRpc(GetCakeTeam());
             gameObject.GetComponent<NetworkObject>().Despawn(true);
             //Destroy(gameObject);
         }
@@ -48,6 +50,12 @@ public class Cake : NetworkBehaviour
             currentHp.Value -= damage;
             Debug.Log("cake took damage");
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void CakeDestroyedServerRpc(int cakeNum)
+    {
+        captureTheCakeManager.EndGameClientRpc(cakeNum);
     }
 
     /*

@@ -7,14 +7,17 @@ using UnityEngine;
 
 public class CaptureTheCakePlayerManager : NetworkBehaviour
 {
-    public int maxHealth = 3;
-    private int currentHealth;
+    [Header("Cake Eating")]
     public float eatAmount = 10f; // Amount of HP to reduce when eating the cake
     public Cake cake; // Reference to the cake
+    private float eatCooldown = 0.5f;
+    private bool canEat = true;
 
     [Header("Combat")]
     public int damage = 1;
     public float attackRange = 100f;
+    public int maxHealth = 3;
+    private int currentHealth;
 
     private float attackCooldown;
     private bool canAttack;
@@ -37,12 +40,13 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         // Check for interaction with the cake
         if (Input.GetKeyDown(KeyCode.L) && cake != null)
         {
-            if (cake.GetCakeTeam() == team.Value)
+            if (cake.GetCakeTeam() == team.Value || !canEat)
             {
-                Debug.Log("Own Cake, cannot eat");
+                Debug.Log("Own Cake, cannot eat or eating on cooldown");
                 return;
             }
             cake.EatCake(eatAmount);
+            StartCoroutine(ResetCakeEatingCd());
             Debug.Log("Cake being eaten");
         }
         if (Input.GetMouseButtonDown(1) && canAttack)
@@ -84,7 +88,7 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
             return;
         }
 
-        Debug.Log($"Host attacked and hit player {playerCCManager.gameObject.GetComponent<NetworkObject>().OwnerClientId}");
+        Debug.Log($"attacked and hit player {playerCCManager.gameObject.GetComponent<NetworkObject>().OwnerClientId}");
         TakeDamageServerRpc(playerCCManager.gameObject.GetComponent<NetworkObject>().OwnerClientId, damage);
         //playerCCManager.TakeDamageClientRpc(playerCCManager.gameObject.GetComponent<NetworkObject>().OwnerClientId, damage); client cannot call clientrpcs
     }
@@ -153,5 +157,11 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
     public int GetTeam()
     {
         return team.Value;
+    }
+
+    private IEnumerator ResetCakeEatingCd()
+    {
+        yield return new WaitForSeconds(eatCooldown);
+        canEat = true;
     }
 }

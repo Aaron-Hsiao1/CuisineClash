@@ -5,6 +5,8 @@ using UnityEngine;
 using System.Linq;
 using System;
 using Unity.Mathematics;
+using UnityEngine.SocialPlatforms.Impl;
+using TMPro;
 
 public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and m shooter banan car hotdog car
 {
@@ -28,6 +30,13 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
     [SerializeField] private SpawnManager spawnManager;
     private float respawnTimer = 3f;
 
+    [Header("End Game UI")]
+    [SerializeField] private Camera secondaryCamera;
+    [SerializeField] private TMP_Text gameOverText;
+    private CuisineClashMultiplayer cuisineClashMultiplayer;
+    [SerializeField] private GameObject leaderboard;
+    [SerializeField] private TMP_Text leaderboardText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +56,7 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
     public override void OnNetworkSpawn()
     {
         CuisineClashManager.Instance.AllPlayerObjectsSpawned += CaptureTheCakeManager_AllPlayerObjectsSpawned;
+        cuisineClashMultiplayer = GameObject.Find("CuisineClashMultiplayer").GetComponent<CuisineClashMultiplayer>();
         team0SpawnPoints = team0Spawn.GetComponentsInChildren<SpawnPoint>();
         team1SpawnPoints= team1Spawn.GetComponentsInChildren<SpawnPoint>();
     }
@@ -152,22 +162,23 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
         NetworkObject playerNetworkObject = playerObject.GetComponent<NetworkObject>();
 
         playerObject.SetActive(true);
+
+        Debug.Log("Show player client rpc networkobehjct id: " + playerNetworkObject.NetworkObjectId);
+        ShowPlayerClientRpc(playerNetworkObject.NetworkObjectId);
+        StopSpectatingClientRpc(clientId);
+        Debug.Log("Spawning Player Object!");
         if (playerTeams[clientId] == 0)
         {
+            Debug.Log("Player si on team 0");
             Vector3 nextSpawnPoint = GetNextSpawnPointTeam0(false);
             playerObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
         }
         else if (playerTeams[clientId] == 1)
         {
+            Debug.Log("Player is on team 1");
             Vector3 nextSpawnPoint = GetNextSpawnPointTeam1(false);
             playerObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
         }
-
-        Debug.Log("Show player client rpc networkobehjct id: " + playerNetworkObject.NetworkObjectId);
-        ShowPlayerClientRpc(playerNetworkObject.NetworkObjectId);
-        StopSpectatingClientRpc(clientId);
-
-        Debug.Log("Spawning Player Object!");
     }
 
     private IEnumerator StartPlayerSpawns()
@@ -223,5 +234,66 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
     private Vector3 GetNextSpawnPointTeam1(bool startOfGame)
     {
         return GetNextSpawnPoint(team1SpawnPoints, startOfGame);
+    }
+
+    [ClientRpc]
+    public void EndGameClientRpc(int winningTeam)
+    {
+        CalculatePoints(winningTeam);
+        EndGame();
+        Debug.Log("timer.gameEnded()");
+    }
+
+    private void CalculatePoints(int winningTeam)
+    {
+        foreach(ulong clientId in teams[winningTeam])
+        {
+            cuisineClashMultiplayer.AddPoints(clientId, 3);
+        }
+    }
+
+    public void EndGame()
+    {
+        StartCoroutine(ShowEndGameUIs());
+    }
+
+    IEnumerator ShowEndGameUIs()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        secondaryCamera.gameObject.SetActive(true);
+        gameOverText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        gameOverText.gameObject.SetActive(false);
+        UpdateLeaderboardClientRpc();
+        leaderboard.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
+        {
+            Loader.LoadNetwork(Loader.Scene.PregameLobby.ToString());
+        }
+        if (GamemodeManager.Instance.GetGamemodeList().Count == 0)
+        {
+            Loader.LoadNetwork(Loader.Scene.GameEnded.ToString());
+        }
+    }
+
+    private void UpdateLeaderboard()
+    {
+        Debug.Log("updating leaderboard...");
+        foreach (KeyValuePair<ulong, int> player in cuisineClashMultiplayer.GetPlayerPoints())
+        {
+            var playerName = CuisineClashMultiplayer.Instance.GetPlayerDataFromClientId(player.Key).playerName;
+            leaderboardText.text += $"{playerName}: {player.Value}\n";
+        }
+        Debug.Log($"leaderboradString: {leaderboardText.text}");
+        //leaderboardText.text = leaderboardString.Value.ToString();
+    }
+
+    [ClientRpc]
+    private void UpdateLeaderboardClientRpc()
+    {
+        UpdateLeaderboard();
     }
 }
