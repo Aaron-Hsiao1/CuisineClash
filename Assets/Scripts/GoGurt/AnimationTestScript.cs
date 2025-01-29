@@ -16,16 +16,24 @@ public class AnimationTestScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
+            animator.SetBool("TurningLeft", false);
             animator.SetBool("TurningRight", true);
-            Debug.Log("TurningRight");
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
+            animator.SetBool("TurningRight", false);
             animator.SetBool("TurningLeft", true);
-            Debug.Log("TurningLeft");
         }
+
+        if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+        {
+            animator.SetBool("TurningLeft", false);
+            animator.SetBool("TurningRight", false);
+            Debug.Log("holding none");
+        }
+
     }
 }
