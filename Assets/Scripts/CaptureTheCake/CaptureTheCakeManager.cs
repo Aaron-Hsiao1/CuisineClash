@@ -9,17 +9,18 @@ using UnityEngine.SocialPlatforms.Impl;
 using TMPro;
 
 public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and m shooter banan car hotdog car
-{
+{ 
     [SerializeField] private SpectateManager spectateManager;
 
     [Header("Teams")]
-    private List<ulong> players = new List<ulong>();
+    public NetworkList<ulong> players;
     private Dictionary<ulong, int> playerTeams = new Dictionary<ulong, int>(); //0 is team 1, 1 is team 2
     private Dictionary<int, List<ulong>> teams = new Dictionary<int, List<ulong>>()
     {
         { 0, new List<ulong>() }, // Team 1
         { 1, new List<ulong>() }  // Team 2
     };
+    private int team;
 
     [Header("Spawning")]
     [SerializeField] private GameObject team0Spawn;
@@ -37,9 +38,25 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
     [SerializeField] private GameObject leaderboard;
     [SerializeField] private TMP_Text leaderboardText;
 
+    public EventHandler AllPlayersSpawned;
+
+    public enum GameState
+    {
+        WaitingToStart,
+        Playing
+    }
+
+    private NetworkVariable<GameState> state = new NetworkVariable<GameState>(GameState.WaitingToStart);
+
+    private void Awake()
+    {
+        players = new NetworkList<ulong>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        
         if (!IsHost)
         {
             return;
@@ -88,14 +105,25 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
             NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject.GetComponent<CaptureTheCakePlayerManager>().SetTeam(team);
 
             playerTeams[clientId] = team;
-        }
+            SetTeamOnManagerClientRpc(team, clientId);
+        }        
         StartCoroutine(StartPlayerSpawns());
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    [ClientRpc]
+    private void SetTeamOnManagerClientRpc(int team, ulong clientId)
     {
-        
+        if (NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            this.team = team;
+        }
+    }
+
+    [ClientRpc]
+    private void AllPlayersSpawnedClientRpc()
+    {
+        AllPlayersSpawned?.Invoke(this, EventArgs.Empty);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -184,6 +212,7 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
     private IEnumerator StartPlayerSpawns()
     {
         yield return new WaitForSeconds(5f);
+        state.Value = GameState.Playing;
         SpawnPlayer();
 
     }
@@ -201,6 +230,7 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
             GameObject playerGameObject = NetworkManager.Singleton.ConnectedClients[player].PlayerObject.gameObject;
             playerGameObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
         }
+        EnableTeamIndicatorsInitClientRpc();
     }
 
     private Vector3 GetNextSpawnPoint(SpawnPoint[] spawnPoints, bool startOfGame)
@@ -237,18 +267,21 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
     }
 
     [ClientRpc]
-    public void EndGameClientRpc(int winningTeam)
+    public void EndGameClientRpc(int losingTeam)
     {
-        CalculatePoints(winningTeam);
+        CalculatePoints(losingTeam);
         EndGame();
         Debug.Log("timer.gameEnded()");
     }
 
-    private void CalculatePoints(int winningTeam)
+    private void CalculatePoints(int losingTeam)
     {
-        foreach(ulong clientId in teams[winningTeam])
+        foreach (var player in playerTeams)
         {
-            cuisineClashMultiplayer.AddPoints(clientId, 3);
+            if (player.Value != losingTeam)
+            {
+                cuisineClashMultiplayer.AddPoints(player.Key, 3);
+            }
         }
     }
 
@@ -296,4 +329,48 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
     {
         UpdateLeaderboard();
     }
+
+    public bool IsGamePlaying()
+    {
+        return state.Value == GameState.Playing;
+    }
+
+    [ClientRpc]
+    public void EnableTeamIndicatorsInitClientRpc()
+    {
+        Debug.Log("enabling team indicators");
+        foreach (var player in players)
+        {
+            EnableTeamIndicatorsServerRpc(player);
+        }
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void EnableTeamIndicatorsServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
+    {
+        Debug.Log("EnableTeamIndicators sever rpc");
+        var senderId = serverRpcParams.Receive.SenderClientId;
+        ulong networkObjectId = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject.GetComponent<NetworkObject>().NetworkObjectId;
+
+        EnableTeamIndicatorsClientRpc(networkObjectId, senderId);
+    }
+
+    [ClientRpc]
+    private void EnableTeamIndicatorsClientRpc(ulong networkObjectId, ulong recieverId)
+    {
+        if (NetworkManager.Singleton.LocalClientId == recieverId)
+        {
+            Debug.Log("enable team indiacotrs client rpc");
+            GameObject playerGameObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
+
+            if (playerGameObject.GetComponent<CaptureTheCakePlayerManager>().GetTeam() == playerTeams[NetworkManager.Singleton.LocalClientId])
+            {
+                playerGameObject.transform.Find("Teammate Indicator").gameObject.SetActive(true);
+            }
+        }
+    }
+
+
 }
+

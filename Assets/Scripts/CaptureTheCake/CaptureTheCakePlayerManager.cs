@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,7 +9,7 @@ using UnityEngine;
 public class CaptureTheCakePlayerManager : NetworkBehaviour
 {
     [Header("Cake Eating")]
-    public float eatAmount = 10f; // Amount of HP to reduce when eating the cake
+    public float eatAmount = 1f; // Amount of HP to reduce when eating the cake
     public Cake cake; // Reference to the cake
     private float eatCooldown = 0.5f;
     private bool canEat = true;
@@ -35,6 +36,12 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         canAttack = true;
     }
 
+    /*
+    private void OnDestroy()
+    {
+        captureTheCakeManager.AllPlayersSpawned -= CaptureTheCakePlayerManager_AllPlayersSpawned;
+    }*/
+    //d
     private void Update()
     {
         // Check for interaction with the cake
@@ -46,10 +53,11 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
                 return;
             }
             cake.EatCake(eatAmount);
+            canEat = false;
             StartCoroutine(ResetCakeEatingCd());
             Debug.Log("Cake being eaten");
         }
-        if (Input.GetMouseButtonDown(1) && canAttack)
+        if (Input.GetMouseButtonDown(1) && canAttack && captureTheCakeManager.IsGamePlaying())
         {
             RaycastHit hit;
             canAttack = false;
@@ -71,6 +79,7 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
 
         }
     }
+
     void Attack(RaycastHit hit)
     {
         Debug.Log("Raycast hit something: " + hit.collider.name);
@@ -127,7 +136,7 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         captureTheCakeManager.KillPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
         currentHealth = maxHealth;
     } //create stop spectating, clinet rpc to set person who died inactive
-    
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -164,4 +173,40 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         yield return new WaitForSeconds(eatCooldown);
         canEat = true;
     }
+    /*
+    public void EnableTeamIndicators()
+    {
+        Debug.Log("enabling team indicators");
+        foreach (var player in captureTheCakeManager.players)
+        {
+            EnableTeamIndicatorsServerRpc(player);
+        }
+       
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void EnableTeamIndicatorsServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
+    {
+        Debug.Log("EnableTeamIndicators sever rpc");
+        var senderId = serverRpcParams.Receive.SenderClientId;
+        ulong networkObjectId = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject.GetComponent<NetworkObject>().NetworkObjectId;
+
+        EnableTeamIndicatorsClientRpc(networkObjectId, senderId);
+    }
+
+    [ClientRpc]
+    private void EnableTeamIndicatorsClientRpc(ulong networkObjectId, ulong recieverId)
+    {
+        if (NetworkManager.Singleton.LocalClientId == recieverId)
+        {
+            Debug.Log("enable team indiacotrs client rpc");
+            GameObject playerGameObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
+            
+            if (playerGameObject.GetComponent<CaptureTheCakePlayerManager>().team.Value == team.Value)
+            {
+                playerGameObject.transform.Find("Player Canvas/Teammate Indicator").gameObject.SetActive(true);
+            }
+        }
+    }*/
+
 }
