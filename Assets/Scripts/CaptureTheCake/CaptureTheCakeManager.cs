@@ -346,6 +346,7 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
 
     }
 
+
     [ServerRpc(RequireOwnership = false)]
     private void EnableTeamIndicatorsServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
     {
@@ -364,7 +365,7 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
             Debug.Log("enable team indiacotrs client rpc");
             GameObject playerGameObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
 
-            if (playerGameObject.GetComponent<CaptureTheCakePlayerManager>().GetTeam() == playerTeams[NetworkManager.Singleton.LocalClientId])
+            if (playerGameObject.GetComponent<CaptureTheCakePlayerManager>().GetTeam() == team)
             {
                 playerGameObject.transform.Find("Teammate Indicator").gameObject.SetActive(true);
             }
