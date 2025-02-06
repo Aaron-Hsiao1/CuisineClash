@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.Burst.CompilerServices;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
     public float attackRange = 100f;
     public int maxHealth = 3;
     private int currentHealth;
+    [SerializeField] private HealthBar healthBar;
 
     private float attackCooldown;
     private bool canAttack;
@@ -33,6 +35,7 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
     {
         captureTheCakeManager = GameObject.Find("CaptureTheCakeManager").GetComponent<CaptureTheCakeManager>();
         currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         canAttack = true;
     }
 
@@ -85,7 +88,7 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         Debug.Log("Raycast hit something: " + hit.collider.name);
 
 #if UNITY_EDITOR
-        EditorGUIUtility.PingObject(hit.collider.gameObject);
+        //EditorGUIUtility.PingObject(hit.collider.gameObject);
 #endif
 
         CaptureTheCakePlayerManager playerCCManager = hit.collider.GetComponentInParent<CaptureTheCakePlayerManager>();
@@ -111,8 +114,12 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void TakeDamageServerRpc(ulong client, int amount)
     {
-        TakeDamageClientRpc(client, amount);
-    }
+        CaptureTheCakePlayerManager clientToTakeDamage = NetworkManager.Singleton.ConnectedClients[client].PlayerObject.transform.GetComponent<CaptureTheCakePlayerManager>();
+#if UNITY_EDITOR
+        EditorGUIUtility.PingObject(NetworkManager.Singleton.ConnectedClients[client].PlayerObject.gameObject);
+#endif
+        clientToTakeDamage.TakeDamageClientRpc(client, amount);
+    } //runs on player that did the attack on the host
 
     [ClientRpc]
     private void TakeDamageClientRpc(ulong client, int amount)
@@ -121,7 +128,10 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         {
             return;
         }
+        Debug.Log("take damage client rpc called on: " + transform.GetComponent<NetworkObject>().NetworkObjectId);
+        CaptureTheCakePlayerManager playerObjectCCPlayerManager = NetworkManager.Singleton.LocalClient.PlayerObject.gameObject.GetComponent<CaptureTheCakePlayerManager>();
         currentHealth -= amount;
+        healthBar.SetHealth(currentHealth);
         Debug.Log("Player took damage. Current health: " + currentHealth);
 
         if (currentHealth <= 0)
@@ -135,6 +145,7 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         Debug.Log("Player is dead!");
         captureTheCakeManager.KillPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
         currentHealth = maxHealth;
+        healthBar.SetHealth(maxHealth);
     } //create stop spectating, clinet rpc to set person who died inactive
 
 
