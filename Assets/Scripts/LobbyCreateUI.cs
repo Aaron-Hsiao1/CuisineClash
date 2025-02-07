@@ -25,7 +25,7 @@ public class LobbyCreateUI : MonoBehaviour
 		});
 		closeButton.onClick.AddListener(() =>
 		{
-			Hide();
+// Hide();
 		});
 	}
 
