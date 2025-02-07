@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,7 +18,9 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
 
     [Header("Combat")]
     public int damage = 1;
-    public float attackRange = 100f;
+    [SerializeField] private int attackWindupTime;
+    [SerializeField] GameObject attackCollider;
+    public List<CaptureTheCakePlayerManager> playersInAttackCollider = new List<CaptureTheCakePlayerManager>();
     public int maxHealth = 3;
     private int currentHealth;
     [SerializeField] private HealthBar healthBar;
@@ -62,7 +65,11 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         }
         if (Input.GetMouseButtonDown(1) && canAttack && captureTheCakeManager.IsGamePlaying())
         {
-            RaycastHit hit;
+            canAttack = false;
+            Debug.Log("can attack set to false and  attack windup started");
+            StartCoroutine(StartAttackWindup());
+            
+            /*RaycastHit hit;
             canAttack = false;
             StartCoroutine(ResetAttackCooldown());
             //Debug.Log("right click pressed");
@@ -78,12 +85,33 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
                 Debug.DrawRay(playerRaycastLocation.transform.position, playerRaycastLocation.transform.forward, Color.red, 2);
 
                 Attack(hit);
-            }
+            }*/
 
         }
     }
 
-    void Attack(RaycastHit hit)
+    private void Attack()
+    {
+        Debug.Log("Players in attack range: " + playersInAttackCollider.Count);
+        foreach (CaptureTheCakePlayerManager player in playersInAttackCollider)
+        {
+
+#if UNITY_EDITOR
+            EditorGUIUtility.PingObject(player.gameObject);
+#endif
+            Debug.Log("player.GetTeam(): " + player.GetTeam());
+            Debug.Log("team.Value: " + team.Value);
+            if (player.GetTeam() == team.Value || player.gameObject.GetComponent<NetworkObject>().OwnerClientId == NetworkManager.Singleton.LocalClientId) //null refernce
+            {
+                Debug.Log("Other player on same team, cannot attack");
+                return;
+            }
+            Debug.Log($"attacked and hit player {player.gameObject.GetComponent<NetworkObject>().OwnerClientId}");
+            TakeDamageServerRpc(player.gameObject.GetComponent<NetworkObject>().OwnerClientId, damage);
+        }
+    }
+
+    /*void Attack(RaycastHit hit)
     {
         Debug.Log("Raycast hit something: " + hit.collider.name);
 
@@ -103,7 +131,7 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         Debug.Log($"attacked and hit player {playerCCManager.gameObject.GetComponent<NetworkObject>().OwnerClientId}");
         TakeDamageServerRpc(playerCCManager.gameObject.GetComponent<NetworkObject>().OwnerClientId, damage);
         //playerCCManager.TakeDamageClientRpc(playerCCManager.gameObject.GetComponent<NetworkObject>().OwnerClientId, damage); client cannot call clientrpcs
-    }
+    }*/
 
     public IEnumerator ResetAttackCooldown()
     {
@@ -158,6 +186,11 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
             Debug.Log("Set Cake");
             cake = other.GetComponentInParent<Cake>();
         }
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Player walked into attack range");
+            playersInAttackCollider.Add(other.transform.gameObject.GetComponentInParent<CaptureTheCakePlayerManager>());
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -166,6 +199,11 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         if (other.CompareTag("Cake"))
         {
             cake = null;
+        }
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Player left attack range");
+            playersInAttackCollider.Remove(other.transform.gameObject.GetComponentInParent<CaptureTheCakePlayerManager>());
         }
     }
 
@@ -184,40 +222,14 @@ public class CaptureTheCakePlayerManager : NetworkBehaviour
         yield return new WaitForSeconds(eatCooldown);
         canEat = true;
     }
-    /*
-    public void EnableTeamIndicators()
+
+    private IEnumerator StartAttackWindup()
     {
-        Debug.Log("enabling team indicators");
-        foreach (var player in captureTheCakeManager.players)
-        {
-            EnableTeamIndicatorsServerRpc(player);
-        }
-       
+        Debug.Log("Attack windup started");
+        yield return new WaitForSeconds(attackWindupTime);
+        Debug.Log("Attack windup ended, attacking");
+        Attack();
+        StartCoroutine(ResetAttackCooldown());
     }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void EnableTeamIndicatorsServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
-    {
-        Debug.Log("EnableTeamIndicators sever rpc");
-        var senderId = serverRpcParams.Receive.SenderClientId;
-        ulong networkObjectId = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject.GetComponent<NetworkObject>().NetworkObjectId;
-
-        EnableTeamIndicatorsClientRpc(networkObjectId, senderId);
-    }
-
-    [ClientRpc]
-    private void EnableTeamIndicatorsClientRpc(ulong networkObjectId, ulong recieverId)
-    {
-        if (NetworkManager.Singleton.LocalClientId == recieverId)
-        {
-            Debug.Log("enable team indiacotrs client rpc");
-            GameObject playerGameObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
-            
-            if (playerGameObject.GetComponent<CaptureTheCakePlayerManager>().team.Value == team.Value)
-            {
-                playerGameObject.transform.Find("Player Canvas/Teammate Indicator").gameObject.SetActive(true);
-            }
-        }
-    }*/
 
 }

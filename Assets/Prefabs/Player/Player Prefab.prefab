@@ -2118,8 +2118,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.27, y: 1.572963, z: 1.2460847}
-  m_Center: {x: 0, y: 0.07422063, z: 1.3079932}
+  m_Size: {x: 1.27, y: 1.572963, z: 1.1956463}
+  m_Center: {x: 0, y: 0.07422066, z: 1.3332124}
 --- !u!1 &7039711912111513445
 GameObject:
   m_ObjectHideFlags: 0
@@ -2394,7 +2394,9 @@ MonoBehaviour:
   eatAmount: 10
   cake: {fileID: 0}
   damage: 1
-  attackRange: 100
+  attackWindupTime: 1
+  attackCollider: {fileID: 6868379218891858041}
+  playersInAttackCollider: []
   maxHealth: 3
   healthBar: {fileID: 8874100845131958544}
   playerRaycastLocation: {fileID: 6572824482099773384}
