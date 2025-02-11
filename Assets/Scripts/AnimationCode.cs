@@ -33,7 +33,12 @@ public class AnimationCode : NetworkBehaviour
 
 		if (mAnimator != null)
 		{
-			if (movementDirection != Vector3.zero)
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                mAnimator.SetTrigger("TrHammer");
+            }
+
+            if (movementDirection != Vector3.zero)
 			{
 				mAnimator.SetBool("IsMoving", true);
 			}
