@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{D2230A3A-9D8F-7889-74D3-AE26FAE6A530}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRelay", "SimpleRelay.csproj", "{03A0EC30-C945-5C24-1813-62F9A521F996}"
 EndProject
 Global
@@ -15,6 +17,10 @@ Global
 		{D2230A3A-9D8F-7889-74D3-AE26FAE6A530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2230A3A-9D8F-7889-74D3-AE26FAE6A530}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2230A3A-9D8F-7889-74D3-AE26FAE6A530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6EE3FCF-D261-BCCE-D326-B38AA583BD7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{03A0EC30-C945-5C24-1813-62F9A521F996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{03A0EC30-C945-5C24-1813-62F9A521F996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03A0EC30-C945-5C24-1813-62F9A521F996}.Release|Any CPU.ActiveCfg = Release|Any CPU
