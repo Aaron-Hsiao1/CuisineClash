@@ -79,7 +79,7 @@ public class HotPotatoManager : NetworkBehaviour
 			return;
 		}
 
-		if (Input.GetKeyDown(KeyCode.O))
+		/*if (Input.GetKeyDown(KeyCode.O))
 		{
 			currentTime.Value = 0;
 			timerRunning.Value = false;
@@ -87,7 +87,7 @@ public class HotPotatoManager : NetworkBehaviour
 
 			StartCoroutine(ReassignPotatoAfterCooldown());
 			Debug.Log("Potato Manually Detonated by Host!");
-		}
+		}*/
 
 		currentTime.Value -= Time.deltaTime;
 
@@ -108,7 +108,7 @@ public class HotPotatoManager : NetworkBehaviour
 
 	private void Awake()
 	{
-		timeBeforeExplosion = 3000000;
+		timeBeforeExplosion = 60f;
 		topThreePlayers = new List<ulong>();
 		Debug.Log("Timer Awake!");
 	}
