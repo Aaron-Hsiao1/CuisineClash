@@ -108,7 +108,7 @@ public class HotPotatoManager : NetworkBehaviour
 
 	private void Awake()
 	{
-		timeBeforeExplosion = 60f;
+		timeBeforeExplosion = 10f;
 		topThreePlayers = new List<ulong>();
 		Debug.Log("Timer Awake!");
 	}
@@ -137,6 +137,7 @@ public class HotPotatoManager : NetworkBehaviour
 	{
 		if (NetworkManager.Singleton.LocalClientId == currentPlayerWithPotato.Value)
 		{
+			Debug.Log($"Player {NetworkManager.Singleton.LocalClientId} removed from spectating list, current player with potato: {currentPlayerWithPotato.Value}");
 			spectateManager.RemovePlayerFromSpectatingList(currentPlayerWithPotato.Value);
 			spectateManager.StartSpectating(currentPlayerWithPotato.Value);
 		}
@@ -156,6 +157,7 @@ public class HotPotatoManager : NetworkBehaviour
 			{
 				Debug.Log("EXPLOSION");
 
+				
 				StartSpectatingClientRpc();
 				player.Eliminate(); // Call the player's elimination method
 

@@ -99,12 +99,13 @@ public class SpectateManager : NetworkBehaviour
 		SpectatePlayer(currentPlayerBeingSpectated);
 	}
 
+
 	public void RemovePlayerFromSpectatingList(ulong clientId)
 	{
 		RemovePlayerFromSpectatingListServerRpc(clientId);
 	}
 
-	[ServerRpc]
+	[ServerRpc(RequireOwnership = false)]
 	private void RemovePlayerFromSpectatingListServerRpc(ulong clientId)
 	{
 		availableToSpectateList.Remove(clientId);
@@ -113,11 +114,13 @@ public class SpectateManager : NetworkBehaviour
 
 	public void SpectatePlayer(ulong clientId)
 	{
+		Debug.Log("SpectatePlayer");
 		GetPlayerPrefabNetworkObjectIdFromClientId(clientId);
 	}
 
 	public void GetPlayerPrefabNetworkObjectIdFromClientId(ulong clientId)
 	{
+		Debug.Log("GetPlayerPrefabNetworkObjectIdFromClientId");
 		SpectatePlayerServerRpc(clientId);
 	}
 
@@ -129,8 +132,9 @@ public class SpectateManager : NetworkBehaviour
 			GameObject playerGameObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
 			currentSpectatorCamera = playerGameObject.transform.Find("CameraHolder/Main Camera").gameObject;
 			currentSpectatorFreeLookCamera = playerGameObject.transform.Find("FreeLook Camera").gameObject;
+			Debug.Log($"Player {recieverId} is spectating network object id: {NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].OwnerClientId}");
 
-			currentSpectatorCamera.SetActive(true);
+            currentSpectatorCamera.SetActive(true);
 			currentSpectatorFreeLookCamera.gameObject.SetActive(true);
 		}
 	}
