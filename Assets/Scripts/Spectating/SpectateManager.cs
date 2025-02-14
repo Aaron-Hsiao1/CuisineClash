@@ -81,10 +81,25 @@ public class SpectateManager : NetworkBehaviour
 		}
 	}
 
+	[ServerRpc(RequireOwnership = false)]
+	private void StartSpectatingServerRpc(ulong spectator)
+	{
+
+
+	}
+
 	public void StartSpectating(ulong spectator)
 	{
 		isSpectating = true;
-		StartSpectatingClientRpc(spectator);
+		Debug.Log($"This code is running on Player {NetworkManager.Singleton.LocalClientId}");
+		Debug.Log($"Player {spectator} has started spectating ? {isSpectating}");
+		//StartSpectatingClientRpc(spectator);
+
+		currentIndexBeingSpectated = 0;
+		currentPlayerBeingSpectated = availableToSpectateList[currentIndexBeingSpectated];
+		Debug.Log($"Length of available to spectatel ist: {availableToSpectateList.Count}");
+		Debug.Log($"Current player being spectated: {currentPlayerBeingSpectated}");
+		SpectatePlayer(currentPlayerBeingSpectated);
 	}
 
 	[ClientRpc]
@@ -96,6 +111,8 @@ public class SpectateManager : NetworkBehaviour
 		}
 		currentIndexBeingSpectated = 0;
 		currentPlayerBeingSpectated = availableToSpectateList[currentIndexBeingSpectated];
+		Debug.Log($"Length of available to spectatel ist: {availableToSpectateList.Count}");
+		Debug.Log($"Current player being spectated: {currentPlayerBeingSpectated}");
 		SpectatePlayer(currentPlayerBeingSpectated);
 	}
 
@@ -108,6 +125,7 @@ public class SpectateManager : NetworkBehaviour
 	[ServerRpc(RequireOwnership = false)]
 	private void RemovePlayerFromSpectatingListServerRpc(ulong clientId)
 	{
+		Debug.Log($"Player {clientId} removed from Spectating List");
 		availableToSpectateList.Remove(clientId);
 	}
 
@@ -134,7 +152,7 @@ public class SpectateManager : NetworkBehaviour
 			currentSpectatorFreeLookCamera = playerGameObject.transform.Find("FreeLook Camera").gameObject;
 			Debug.Log($"Player {recieverId} is spectating network object id: {NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].OwnerClientId}");
 
-            currentSpectatorCamera.SetActive(true);
+			currentSpectatorCamera.SetActive(true);
 			currentSpectatorFreeLookCamera.gameObject.SetActive(true);
 		}
 	}
