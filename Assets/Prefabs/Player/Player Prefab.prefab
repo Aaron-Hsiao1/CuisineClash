@@ -310,7 +310,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325825641374297174}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.043703213, y: 0.30246493, z: -0.013884349, w: 0.9520568}
+  m_LocalRotation: {x: 0.043703213, y: 0.30246493, z: -0.013884347, w: 0.9520568}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1705,6 +1705,7 @@ MonoBehaviour:
   moveSpeed: 5
   walkSpeed: 0
   sprintSpeed: 7.5
+  chargeSpeed: 1.5
   hasPotatoSpeedMultiplier: 0
   groundDrag: 1
   playerHeight: 2
@@ -1726,6 +1727,7 @@ MonoBehaviour:
   freeCam: {fileID: 6711636861366011777}
   jumpKey: 32
   hotPotatoManager: {fileID: 0}
+  KOTGA: {fileID: 0}
 --- !u!114 &7888669529665992022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1833,6 +1835,7 @@ MonoBehaviour:
   playerHeight: 2
   jumpKey: 32
   HPT: {fileID: 2979876972396270694}
+  KOTGA: {fileID: 2762415173220962088}
   playerMovement: {fileID: 6354735150898331807}
 --- !u!114 &2062153363066417111
 MonoBehaviour:
@@ -1862,6 +1865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DashScale: 15
+  isCharging: 0
   Orientation: {fileID: 9076327832988588039}
   dashSpeed: 0.5
   maxDashChargeTime: 5
@@ -1870,6 +1874,7 @@ MonoBehaviour:
   dashDuration: 0.25
   knockbackMultiplier: 5
   moveScript: {fileID: 6354735150898331807}
+  isDashing: 0
 --- !u!114 &5415977598133876052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3684,7 +3689,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee295b2a1446d984fbe4a165398c159c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1394283842
+    DestinationState: -2028457716
+    TransitionDuration: 0.25
+    TriggerNameHash: 1767465396
+    TransitionIndex: 0
   m_Animator: {fileID: 5773477117779155358}
 --- !u!4 &9140947846255457079 stripped
 Transform:

@@ -8,6 +8,7 @@ public class KOTGAttack : MonoBehaviour
     public float DashScale = 5f;
     private float dashTime = 0f;
     private float dashForce;
+    public bool isCharging;
 
     public Transform Orientation;
     // Start is called before the first frame update
@@ -20,7 +21,7 @@ public class KOTGAttack : MonoBehaviour
 
     [SerializeField] private PlayerMovement moveScript;
 
-    private bool isDashing = false; // To check if the dash is currently active
+    public bool isDashing = false; // To check if the dash is currently active
     private float dashChargeTime = 0f; // Time for which dash has been charged
     private Rigidbody rb; // Reference to Rigidbody for movement
     private Vector3 dashDirection;
@@ -37,12 +38,14 @@ public class KOTGAttack : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0) && !isDashing)
         {
             ChargeDash();
+            isCharging = true; //for animation
         }
 
         // If Space is released, execute the dash
         if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing)
         {
             ExecuteDash();
+            isCharging = false; //for animation
         }
         UpdateDashDirection();
 
