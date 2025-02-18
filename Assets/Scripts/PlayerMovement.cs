@@ -42,6 +42,8 @@ public class PlayerMovement : NetworkBehaviour
 
 	public KeyCode jumpKey = KeyCode.Space;
 
+	public KOTGAttack KOTGA;
+
 	[SerializeField] private HotPotatoManager hotPotatoManager;
 	// Start is called before the first frame update
 	void Start()
@@ -183,6 +185,12 @@ public class PlayerMovement : NetworkBehaviour
 		if (SceneManager.GetActiveScene().name == "HotPotato" && NetworkManager.Singleton.LocalClientId == hotPotatoManager.currentPlayerWithPotato.Value)
 		{
 			moveSpeed *= hasPotatoSpeedMultiplier;
+		}
+
+		if (KOTGA.isCharging)
+		{
+			moveSpeed *= 0.5f;
+			Debug.Log("movespeed: " + moveSpeed);
 		}
 	}
 

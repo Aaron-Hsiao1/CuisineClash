@@ -310,7 +310,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325825641374297174}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.043703213, y: 0.30246493, z: -0.013884347, w: 0.9520568}
+  m_LocalRotation: {x: 0.043703213, y: 0.30246493, z: -0.013884349, w: 0.9520568}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1612,7 +1612,6 @@ GameObject:
   - component: {fileID: 6481650225822335286}
   - component: {fileID: 2062153363066417111}
   - component: {fileID: 2762415173220962088}
-  - component: {fileID: 5415977598133876052}
   m_Layer: 2
   m_Name: Player Prefab
   m_TagString: Player
@@ -1705,7 +1704,6 @@ MonoBehaviour:
   moveSpeed: 5
   walkSpeed: 0
   sprintSpeed: 7.5
-  chargeSpeed: 1.5
   hasPotatoSpeedMultiplier: 0
   groundDrag: 1
   playerHeight: 2
@@ -1726,8 +1724,8 @@ MonoBehaviour:
   rb: {fileID: 0}
   freeCam: {fileID: 6711636861366011777}
   jumpKey: 32
+  KOTGA: {fileID: 2762415173220962088}
   hotPotatoManager: {fileID: 0}
-  KOTGA: {fileID: 0}
 --- !u!114 &7888669529665992022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1875,18 +1873,6 @@ MonoBehaviour:
   knockbackMultiplier: 5
   moveScript: {fileID: 6354735150898331807}
   isDashing: 0
---- !u!114 &5415977598133876052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7039711912111513445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a46e2e7087027c428307c5745268a44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7394634557177857571
 GameObject:
   m_ObjectHideFlags: 0

@@ -110,6 +110,7 @@ public class KOTGAttack : MonoBehaviour
             Rigidbody hitRb = collision.gameObject.GetComponent<Rigidbody>(); // Get Rigidbody of the object hit
             if (hitRb != null)
             {
+                /*
                 IHitable hitable = collision.gameObject.GetComponent<IHitable>();
                 {
                     if(hitable != null)
@@ -117,12 +118,13 @@ public class KOTGAttack : MonoBehaviour
                         hitable.Execute(transform);
                     }
                 }
-                /*
+                */
+                
                 Vector3 knockbackDirection = collision.transform.position - transform.position;
                 knockbackDirection.Normalize();
 
                 hitRb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-                */
+                
             }
         }
     }
