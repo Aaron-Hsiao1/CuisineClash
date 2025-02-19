@@ -189,7 +189,7 @@ public class PlayerMovement : NetworkBehaviour
 
 		if (KOTGA.isCharging)
 		{
-			moveSpeed *= 0.5f;
+			moveSpeed = 2.0f;
 			Debug.Log("movespeed: " + moveSpeed);
 		}
 	}
