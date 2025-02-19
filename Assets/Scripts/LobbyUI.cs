@@ -19,34 +19,35 @@ public class LobbyUI : MonoBehaviour
 	[SerializeField] private TMP_InputField playerNameInputField;
 
 	private void Awake()
-	{	
-		
+	{
+
 
 	}
 
 	private void Start()
 	{
-        mainMenuButton.onClick.AddListener(() =>
-        {
-            CuisineClashLobby.Instance.LeaveLobby();
-            Loader.Load(Loader.Scene.MainMenu);
-        });
-        createLobbyButton.onClick.AddListener(() =>
-        {
-            lobbyCreateUI.Show();
-        });
-        quickJoinButton.onClick.AddListener(() =>
-        {
-            CuisineClashLobby.Instance.QuickJoin();
-        });
-        joinCodeButton.onClick.AddListener(() =>
-        {
-            CuisineClashLobby.Instance.JoinWithCode(joinCodeInputField.text);
-        });
+		mainMenuButton.onClick.AddListener(() =>
+		{
+			CuisineClashLobby.Instance.LeaveLobby();
+			Loader.Load(Loader.Scene.MainMenu);
+		});
+		createLobbyButton.onClick.AddListener(() =>
+		{
+			lobbyCreateUI.Show();
+		});
+		quickJoinButton.onClick.AddListener(() =>
+		{
+			CuisineClashLobby.Instance.QuickJoin();
+		});
+		joinCodeButton.onClick.AddListener(() =>
+		{
+			CuisineClashLobby.Instance.JoinWithCode(joinCodeInputField.text);
+		});
 
-        lobbyTemplate.gameObject.SetActive(false);
-        
-        playerNameInputField.text = CuisineClashMultiplayer.Instance.GetPlayerName();
+		lobbyTemplate.gameObject.SetActive(false);
+
+		//playerNameInputField.text = CuisineClashMultiplayer.Instance.GetPlayerName();
+		playerNameInputField.text = "Enter Player Name Here";
 
 		playerNameInputField.onValueChanged.AddListener((string newText) =>
 		{

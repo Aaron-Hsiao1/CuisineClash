@@ -81,10 +81,25 @@ public class SpectateManager : NetworkBehaviour
 		}
 	}
 
+	[ServerRpc(RequireOwnership = false)]
+	private void StartSpectatingServerRpc(ulong spectator)
+	{
+
+
+	}
+
 	public void StartSpectating(ulong spectator)
 	{
 		isSpectating = true;
-		StartSpectatingClientRpc(spectator);
+		Debug.Log($"This code is running on Player {NetworkManager.Singleton.LocalClientId}");
+		Debug.Log($"Player {spectator} has started spectating ? {isSpectating}");
+		//StartSpectatingClientRpc(spectator);
+
+		currentIndexBeingSpectated = 0;
+		currentPlayerBeingSpectated = availableToSpectateList[currentIndexBeingSpectated];
+		Debug.Log($"Length of available to spectatel ist: {availableToSpectateList.Count}");
+		Debug.Log($"Current player being spectated: {currentPlayerBeingSpectated}");
+		SpectatePlayer(currentPlayerBeingSpectated);
 	}
 
 	[ClientRpc]
@@ -96,28 +111,34 @@ public class SpectateManager : NetworkBehaviour
 		}
 		currentIndexBeingSpectated = 0;
 		currentPlayerBeingSpectated = availableToSpectateList[currentIndexBeingSpectated];
+		Debug.Log($"Length of available to spectatel ist: {availableToSpectateList.Count}");
+		Debug.Log($"Current player being spectated: {currentPlayerBeingSpectated}");
 		SpectatePlayer(currentPlayerBeingSpectated);
 	}
+
 
 	public void RemovePlayerFromSpectatingList(ulong clientId)
 	{
 		RemovePlayerFromSpectatingListServerRpc(clientId);
 	}
 
-	[ServerRpc]
+	[ServerRpc(RequireOwnership = false)]
 	private void RemovePlayerFromSpectatingListServerRpc(ulong clientId)
 	{
+		Debug.Log($"Player {clientId} removed from Spectating List");
 		availableToSpectateList.Remove(clientId);
 	}
 
 
 	public void SpectatePlayer(ulong clientId)
 	{
+		Debug.Log("SpectatePlayer");
 		GetPlayerPrefabNetworkObjectIdFromClientId(clientId);
 	}
 
 	public void GetPlayerPrefabNetworkObjectIdFromClientId(ulong clientId)
 	{
+		Debug.Log("GetPlayerPrefabNetworkObjectIdFromClientId");
 		SpectatePlayerServerRpc(clientId);
 	}
 
@@ -129,6 +150,7 @@ public class SpectateManager : NetworkBehaviour
 			GameObject playerGameObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
 			currentSpectatorCamera = playerGameObject.transform.Find("CameraHolder/Main Camera").gameObject;
 			currentSpectatorFreeLookCamera = playerGameObject.transform.Find("FreeLook Camera").gameObject;
+			Debug.Log($"Player {recieverId} is spectating network object id: {NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].OwnerClientId}");
 
 			currentSpectatorCamera.SetActive(true);
 			currentSpectatorFreeLookCamera.gameObject.SetActive(true);

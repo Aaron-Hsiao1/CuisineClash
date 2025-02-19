@@ -1316,9 +1316,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4967887445743603329, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1927486875}
-    - targetCorrespondingSourceObject: {fileID: 4967887445743603329, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1927486876}
     - targetCorrespondingSourceObject: {fileID: 3478890725374963064, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 60686577}
@@ -1358,6 +1355,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 953433530169862128, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1127086461}
+    - targetCorrespondingSourceObject: {fileID: 953433530169862128, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1127086462}
     - targetCorrespondingSourceObject: {fileID: 1588116443854712623, guid: e295b5d0c39936643827ed398e6349a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1363683661}
@@ -4404,7 +4404,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -4436,6 +4436,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meatballManager: {fileID: 7405633099303609787}
+--- !u!65 &1127086462
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60686562}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9017951, y: 0.90147984, z: 0.008133638}
+  m_Center: {x: -0.29967406, y: 0.30009034, z: 0.0004828155}
 --- !u!64 &1197122979
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6320,19 +6341,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &1927486876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 60686488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8fd46bb659004695a671b438311ebee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rainingMeatballManager: {fileID: 7405633099303609787}
 --- !u!1001 &1934531921
 PrefabInstance:
   m_ObjectHideFlags: 0

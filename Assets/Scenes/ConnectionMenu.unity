@@ -256,8 +256,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Enter Player Name\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
-  m_sharedMaterial: {fileID: 7828103452043414876, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
+  m_sharedMaterial: {fileID: 956168665488722106, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -718,7 +718,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -893,7 +893,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -1136,7 +1136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1611299170915080848, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1687040031498899584, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
       propertyPath: m_LocalScale.x
@@ -2355,8 +2355,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
-  m_sharedMaterial: {fileID: 7828103452043414876, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
+  m_sharedMaterial: {fileID: 956168665488722106, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2489,8 +2489,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
-  m_sharedMaterial: {fileID: 7828103452043414876, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
+  m_sharedMaterial: {fileID: 956168665488722106, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2755,7 +2755,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1018588743
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3278,7 +3278,7 @@ MonoBehaviour:
   createPublicButton: {fileID: 609383386}
   createPrivateButton: {fileID: 1710329113}
   lobbyNameInputField: {fileID: 272220438}
-  transition: {fileID: 0}
+  transition: {fileID: 1322702200}
   transitionTime: 1
 --- !u!95 &1322702200
 Animator:
@@ -3900,8 +3900,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
-  m_sharedMaterial: {fileID: 7828103452043414876, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
+  m_sharedMaterial: {fileID: 956168665488722106, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4160,8 +4160,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1da7ca4a67a4e4b80e4153c3d23c40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerOuterColorList: []
-  playerInnerColorList: []
+  playerOuterColorList:
+  - {r: 0.53333336, g: 0.78823537, b: 1, a: 1}
+  - {r: 1, g: 0.16862746, b: 0, a: 1}
+  - {r: 1, g: 0.35686275, b: 0, a: 1}
+  - {r: 0.8196079, g: 0.6862745, b: 0, a: 1}
+  - {r: 0.2627451, g: 1, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0.7960785, a: 1}
+  - {r: 0, g: 0.69803923, b: 1, a: 1}
+  - {r: 0.6313726, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0.8470589, a: 1}
+  - {r: 0.21960786, g: 0, b: 1, a: 1}
+  playerInnerColorList:
+  - {r: 0.003921569, g: 0.7294118, b: 0.9058824, a: 1}
+  - {r: 0.7725491, g: 0.12941177, b: 0, a: 1}
+  - {r: 0.83921576, g: 0.29803923, b: 0, a: 1}
+  - {r: 1, g: 0.83921576, b: 0, a: 1}
+  - {r: 0.21176472, g: 0.8117648, b: 0, a: 1}
+  - {r: 0, g: 0.69803923, b: 0.5568628, a: 1}
+  - {r: 0, g: 0.35686275, b: 0.50980395, a: 1}
+  - {r: 0.5176471, g: 0, b: 0.8196079, a: 1}
+  - {r: 0.8000001, g: 0, b: 0.6784314, a: 1}
+  - {r: 0.13333334, g: 0, b: 0.6039216, a: 1}
 --- !u!4 &1514390206
 Transform:
   m_ObjectHideFlags: 0
@@ -4466,8 +4486,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
+  m_sharedMaterial: {fileID: 956168665488722106, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5038,7 +5058,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1187, y: -404}
+  m_AnchoredPosition: {x: 1144, y: -404}
   m_SizeDelta: {x: 119.3182, y: 65.0774}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1830694662
@@ -5267,8 +5287,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Enter Code\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
-  m_sharedMaterial: {fileID: 7828103452043414876, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
+  m_sharedMaterial: {fileID: 956168665488722106, guid: 270f0ed6fc25f9e4e93c28a242ace747, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
