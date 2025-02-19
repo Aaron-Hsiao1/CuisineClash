@@ -4953,8 +4953,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a345aa14dcaeac45bfc296c4dd973e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalLaunchForce: 10
-  launchForceUp: 10
+  horizontalLaunchForce: 750
+  launchForceUp: 25
 --- !u!114 &6639898222136440737
 MonoBehaviour:
   m_ObjectHideFlags: 0

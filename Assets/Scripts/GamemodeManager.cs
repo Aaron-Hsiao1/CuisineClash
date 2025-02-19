@@ -16,8 +16,8 @@ public class GamemodeManager : NetworkBehaviour
 	{
 		//MultiplayerTesting,
 		//RainingMeatball,
-		//KingOfTheGrill,
-		HotPotato
+		KingOfTheGrill,
+		//HotPotato
 		//LoadIntoHP
 		//TutorialHP
 		//GameEnded
