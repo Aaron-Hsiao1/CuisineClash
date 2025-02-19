@@ -7,10 +7,10 @@ public class GoKartMovement : MonoBehaviour
 {
     private Rigidbody rb;
 
-    private float CurrentSpeed = 0;
+    public static float CurrentSpeed = 0;
     public float MaxSpeed;
     public float boostSpeed;
-    private float RealSpeed; // not the applied speed
+    public static float RealSpeed; // not the applied speed
 
     [Header("Tires")]
     public Transform frontLeftTire;
