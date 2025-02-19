@@ -148,8 +148,8 @@ public class CaptureTheCakeManager : NetworkBehaviour //candycane bonk and m and
 		}
 
 		//HidePlayerClientRpc(playerNetworkObject.NetworkObjectId);
-		//StartSpectatingClientRpc(clientId);
-		//StartCoroutine(RespawnPlayer(clientId)); //client is not able to spectate??
+		StartSpectatingClientRpc(clientId);
+		StartCoroutine(RespawnPlayer(clientId)); //client is not able to spectate??
 	}
 
 	[ClientRpc]

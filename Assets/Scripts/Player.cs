@@ -101,7 +101,7 @@ public class Player : NetworkBehaviour
 
 	private IEnumerator DeactivateAfterFrame()
 	{
-		yield return null; // Wait for one frame to ensure position update
+		yield return 1f; // Wait for one frame to ensure position update
 		transform.gameObject.SetActive(false);
 	}
 
