@@ -28,7 +28,7 @@ public class KOTGBoxFling : MonoBehaviour
             // Check if the other object has a Rigidbody (this is important to apply force)
             if (other.GetComponent<Rigidbody>() != null)
             {
-                Rigidbody rb = other.GetComponent<Rigidbody>();
+                Rigidbody rb = other.GetComponentInParent<Rigidbody>();
 
                 // Calculate the direction from the center of the area to the object's position
                 Vector3 flingDirection = (other.transform.position - transform.position).normalized;
