@@ -45,7 +45,7 @@ public class GoKartMovement : MonoBehaviour
     public Transform boostFire;
 
     public TMP_Text countdownText; // Assign this in the Inspector
-    private bool canMove = false;
+    public static bool canMove = false;
 
     // Start is called before the first frame update
     void Start()

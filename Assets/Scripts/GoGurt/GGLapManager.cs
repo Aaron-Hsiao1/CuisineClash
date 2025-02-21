@@ -29,7 +29,6 @@ public class GGLapManager : MonoBehaviour
     {
         if (!racerProgress.ContainsKey(r))
         {
-            Debug.LogError("Racer not found in lap tracker! Adding them now.");
             AddRacerToProgressKeeper(r);
         }
 
@@ -39,17 +38,15 @@ public class GGLapManager : MonoBehaviour
         if (hitCheckpoint == 0 && currentRacerCP == checkpoints.Count - 1)
         {
             int newLap = racerProgress[r].Item1 + 1;
-
-            // Check if the race is finished
             if (newLap >= maxLaps)
             {
                 Debug.Log("Race Finished!");
                 raceStatusText.text = "Race Finished";
-                return; // Stop updating laps
+                GoKartMovement.canMove = false; 
+                return; 
             }
 
             racerProgress[r] = (newLap, 0);
-            Debug.Log($"Lap completed! Current lap: {newLap}");
 
             // Update UI
             if (lapText != null)
@@ -60,7 +57,6 @@ public class GGLapManager : MonoBehaviour
         else if (hitCheckpoint == currentRacerCP + 1)
         {
             racerProgress[r] = (racerProgress[r].Item1, hitCheckpoint);
-            Debug.Log($"Racer reached checkpoint {c}!");
         }
     }
 
