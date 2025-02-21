@@ -44,7 +44,7 @@ public class GGLapManager : MonoBehaviour
             if (newLap >= maxLaps)
             {
                 Debug.Log("Race Finished!");
-                raceStatusText.text = "🏁 Race Finished!";
+                raceStatusText.text = "Race Finished";
                 return; // Stop updating laps
             }
 
