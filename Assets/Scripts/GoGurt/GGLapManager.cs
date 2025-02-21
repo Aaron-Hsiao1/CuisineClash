@@ -1,9 +1,7 @@
-
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GGLapManager : MonoBehaviour
 {
@@ -12,12 +10,16 @@ public class GGLapManager : MonoBehaviour
     [Header("Drag and drop your checkpoints here - in their correct order")]
     [SerializeField] private List<Checkpoint> checkpoints;
 
+    [Header("UI Elements")]
+    [SerializeField] private TextMeshProUGUI lapText;
+    [SerializeField] private TextMeshProUGUI raceStatusText; // Text for displaying race status
 
-    //here (int, int) is a tuple the first item is the Lap, the second is the current/mostRecent checkpoint which was hit
-    //if you like you could make a struct instead
-    Dictionary<GGLapCounter, (int, int)> racerProgress;
+    [Header("Race Settings")]
+    [SerializeField] private int maxLaps = 3; // Max laps to complete the race
 
-    private void OnEnable()
+    private Dictionary<GGLapCounter, (int, int)> racerProgress;
+
+    private void Awake()
     {
         instance = this;
         racerProgress = new Dictionary<GGLapCounter, (int, int)>();
@@ -25,52 +27,48 @@ public class GGLapManager : MonoBehaviour
 
     public void RacerProgressReport(GGLapCounter r, Checkpoint c)
     {
-        //index of might not be great, each checkpoint could be given it's idex to hold or something
-        var hitCheckpoint = checkpoints.IndexOf(c);
+        if (!racerProgress.ContainsKey(r))
+        {
+            Debug.LogError("Racer not found in lap tracker! Adding them now.");
+            AddRacerToProgressKeeper(r);
+        }
 
-        //get the current/most recent checkpoint hit by racer
+        var hitCheckpoint = checkpoints.IndexOf(c);
         var currentRacerCP = racerProgress[r].Item2;
 
+        if (hitCheckpoint == 0 && currentRacerCP == checkpoints.Count - 1)
+        {
+            int newLap = racerProgress[r].Item1 + 1;
 
-        if (hitCheckpoint == 0 && currentRacerCP == checkpoints.Count - 1)  //this checks if we have hit the start/end but it also assumes that start and end will be in the same place
-        {
-            racerProgress[r] = (racerProgress[r].Item1 + 1, 0);
-            Debug.Log($"We done did a lap! we're now on {racerProgress[r].Item1}");
+            // Check if the race is finished
+            if (newLap >= maxLaps)
+            {
+                Debug.Log("Race Finished!");
+                raceStatusText.text = "🏁 Race Finished!";
+                return; // Stop updating laps
+            }
 
+            racerProgress[r] = (newLap, 0);
+            Debug.Log($"Lap completed! Current lap: {newLap}");
+
+            // Update UI
+            if (lapText != null)
+            {
+                lapText.text = $"Lap: {newLap}/{maxLaps}";
+            }
         }
-        else if (hitCheckpoint == currentRacerCP + 1) //currentRacerCP + 1 is the next one we should hit in sequence
+        else if (hitCheckpoint == currentRacerCP + 1)
         {
-            racerProgress[r] = (racerProgress[r].Item1, racerProgress[r].Item2 + 1);
-            Debug.Log($"racer {r} has hit {c}!");
-        }
-        else if (hitCheckpoint <= currentRacerCP)
-        {
-            Debug.Log($"racer {r} has hit {c}! YOU'RE GOING BACKWARDS");
-        }
-        else
-        {
-            Debug.Log($"racer is at: lap {racerProgress[r].Item1} checkpoint {racerProgress[r].Item2} and hit {checkpoints.IndexOf(c)}, CHEATER!!!");
+            racerProgress[r] = (racerProgress[r].Item1, hitCheckpoint);
+            Debug.Log($"Racer reached checkpoint {c}!");
         }
     }
 
     public void AddRacerToProgressKeeper(GGLapCounter r)
     {
-        //might want to do some business here to make sure everything is propperly instantiated.
-        racerProgress.Add(r, (0, -1));
+        if (!racerProgress.ContainsKey(r))
+        {
+            racerProgress.Add(r, (0, -1));
+        }
     }
-
-
-    //these are probably
-    public void AddCheckpointToList(Checkpoint c)
-    {
-        //again, business to make sure everything is correct should probably be done here in production code
-        checkpoints.Add(c);
-    }
-
-    public void RemoveCheckpointFromList(Checkpoint c)
-    {
-        //this might not be necessary ever
-        checkpoints.Remove(c);
-    }
-
 }

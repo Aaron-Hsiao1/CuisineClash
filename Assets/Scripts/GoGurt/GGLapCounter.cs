@@ -1,6 +1,3 @@
-//this component should be added to each Racer
-//it requires a Rigidbody and a collider
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
