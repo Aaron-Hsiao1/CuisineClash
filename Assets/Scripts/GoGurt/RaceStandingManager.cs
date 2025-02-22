@@ -1,30 +1,49 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using Unity.Netcode;
 
-public class RaceStandingsManager : MonoBehaviour
+public class RaceStandingsManager : NetworkBehaviour
 {
-    public List<GGStanding> racers = new List<GGStanding>(); // List of all racers
-    [SerializeField] private TextMeshProUGUI playerPositionText; // UI Text to display player's position
+    public List<GGStanding> racers = new List<GGStanding>(); 
+    [SerializeField] private TextMeshProUGUI playerPositionText;
 
     void Update()
     {
-        UpdateStandings();
+        if (IsServer)
+        {
+            UpdateStandingsServer();
+        }
     }
 
-    void UpdateStandings()
+    [ServerRpc(RequireOwnership = false)]
+    void RequestStandingsUpdateServerRpc()
     {
-        // Sort racers by their progress (higher progress means ahead in the race)
-        racers.Sort((r1, r2) => r2.progress.CompareTo(r1.progress));
+        UpdateStandingsServer();
+    }
+
+    private void UpdateStandingsServer()
+    {
+        racers.Sort((r1, r2) => r2.progress.Value.CompareTo(r1.progress.Value));
 
         for (int i = 0; i < racers.Count; i++)
         {
             racers[i].currentRank = i + 1;
         }
 
-        // Update the player's position UI (assuming the first racer is the player)
-        playerPositionText.text = "" + GetOrdinalSuffix(racers[0].currentRank);
+        UpdateStandingsClientRpc();
+    }
+
+    [ClientRpc]
+    private void UpdateStandingsClientRpc()
+    {
+        if (!IsOwner) return;
+
+        GGStanding localPlayer = racers.Find(r => r.OwnerClientId == NetworkManager.Singleton.LocalClientId);
+        if (localPlayer != null)
+        {
+            playerPositionText.text = GetOrdinalSuffix(localPlayer.currentRank);
+        }
     }
 
     string GetOrdinalSuffix(int num)

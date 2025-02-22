@@ -1,14 +1,7 @@
-using UnityEngine;
+using Unity.Netcode;
 
-public class GGStanding : MonoBehaviour
+public class GGStanding : NetworkBehaviour
 {
-    public string racerName; // Racer's name
-    public float progress;   // Progress in the race
-    public int currentRank;  // Current rank in the race
-
-    void Update()
-    {
-        // Example: Update progress based on distance traveled (you should modify this based on your game logic)
-        progress = transform.position.z; 
-    }
+    public NetworkVariable<float> progress = new NetworkVariable<float>(0f);
+    public int currentRank;
 }
