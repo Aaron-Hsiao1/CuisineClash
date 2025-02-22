@@ -2557,6 +2557,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6623288369113248623, guid: c77b91bf06f934d40aa0a75708cc3746, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6711636861366011777, guid: c77b91bf06f934d40aa0a75708cc3746, type: 3}
       propertyPath: CineCam
       value: 
@@ -2564,6 +2568,10 @@ PrefabInstance:
     - target: {fileID: 7039711912111513445, guid: c77b91bf06f934d40aa0a75708cc3746, type: 3}
       propertyPath: m_Name
       value: Player Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039711912111513445, guid: c77b91bf06f934d40aa0a75708cc3746, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7043969082750220085, guid: c77b91bf06f934d40aa0a75708cc3746, type: 3}
       propertyPath: fL

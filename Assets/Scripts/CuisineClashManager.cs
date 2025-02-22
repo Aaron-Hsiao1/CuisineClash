@@ -64,33 +64,35 @@ public class CuisineClashManager : NetworkBehaviour
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
     }
 
-    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+{
+    if (!IsHost) return; // Only the host should handle spawning players.
+
+    Debug.Log("Client list count that finished loading: " + clientsCompleted.Count);
+
+    foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
     {
-        if (IsHost)
+        // Check if the player already exists for the client
+        if (NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject != null)
         {
-            Debug.Log("Client list count that finished loading: " + clientsCompleted.Count);
-
-            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
-            {
-                Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
-
-                // Select the correct prefab based on the scene
-                Transform prefabToSpawn = sceneName == "GoGurt" ? goKartPrefab : playerPrefab;
-
-                // Spawn the correct player prefab
-                Transform playerTransform = Instantiate(prefabToSpawn, nextSpawnPoint, Quaternion.identity);
-                NetworkObject playerTransformNetwork = playerTransform.GetComponent<NetworkObject>();
-                playerTransformNetwork.SpawnAsPlayerObject(clientId, true);
-
-                // Set player position
-                playerTransform.gameObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
-
-                Debug.Log($"Spawning {sceneName} Player Object!");
-            }
-
-            AllPlayerObjectsSpawned?.Invoke(this, EventArgs.Empty);
+            Debug.Log($"Player for client {clientId} already exists. Skipping spawn.");
+            continue;
         }
+
+        Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
+        Transform prefabToSpawn = sceneName == "GoGurt" ? goKartPrefab : playerPrefab;
+        Transform playerTransform = Instantiate(prefabToSpawn, nextSpawnPoint, Quaternion.identity);
+        NetworkObject playerNetworkObject = playerTransform.GetComponent<NetworkObject>();
+        playerNetworkObject.SpawnAsPlayerObject(clientId, true);
+        playerTransform.gameObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
+
+        Debug.Log($"Spawned player for client {clientId} in scene {sceneName}.");
     }
+
+    AllPlayerObjectsSpawned?.Invoke(this, EventArgs.Empty);
+}
+
+
 
     public bool IsWaitingToStart()
     {
