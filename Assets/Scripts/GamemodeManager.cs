@@ -17,10 +17,11 @@ public class GamemodeManager : NetworkBehaviour
 		//MultiplayerTesting,
 		//RainingMeatball,
 		//KingOfTheGrill,
-		HotPotato
+		//HotPotato
 		//LoadIntoHP
 		//TutorialHP
 		//GameEnded
+		GoGurt
 	}
 
 

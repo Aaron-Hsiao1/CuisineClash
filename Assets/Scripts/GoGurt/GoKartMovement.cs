@@ -52,7 +52,6 @@ public class GoKartMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Disable global gravity
-        StartCoroutine(CountdownBeforeStart());
         
 
     }
@@ -71,21 +70,6 @@ public class GoKartMovement : MonoBehaviour
         rb.AddForce(new Vector3(0, -45f, 0), ForceMode.Acceleration);
     }
 
-    IEnumerator CountdownBeforeStart()
-    {
-        int countdown = 5;
-        while (countdown > 0)
-        {
-            countdownText.text = "" + (countdown);
-            yield return new WaitForSeconds(1f);
-            countdown--;
-        }
-
-        countdownText.text = "GO!";
-        yield return new WaitForSeconds(1f);
-        countdownText.gameObject.SetActive(false); // Hide the text after starting
-        canMove = true;
-    }
 
     private void move()
     {
