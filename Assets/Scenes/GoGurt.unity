@@ -3426,7 +3426,7 @@ GameObject:
   - component: {fileID: 635888047}
   - component: {fileID: 635888048}
   m_Layer: 0
-  m_Name: LapManager
+  m_Name: GoGurtManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7524,7 +7524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8176395029542304902, guid: 131c51751fed2ad49a909b01eaae12b6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.95
+      value: 16.74
       objectReference: {fileID: 0}
     - target: {fileID: 8176395029542304902, guid: 131c51751fed2ad49a909b01eaae12b6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9900,9 +9900,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '
-
-'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
   m_sharedMaterial: {fileID: 7828103452043414876, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
@@ -9996,7 +9994,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 200}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1987343956 stripped
 GameObject:
