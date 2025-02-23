@@ -52,7 +52,6 @@ public class GoKartMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Disable global gravity
-        
 
     }
 
