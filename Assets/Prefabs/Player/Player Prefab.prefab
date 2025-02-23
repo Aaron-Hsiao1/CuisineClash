@@ -763,7 +763,6 @@ GameObject:
   - component: {fileID: 4700209654041451630}
   - component: {fileID: 7043969082750220085}
   - component: {fileID: 1765015301777615881}
-  - component: {fileID: 6711636861366011777}
   - component: {fileID: 2895665470804839099}
   m_Layer: 2
   m_Name: Main Camera
@@ -899,7 +898,7 @@ MonoBehaviour:
   rotationSpeed: 7
   combatLookAt: {fileID: 9038978572319560915}
   currentStyle: 0
-  freeCam: {fileID: 6711636861366011777}
+  freeCam: {fileID: 0}
 --- !u!114 &1765015301777615881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -944,25 +943,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &6711636861366011777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5494688447873213992}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 370282315483a4548a0878bea8dc66cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CineCam: {fileID: 6740945677502868086}
-  movementSpeed: 10
-  fastMovementSpeed: 20
-  freeLookSensitivity: 3
-  zoomSensitivity: 10
-  fastZoomSensitivity: 20
-  looking: 0
 --- !u!114 &2895665470804839099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1721,7 +1701,7 @@ MonoBehaviour:
   fallMultiplier: 50
   moveDirection: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
-  freeCam: {fileID: 6711636861366011777}
+  freeCam: {fileID: 0}
   jumpKey: 32
   hotPotatoManager: {fileID: 0}
 --- !u!114 &7888669529665992022
