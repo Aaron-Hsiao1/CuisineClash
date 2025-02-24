@@ -830,7 +830,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 2, z: 0}
-  player: {fileID: 1450547526149939384}
   origCamPos: {x: 0, y: 0.95, z: -5.5}
   boostCamPos: {x: 0, y: 1.05, z: -6.5}
 --- !u!1 &6120758953120314313
@@ -1705,11 +1704,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2589639838607843832, guid: 353d9c1e6a9eba34f96b03041b7c72a4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.91
+      value: -1.03
       objectReference: {fileID: 0}
     - target: {fileID: 2589639838607843832, guid: 353d9c1e6a9eba34f96b03041b7c72a4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.24
+      value: -0.23
       objectReference: {fileID: 0}
     - target: {fileID: 2589639838607843832, guid: 353d9c1e6a9eba34f96b03041b7c72a4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1979,11 +1978,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2589639838607843832, guid: 353d9c1e6a9eba34f96b03041b7c72a4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.72
+      value: 0.871
       objectReference: {fileID: 0}
     - target: {fileID: 2589639838607843832, guid: 353d9c1e6a9eba34f96b03041b7c72a4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.24
+      value: -0.228
       objectReference: {fileID: 0}
     - target: {fileID: 2589639838607843832, guid: 353d9c1e6a9eba34f96b03041b7c72a4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2399,7 +2398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7064002941478318795, guid: 9030e7fb4c4e6794c9657d30df278489, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0005673354
+      value: 0.023
       objectReference: {fileID: 0}
     - target: {fileID: 7064002941478318795, guid: 9030e7fb4c4e6794c9657d30df278489, type: 3}
       propertyPath: m_LocalPosition.y

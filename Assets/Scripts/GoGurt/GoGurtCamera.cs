@@ -17,12 +17,11 @@ public class GoGurtCameraFollo : NetworkBehaviour
     {
         if (!IsOwner)
         {
-            gameObject.SetActive(false); // Disable camera for non-owners
+            gameObject.SetActive(false); 
             return;
         }
 
-        // Find the player's kart (assuming the player is the owner of a kart)
-        player = transform.parent; // Ensure the camera is attached to the correct player
+        player = transform.parent; 
         if (player != null)
         {
             playerScript = player.GetComponent<GoKartMovement>();
@@ -45,7 +44,7 @@ public class GoGurtCameraFollo : NetworkBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, player.eulerAngles.y, 0), 3 * Time.deltaTime);
         }
 
-        if (playerScript.BoostTime > 0)
+        if (playerScript.BoostTime.Value > 0)
         {
             transform.GetChild(0).localPosition = Vector3.Lerp(transform.GetChild(0).localPosition, boostCamPos, 3 * Time.deltaTime);
         }
@@ -53,5 +52,6 @@ public class GoGurtCameraFollo : NetworkBehaviour
         {
             transform.GetChild(0).localPosition = Vector3.Lerp(transform.GetChild(0).localPosition, origCamPos, 3 * Time.deltaTime);
         }
+
     }
 }
