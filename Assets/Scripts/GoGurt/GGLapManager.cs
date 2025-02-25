@@ -12,6 +12,7 @@ public class GGLapManager : MonoBehaviour
 
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI lapText;
+    [SerializeField] private GameObject FinishText;
     [SerializeField] private TextMeshProUGUI raceStatusText; // Text for displaying race status
 
     [Header("Race Settings")]
