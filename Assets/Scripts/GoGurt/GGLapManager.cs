@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GGLapManager : MonoBehaviour
 {
@@ -12,8 +14,9 @@ public class GGLapManager : MonoBehaviour
 
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI lapText;
-    [SerializeField] private GameObject FinishText;
+    [SerializeField] private RawImage FinishText;
     [SerializeField] private TextMeshProUGUI raceStatusText; // Text for displaying race status
+    private bool IsFinished = false; 
 
     [Header("Race Settings")]
     [SerializeField] private int maxLaps = 3; // Max laps to complete the race
@@ -22,6 +25,7 @@ public class GGLapManager : MonoBehaviour
 
     private void Awake()
     {
+        FinishText.enabled = false;
         instance = this;
         racerProgress = new Dictionary<GGLapCounter, (int, int)>();
     }
@@ -41,9 +45,7 @@ public class GGLapManager : MonoBehaviour
             int newLap = racerProgress[r].Item1 + 1;
             if (newLap >= maxLaps)
             {
-                Debug.Log("Race Finished!");
-                raceStatusText.text = "Race Finished";
-                GoKartMovement.canMove = false; 
+                StartCoroutine(ShowEndGameUIs());
                 return; 
             }
 
@@ -66,6 +68,26 @@ public class GGLapManager : MonoBehaviour
         if (!racerProgress.ContainsKey(r))
         {
             racerProgress.Add(r, (0, -1));
+        }
+    }
+
+    IEnumerator ShowEndGameUIs()
+    {
+        GoKartMovement.canMove = false;
+        Cursor.lockState = CursorLockMode.None;
+        FinishText.enabled = true; 
+        yield return new WaitForSeconds(3f);
+        FinishText.enabled = false;
+
+        yield return new WaitForSeconds(3f);
+
+        if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
+        {
+            Loader.LoadNetwork(Loader.Scene.PregameLobby.ToString());
+        }
+        if (GamemodeManager.Instance.GetGamemodeList().Count == 0)
+        {
+            Loader.LoadNetwork(Loader.Scene.GameEnded.ToString());
         }
     }
 }
