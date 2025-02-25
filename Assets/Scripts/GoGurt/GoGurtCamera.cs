@@ -44,7 +44,7 @@ public class GoGurtCameraFollo : NetworkBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, player.eulerAngles.y, 0), 3 * Time.deltaTime);
         }
 
-        if (playerScript.BoostTime.Value > 0)
+        if (playerScript.BoostTime > 0)
         {
             transform.GetChild(0).localPosition = Vector3.Lerp(transform.GetChild(0).localPosition, boostCamPos, 3 * Time.deltaTime);
         }

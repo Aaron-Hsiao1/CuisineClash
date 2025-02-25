@@ -1330,7 +1330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1431696701
+  GlobalObjectIdHash: 840914283
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1370,9 +1370,9 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 0
-  SyncRotAngleY: 0
-  SyncRotAngleZ: 0
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
@@ -2328,30 +2328,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3edf315c57124994a91300feaf029629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frontLeftTire: {fileID: 6567528230476792177}
-  frontRightTire: {fileID: 5214335001412467274}
-  backLeftTire: {fileID: 6973807863442974288}
-  backRightTire: {fileID: 4688924006885106860}
---- !u!4 &4688924006885106860 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7399085368862825767, guid: 73bdb971efd64b64c83109a1f3ebc0f4, type: 3}
-  m_PrefabInstance: {fileID: 2863360801562687883}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5214335001412467274 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8061928719796175809, guid: 73bdb971efd64b64c83109a1f3ebc0f4, type: 3}
-  m_PrefabInstance: {fileID: 2863360801562687883}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6567528230476792177 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8977995519066421498, guid: 73bdb971efd64b64c83109a1f3ebc0f4, type: 3}
-  m_PrefabInstance: {fileID: 2863360801562687883}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6973807863442974288 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5150783406588813275, guid: 73bdb971efd64b64c83109a1f3ebc0f4, type: 3}
-  m_PrefabInstance: {fileID: 2863360801562687883}
-  m_PrefabAsset: {fileID: 0}
+  frontLeftTire: {fileID: 0}
+  frontRightTire: {fileID: 0}
+  backLeftTire: {fileID: 0}
+  backRightTire: {fileID: 0}
 --- !u!1001 &5396118980355711561
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3136,7 +3116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1937983817005399207, guid: c77b91bf06f934d40aa0a75708cc3746, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1431696701
+      value: 1112638380
       objectReference: {fileID: 0}
     - target: {fileID: 3241152277124298276, guid: c77b91bf06f934d40aa0a75708cc3746, type: 3}
       propertyPath: m_Enabled
