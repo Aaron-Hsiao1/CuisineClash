@@ -10,6 +10,10 @@ public class KOTGAttack : MonoBehaviour
     private float dashForce;
     public bool isCharging;
 
+    private bool isCooldown = false;
+    public float cooldownTime = 5f;
+    private float timeSinceLastAction = 0f;
+
     public Transform Orientation;
     // Start is called before the first frame update
     public float dashSpeed = 15f; // Base speed of the dash
@@ -35,14 +39,14 @@ public class KOTGAttack : MonoBehaviour
     void Update()
     {
         // Input to start charging the dash (holding space bar)
-        if (Input.GetKey(KeyCode.Mouse0) && !isDashing)
+        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown)
         {
             ChargeDash();
             isCharging = true; //for animation
         }
 
         // If Space is released, execute the dash
-        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing)
+        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown)
         {
             ExecuteDash();
             isCharging = false; //for animation
@@ -52,6 +56,17 @@ public class KOTGAttack : MonoBehaviour
         if (isDashing)
         {
             Dash();
+        }
+
+         if (isCooldown)
+        {
+            timeSinceLastAction += Time.deltaTime; // Increase the time by the time passed since last frame
+
+            if (timeSinceLastAction >= cooldownTime)
+            {
+                isCooldown = false; // Cooldown is over
+                timeSinceLastAction = 0f; // Reset the timer
+            }
         }
     }
 
@@ -76,7 +91,8 @@ public class KOTGAttack : MonoBehaviour
         // Start cooldown for dash
         isDashing = true;
         StartCoroutine(DashCooldown());
-        Debug.Log("charge dashing");
+        isCooldown = true;
+        timeSinceLastAction = 0f;
     }
 
     private System.Collections.IEnumerator DashCooldown()

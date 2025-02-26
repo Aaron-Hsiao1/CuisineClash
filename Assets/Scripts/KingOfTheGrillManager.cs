@@ -11,7 +11,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 {
 	public static KingOfTheGrillManager Instance { get; private set; }
 
-	private float totalTime = 10f; //Total Game Time in seconds
+	private float totalTime = 100f; //Total Game Time in seconds
 
 	[SerializeField] private GameObject pillarPrefab; // Prefab of the pillar to spawn
 	[SerializeField] private GameObject fireIndicatorPrefab;
