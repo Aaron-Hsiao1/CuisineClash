@@ -3785,12 +3785,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpoints:
   - {fileID: 1191076563}
-  - {fileID: 2005525399}
-  - {fileID: 919898403}
   lapText: {fileID: 54932412}
   FinishText: {fileID: 433550886}
   raceStatusText: {fileID: 0}
   maxLaps: 1
+  PlayersNeededtoFinish: 2
 --- !u!4 &635888046
 Transform:
   m_ObjectHideFlags: 0
