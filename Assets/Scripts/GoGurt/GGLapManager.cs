@@ -48,12 +48,12 @@ public class GGLapManager : MonoBehaviour
             if (newLap >= maxLaps)
             {
                 GoKartMovement.canMove = false;
-
-                PlayersFinished = +1;
-                if (PlayersFinished >= PlayersNeededtoFinish)
-                {
-                    StartCoroutine(ShowEndGameUIs());
-                }
+                FinishText.enabled = true;
+                //PlayersFinished = +1;
+                //if (PlayersFinished >= PlayersNeededtoFinish)
+                //{
+                //StartCoroutine(ShowEndGameUIs());
+                //}
                 return;
                 }
 
