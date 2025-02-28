@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Splines; 
@@ -11,18 +12,18 @@ public class GGProgress : NetworkBehaviour
     private int currentLap = 0;
     [SerializeField] private int totalLaps = 3;
 
-    [SerializeField] private string trackSplineName = "GGTrackSpline";
 
 
     void Start()
     {
-        GameObject splineObject = GameObject.Find(trackSplineName);
+        GameObject splineObject = GameObject.Find("GGTrackSpline");
         if (splineObject == null)
         {
-            Debug.Log("Didn't find the spline object" + trackSplineName);
+            Debug.LogError("Didn't find the spline object GGTrackSpline");
             return;
         }
-        
+        trackSpline = splineObject.GetComponent<SplineContainer>();
+
         standing = GetComponent<GGStanding>();
         if (standing == null)
         {
@@ -48,7 +49,6 @@ public class GGProgress : NetworkBehaviour
         {
             currentLap++;
         }
-        
         lapProgress = distanceAlongSpline;
         float overallProgress = (float)currentLap / totalLaps + lapProgress / totalLaps;
         standing.progress.Value = overallProgress;
@@ -56,7 +56,25 @@ public class GGProgress : NetworkBehaviour
     
     float GetDistanceAlongSpline(Vector3 position)
     {
-        float nearestT = trackSpline.GetNearestPoint(position, out float distance);
+        float nearestT = GetNearestPoint(position, out float distance);
         return nearestT;
+    }
+
+    float GetNearestPoint(Vector3 position, out float distance)
+    {
+        if (trackSpline == null || trackSpline.Splines.Count == 0)
+        {
+            Debug.LogError(trackSpline);
+            Debug.LogError(trackSpline.Splines.Count);
+
+            Debug.LogError("No valid splines found in trackSpline!");
+            distance = 0f;
+            return 0f;
+        }
+
+        Spline spline = trackSpline.Splines[0]; // Assuming the track follows the first spline
+        SplineUtility.GetNearestPoint(spline, position, out float3 nearestPoint, out float t);
+        distance = Vector3.Distance(position, (Vector3)nearestPoint);
+        return t;
     }
 }

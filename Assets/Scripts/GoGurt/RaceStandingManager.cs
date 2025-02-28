@@ -30,7 +30,7 @@ public class RaceStandingsManager : NetworkBehaviour
     {
         UpdateStandingsServer();
     }
-    
+
     private void UpdateStandingsServer()
     {
         if (racers.Count == 0)
@@ -38,7 +38,12 @@ public class RaceStandingsManager : NetworkBehaviour
             Debug.Log("No racers found");
             return;
         }
+
         racers.Sort((r1, r2) => r2.progress.Value.CompareTo(r1.progress.Value));
+
+        List<ulong> playerIds = new List<ulong>();
+        List<int> ranks = new List<int>();
+
         for (int i = 0; i < racers.Count; i++)
         {
             GGStanding racer = racers[i];
@@ -46,18 +51,32 @@ public class RaceStandingsManager : NetworkBehaviour
             if (racer.currentRank != newRank)
             {
                 racer.currentRank = newRank;
-                playerPositions[racer.OwnerClientId] = newRank;
             }
+            playerIds.Add(racer.OwnerClientId);
+            ranks.Add(newRank);
         }
-        UpdateStandingsClientRpc(playerPositions);
+
+        // Convert to arrays before sending
+        UpdateStandingsClientRpc(playerIds.ToArray(), ranks.ToArray());
     }
-    
+
+
+
     [ClientRpc]
-    private void UpdateStandingsClientRpc(Dictionary<ulong, int> positions)
+    private void UpdateStandingsClientRpc(ulong[] playerIds, int[] ranks)
     {
+        // Convert back into a dictionary
+        playerPositions.Clear();
+        for (int i = 0; i < playerIds.Length; i++)
+        {
+            playerPositions[playerIds[i]] = ranks[i];
+        }
+
         UpdatePlaceImages();
     }
-    
+
+
+
     private void UpdatePlaceImages()
     {
         foreach (var image in placesImage)
