@@ -7,8 +7,6 @@ public class RaceStandingsManager : NetworkBehaviour
 {
     public List<GGStanding> racers = new List<GGStanding>();
     [SerializeField] List<RawImage> placesImage;
-    
-    // Dictionary to track player positions
     private Dictionary<ulong, int> playerPositions = new Dictionary<ulong, int>();
     
     void Start()

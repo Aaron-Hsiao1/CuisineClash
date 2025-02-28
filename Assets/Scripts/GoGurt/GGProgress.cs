@@ -1,6 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Splines; // Requires Unity's Spline package
+using UnityEngine.Splines; 
 
 public class GGProgress : NetworkBehaviour
 {
