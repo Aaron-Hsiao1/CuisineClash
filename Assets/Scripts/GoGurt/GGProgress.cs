@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Splines; // Requires Unity's Spline package
 
-public class RacerProgressTracker : NetworkBehaviour
+public class GGProgress : NetworkBehaviour
 {
     [SerializeField] private SplineContainer trackSpline;
     private GGStanding standing;
@@ -11,8 +11,18 @@ public class RacerProgressTracker : NetworkBehaviour
     private int currentLap = 0;
     [SerializeField] private int totalLaps = 3;
 
+    [SerializeField] private string trackSplineName = "GGTrackSpline";
+
+
     void Start()
     {
+        GameObject splineObject = GameObject.Find(trackSplineName);
+        if (splineObject == null)
+        {
+            Debug.Log("Didn't find the spline object" + trackSplineName);
+            return;
+        }
+        
         standing = GetComponent<GGStanding>();
         if (standing == null)
         {
