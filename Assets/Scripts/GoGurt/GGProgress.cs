@@ -35,7 +35,7 @@ public class GGProgress : NetworkBehaviour
 
     void Update()
     {
-        if (IsOwner) // Only the owner updates their own progress
+        if (IsHost || IsServer)
         {
             UpdateProgress();
         }
@@ -43,30 +43,20 @@ public class GGProgress : NetworkBehaviour
 
     void UpdateProgress()
     {
-        // Find closest point on spline to player position
         float distanceAlongSpline = GetDistanceAlongSpline(transform.position);
-        
-        // Handle lap completion
         if (distanceAlongSpline < lapProgress && distanceAlongSpline < 0.1f && lapProgress > 0.9f)
         {
             currentLap++;
         }
         
         lapProgress = distanceAlongSpline;
-        
-        // Calculate overall progress (completed laps + progress in current lap)
         float overallProgress = (float)currentLap / totalLaps + lapProgress / totalLaps;
-        
-        // Update NetworkVariable (will sync automatically)
         standing.progress.Value = overallProgress;
     }
     
     float GetDistanceAlongSpline(Vector3 position)
     {
-        // Project position onto spline to find closest point
         float nearestT = trackSpline.GetNearestPoint(position, out float distance);
-        
-        // Calculate distance along spline (0 to 1)
         return nearestT;
     }
 }
