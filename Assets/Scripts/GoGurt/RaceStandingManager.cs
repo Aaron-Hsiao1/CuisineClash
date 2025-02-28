@@ -86,7 +86,6 @@ public class RaceStandingsManager : NetworkBehaviour
                 int rank = racer.currentRank;
                 if (rank > 0 && rank <= placesImage.Count)
                 {
-                    // Enable only the image for current rank (index is rank-1)
                     placesImage[rank - 1].enabled = true;
                 }
                 break;
