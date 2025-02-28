@@ -19,9 +19,7 @@ public class GGLapManager : MonoBehaviour
     private bool IsFinished = false; 
 
     [Header("Race Settings")]
-    [SerializeField] private int maxLaps = 3;
-    private int PlayersFinished = 0;
-    [SerializeField] private int PlayersNeededtoFinish = 3;
+    [SerializeField] private int maxLaps = 3; // Max laps to complete the race
 
     private Dictionary<GGLapCounter, (int, int)> racerProgress;
 
@@ -47,15 +45,9 @@ public class GGLapManager : MonoBehaviour
             int newLap = racerProgress[r].Item1 + 1;
             if (newLap >= maxLaps)
             {
-                GoKartMovement.canMove = false;
-                FinishText.enabled = true;
-                //PlayersFinished = +1;
-                //if (PlayersFinished >= PlayersNeededtoFinish)
-                //{
-                //StartCoroutine(ShowEndGameUIs());
-                //}
-                return;
-                }
+                StartCoroutine(ShowEndGameUIs());
+                return; 
+            }
 
             racerProgress[r] = (newLap, 0);
 
@@ -81,6 +73,7 @@ public class GGLapManager : MonoBehaviour
 
     IEnumerator ShowEndGameUIs()
     {
+        GoKartMovement.canMove = false;
         Cursor.lockState = CursorLockMode.None;
         FinishText.enabled = true; 
         yield return new WaitForSeconds(5f);
