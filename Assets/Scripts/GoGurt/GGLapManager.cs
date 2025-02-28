@@ -76,7 +76,7 @@ public class GGLapManager : MonoBehaviour
         GoKartMovement.canMove = false;
         Cursor.lockState = CursorLockMode.None;
         FinishText.enabled = true; 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         FinishText.enabled = false;
 
         yield return new WaitForSeconds(3f);
