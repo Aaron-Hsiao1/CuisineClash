@@ -3971,7 +3971,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   playerPositionText: {fileID: 129863843}
-  Places:
+  placesImage:
   - {fileID: 1825463059}
   - {fileID: 2055065562}
   - {fileID: 1036971681}
