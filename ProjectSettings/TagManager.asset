@@ -16,6 +16,10 @@ TagManager:
   - Ladder
   - Water
   - PlayerPush
+  - OffRoad
+  - GliderPanel
+  - ItemBox
+  - Grass
   layers:
   - Default
   - TransparentFX
@@ -27,8 +31,8 @@ TagManager:
   - No Collisionwefewfewfwefwefwe
   - PostProcessing
   - Ladder
-  - 
-  - 
+  - Minimap
+  - PlayerICON
   - 
   - 
   - 

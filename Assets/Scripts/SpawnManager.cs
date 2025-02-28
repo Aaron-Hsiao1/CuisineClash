@@ -11,8 +11,6 @@ public class SpawnManager : NetworkBehaviour
 	public override void OnNetworkSpawn()
 	{
 		spawnPoints = GetComponentsInChildren<SpawnPoint>();
-		//Debug.Log($"is spawn points null: {spawnPoints == null}"); ;
-		//Debug.Log($"SpawnPoints.Count: {spawnPoints.Count()}");
 	}
 
 	public Vector3 GetNextSpawnPoint()

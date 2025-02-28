@@ -4,161 +4,148 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using System;
-using System.Runtime.CompilerServices;
-using System.Linq;
 
 public class CuisineClashManager : NetworkBehaviour
 {
-	public static CuisineClashManager Instance { get; private set; }
+    public static CuisineClashManager Instance { get; private set; }
 
-	[SerializeField] private Transform playerPrefab;
-	private GamemodeManager gamemodeManager;
+    [SerializeField] private Transform playerPrefab;   // Default player prefab
+    [SerializeField] private Transform goKartPrefab;   // GoKart player prefab for "GoGurt" scene
+    [SerializeField] private SpawnManager spawnManager;
 
-	private Dictionary<ulong, bool> playerReadyDictionary;
-	private Dictionary<ulong, int> playerPoints;
+    private GamemodeManager gamemodeManager;
+    private Dictionary<ulong, bool> playerReadyDictionary;
+    private Dictionary<ulong, int> playerPoints;
+    private NetworkVariable<bool> gameStarted = new NetworkVariable<bool>();
 
-	[SerializeField] private SpawnManager spawnManager;
+    public EventHandler AllPlayerObjectsSpawned;
 
-	private NetworkVariable<bool> gameStarted = new NetworkVariable<bool>();
+    private enum State
+    {
+        WaitingToStart,
+        InConnectionLobby,
+        InPregameLobby,
+        GamePlaying,
+        GameOver,
+    }
 
-	public EventHandler AllPlayerObjectsSpawned;
+    private bool isLocalPlayerReady;
+    private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
 
-	private enum State
-	{
-		WaitingToStart,
-		InConnectionLobby,
-		InPregameLobby,
-		GamePlaying,
-		GameOver,
-	}
+    private void Awake()
+    {
+        Instance = this;
+        playerReadyDictionary = new Dictionary<ulong, bool>();
+        playerPoints = new Dictionary<ulong, int>();
+    }
 
-	private bool isLocalPlayerReady;
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.N))
+        {
+            // Debugging purposes
+        }
+    }
 
-	private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
+    public void SetPlayerReady()
+    {
+        SetPlayerReadyServerRpc();
+    }
 
-	private void Awake()
-	{
-		Instance = this;
-		//DontDestroyOnLoad(gameObject);
+    public override void OnNetworkSpawn()
+    {
+        gameStarted.Value = false;
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
+        gamemodeManager = GameObject.FindGameObjectWithTag("Gamemode Manager").GetComponent<GamemodeManager>();
+    }
 
-		playerReadyDictionary = new Dictionary<ulong, bool>();
-		playerPoints = new Dictionary<ulong, int>();
+    void OnDisable()
+    {
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
+    }
 
-		//gamemodeList = new List<string>();
-	}
+private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+{
+    if (!IsHost) return; // Only the host should handle spawning players.
 
-	private void Update()
-	{
-		if (Input.GetKey(KeyCode.N))
-		{
-			//Debug.Log("gamemode list.count: " + gamemodeList.Count);
-		}
-	}
+    Debug.Log("Client list count that finished loading: " + clientsCompleted.Count);
 
-	public void SetPlayerReady()
-	{
-		SetPlayerReadyServerRpc();
-	}
+    foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+    {
+        // Check if the player already exists for the client
+        if (NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject != null)
+        {
+            Debug.Log($"Player for client {clientId} already exists. Skipping spawn.");
+            continue;
+        }
 
-	public override void OnNetworkSpawn()
-	{
-		gameStarted.Value = false;
-		NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
-		gamemodeManager = GameObject.FindGameObjectWithTag("Gamemode Manager").GetComponent<GamemodeManager>();
-		if (gamemodeManager != null)
-		{
-			Debug.Log("gamemode manager not null!");
-		}
-		//Debug.Log("Awake + gamemodeListInstnatiated: " + gamemodeListInstantiated);
-		/*if (IsHost)
-		{
-			foreach (Gamemode gamemode in Enum.GetValues(typeof(Gamemode)))
-			{
-				Debug.Log("insantianteing gamemodeList...");
-				gamemodeList.Add(gamemode.ToString());
-				//gamemodeListInstantiated = true;
-			}
-		}*/
-	}
-	void OnDisable()
-	{
-		NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
-	}
+        Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
+        Transform prefabToSpawn = sceneName == "GoGurt" ? goKartPrefab : playerPrefab;
+        Transform playerTransform = Instantiate(prefabToSpawn, nextSpawnPoint, Quaternion.identity);
+        NetworkObject playerNetworkObject = playerTransform.GetComponent<NetworkObject>();
+        playerNetworkObject.SpawnAsPlayerObject(clientId, true);
+        playerTransform.gameObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
 
-	private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
-	{
-		if (IsHost)
-		{
-			Debug.Log("client list count that finished loadign: " + clientsCompleted.Count);
-			//Debug.Log("current scene, # of connected clients" + SceneManager.GetActiveScene().name + ", " + NetworkManager.Singleton.ConnectedClientsIds.Count);
-			foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
-			{
-				Vector3 nextSpawnPoint = spawnManager.GetNextSpawnPoint();
+        Debug.Log($"Spawned player for client {clientId} in scene {sceneName}.");
+    }
 
-				Transform playerTransform = Instantiate(playerPrefab, nextSpawnPoint, Quaternion.identity);
+    AllPlayerObjectsSpawned?.Invoke(this, EventArgs.Empty);
+}
 
-				NetworkObject playerTransformNetwork = playerTransform.GetComponent<NetworkObject>();
-				playerTransformNetwork.SpawnAsPlayerObject(clientId, true);
-				playerTransform.gameObject.GetComponent<Player>().SetPlayerLocation(nextSpawnPoint.x, nextSpawnPoint.y, nextSpawnPoint.z);
 
-                Debug.Log("Spawning Player Object!");
-			}
 
-			AllPlayerObjectsSpawned?.Invoke(this, EventArgs.Empty);
-		}
-	}
+    public bool IsWaitingToStart()
+    {
+        return state.Value == State.WaitingToStart;
+    }
 
-	public bool IsWaitingToStart()
-	{
-		return state.Value == State.WaitingToStart;
-	}
-	public bool IsLocalPlayerReady()
-	{
-		return isLocalPlayerReady;
-	}
-	public void SetIsLocalPlayerReady()
-	{
-		isLocalPlayerReady = true;
-	}
+    public bool IsLocalPlayerReady()
+    {
+        return isLocalPlayerReady;
+    }
 
-	[ServerRpc(RequireOwnership = false)]
-	private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
-	{
-		playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
+    public void SetIsLocalPlayerReady()
+    {
+        isLocalPlayerReady = true;
+    }
 
-		bool allClientsReady = true;
-		foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
-		{
-			if (playerReadyDictionary.Count != NetworkManager.Singleton.ConnectedClientsIds.Count || !playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
-			{
-				// This player is NOT ready
-				allClientsReady = false;
-				break;
-			}
-		}
+    [ServerRpc(RequireOwnership = false)]
+    private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
 
-		if (allClientsReady && playerReadyDictionary.Count == NetworkManager.ConnectedClientsIds.Count && gameStarted.Value == false)
-		{
-			gameStarted.Value = true;
-			string gamemode = gamemodeManager.GamemodeSelector();
-			Loader.LoadNetwork(gamemode);
-			state.Value = State.GamePlaying;
-		}
-	}
+        bool allClientsReady = true;
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            if (playerReadyDictionary.Count != NetworkManager.Singleton.ConnectedClientsIds.Count || !playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
+            {
+                allClientsReady = false;
+                break;
+            }
+        }
 
-	public void SetPlayerUnready()
-	{
-		SetPlayerUnreadyServerRpc();
-	}
-	public void SetIsLocalPlayerUnready()
-	{
-		isLocalPlayerReady = false;
-	}
+        if (allClientsReady && playerReadyDictionary.Count == NetworkManager.ConnectedClientsIds.Count && gameStarted.Value == false)
+        {
+            gameStarted.Value = true;
+            string gamemode = gamemodeManager.GamemodeSelector();
+            Loader.LoadNetwork(gamemode);
+            state.Value = State.GamePlaying;
+        }
+    }
 
-	[ServerRpc(RequireOwnership = false)]
-	private void SetPlayerUnreadyServerRpc(ServerRpcParams serverRpcParams = default)
-	{
-		playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = false;
-	}
+    public void SetPlayerUnready()
+    {
+        SetPlayerUnreadyServerRpc();
+    }
 
+    public void SetIsLocalPlayerUnready()
+    {
+        isLocalPlayerReady = false;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetPlayerUnreadyServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = false;
+    }
 }

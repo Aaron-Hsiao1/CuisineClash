@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameEnded.unity
     guid: 1bf29d6827b58a1409a8d0855600a27b
+  - enabled: 1
+    path: Assets/Scenes/GoGurt.unity
+    guid: 23a460f98f75d514da44113c4cc1a477
   m_configObjects: {}
