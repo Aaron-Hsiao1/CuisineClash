@@ -1,60 +1,80 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using Unity.Netcode;
+using UnityEngine.UI;
 
 public class RaceStandingsManager : NetworkBehaviour
 {
-    public List<GGStanding> racers = new List<GGStanding>(); 
-    [SerializeField] private TextMeshProUGUI playerPositionText;
-
+    public List<GGStanding> racers = new List<GGStanding>();
+    [SerializeField] List<RawImage> placesImage;
+    private Dictionary<ulong, int> playerPositions = new Dictionary<ulong, int>();
+    
+    void Start()
+    {
+        foreach (var image in placesImage)
+        {
+            image.enabled = false;
+        }
+    }
+    
     void Update()
     {
-        if (IsServer)
+        if (IsServer || IsHost)
         {
             UpdateStandingsServer();
         }
     }
-
+    
     [ServerRpc(RequireOwnership = false)]
     void RequestStandingsUpdateServerRpc()
     {
         UpdateStandingsServer();
     }
-
+    
     private void UpdateStandingsServer()
     {
+        if (racers.Count == 0)
+        {
+            Debug.Log("No racers found");
+            return;
+        }
         racers.Sort((r1, r2) => r2.progress.Value.CompareTo(r1.progress.Value));
-
         for (int i = 0; i < racers.Count; i++)
         {
-            racers[i].currentRank = i + 1;
+            GGStanding racer = racers[i];
+            int newRank = i + 1;
+            if (racer.currentRank != newRank)
+            {
+                racer.currentRank = newRank;
+                playerPositions[racer.OwnerClientId] = newRank;
+            }
         }
-
-        UpdateStandingsClientRpc();
+        UpdateStandingsClientRpc(playerPositions);
     }
-
+    
     [ClientRpc]
-    private void UpdateStandingsClientRpc()
+    private void UpdateStandingsClientRpc(Dictionary<ulong, int> positions)
     {
-        if (!IsOwner) return;
-
-        GGStanding localPlayer = racers.Find(r => r.OwnerClientId == NetworkManager.Singleton.LocalClientId);
-        if (localPlayer != null)
-        {
-            playerPositionText.text = GetOrdinalSuffix(localPlayer.currentRank);
-        }
+        UpdatePlaceImages();
     }
-
-    string GetOrdinalSuffix(int num)
+    
+    private void UpdatePlaceImages()
     {
-        if (num % 100 >= 11 && num % 100 <= 13) return num + "th";
-        switch (num % 10)
+        foreach (var image in placesImage)
         {
-            case 1: return num + "st";
-            case 2: return num + "nd";
-            case 3: return num + "rd";
-            default: return num + "th";
+            image.enabled = false;
+        }
+        foreach (var racer in racers)
+        {
+            if (racer.OwnerClientId == NetworkManager.Singleton.LocalClientId)
+            {
+                int rank = racer.currentRank;
+                if (rank > 0 && rank <= placesImage.Count)
+                {
+                    placesImage[rank - 1].enabled = true;
+                }
+                break;
+            }
         }
     }
 }
