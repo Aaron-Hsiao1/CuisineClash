@@ -10,6 +10,9 @@ public class KOTGAttack : MonoBehaviour
     private float dashForce;
     public bool isCharging;
 
+    public Transform cameraTransform = Camera.main.transform; // Reference to the camera
+    private Vector3 cameraForward;
+
     private bool isCooldown = false;
     public float cooldownTime = 5f;
     private float timeSinceLastAction = 0f;
@@ -38,6 +41,7 @@ public class KOTGAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        cameraForward = cameraTransform.forward;
         // Input to start charging the dash (holding space bar)
         if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown)
         {
@@ -111,7 +115,7 @@ public class KOTGAttack : MonoBehaviour
     }
     void Dash() 
     {
-        rb.velocity = dashDirection * dashForce * DashScale;
+        rb.velocity = cameraForward * dashForce * DashScale;
     }
 
     private void OnCollisionEnter(Collision collision)
