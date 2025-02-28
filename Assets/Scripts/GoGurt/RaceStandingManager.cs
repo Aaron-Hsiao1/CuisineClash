@@ -13,7 +13,6 @@ public class RaceStandingsManager : NetworkBehaviour
     
     void Start()
     {
-        // Disable all place images initially
         foreach (var image in placesImage)
         {
             image.enabled = false;
@@ -41,44 +40,32 @@ public class RaceStandingsManager : NetworkBehaviour
             Debug.Log("No racers found");
             return;
         }
-        
-        // Sort racers by progress (highest first)
         racers.Sort((r1, r2) => r2.progress.Value.CompareTo(r1.progress.Value));
-        
-        // Update ranks for all racers
         for (int i = 0; i < racers.Count; i++)
         {
             GGStanding racer = racers[i];
             int newRank = i + 1;
-            
-            // Only update if rank changed
             if (racer.currentRank != newRank)
             {
                 racer.currentRank = newRank;
                 playerPositions[racer.OwnerClientId] = newRank;
             }
         }
-        
-        // Send updated standings to all clients
         UpdateStandingsClientRpc(playerPositions);
     }
     
     [ClientRpc]
     private void UpdateStandingsClientRpc(Dictionary<ulong, int> positions)
     {
-        // Update place images for the local player
         UpdatePlaceImages();
     }
     
     private void UpdatePlaceImages()
     {
-        // First disable all images
         foreach (var image in placesImage)
         {
             image.enabled = false;
         }
-        
-        // Enable only the relevant image based on local player's position
         foreach (var racer in racers)
         {
             if (racer.OwnerClientId == NetworkManager.Singleton.LocalClientId)
