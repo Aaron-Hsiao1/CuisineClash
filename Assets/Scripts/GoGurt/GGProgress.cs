@@ -5,14 +5,12 @@ using UnityEngine.Splines;
 
 public class GGProgress : NetworkBehaviour
 {
-    [SerializeField] private SplineContainer trackSpline;
+    private SplineContainer trackSpline;
     private GGStanding standing;
     private float totalSplineLength;
     private float lapProgress = 0f;
     private int currentLap = 0;
     [SerializeField] private int totalLaps = 3;
-
-
 
     void Start()
     {
@@ -32,6 +30,8 @@ public class GGProgress : NetworkBehaviour
         }
         
         totalSplineLength = trackSpline.CalculateLength();
+        Debug.Log("Total spline length: " + totalSplineLength);
+        
     }
 
     void Update()
@@ -71,10 +71,10 @@ public class GGProgress : NetworkBehaviour
             distance = 0f;
             return 0f;
         }
-
-        Spline spline = trackSpline.Splines[0]; // Assuming the track follows the first spline
+        Spline spline = trackSpline.Splines[0]; 
         SplineUtility.GetNearestPoint(spline, position, out float3 nearestPoint, out float t);
         distance = Vector3.Distance(position, (Vector3)nearestPoint);
+        Debug.LogError(distance);
         return t;
     }
 }
