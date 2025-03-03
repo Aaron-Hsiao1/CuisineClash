@@ -74,7 +74,7 @@ public class GGProgress : NetworkBehaviour
         Spline spline = trackSpline.Splines[0]; 
         SplineUtility.GetNearestPoint(spline, position, out float3 nearestPoint, out float t);
         distance = Vector3.Distance(position, (Vector3)nearestPoint);
-        Debug.LogError(distance);
+        Debug.LogError("Distance is" + distance);
         return t;
     }
 }
