@@ -3370,7 +3370,7 @@ MonoBehaviour:
           z: 0
           w: 1
     m_MetaData:
-    - Mode: 0
+    - Mode: 4
       Tension: 0.5
     - Mode: 0
       Tension: 0.5
@@ -3588,7 +3588,7 @@ MonoBehaviour:
       Tension: 0.5
     - Mode: 0
       Tension: 0.5
-    m_Closed: 0
+    m_Closed: 1
     m_IntData:
       m_Data: []
     m_FloatData:
@@ -6187,7 +6187,6 @@ MonoBehaviour:
   FinishText: {fileID: 433550886}
   raceStatusText: {fileID: 0}
   maxLaps: 1
-  PlayersNeededtoFinish: 2
 --- !u!4 &635888046
 Transform:
   m_ObjectHideFlags: 0
