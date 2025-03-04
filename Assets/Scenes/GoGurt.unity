@@ -6186,7 +6186,7 @@ MonoBehaviour:
   lapText: {fileID: 54932412}
   FinishText: {fileID: 433550886}
   raceStatusText: {fileID: 0}
-  maxLaps: 1
+  maxLaps: 3
 --- !u!4 &635888046
 Transform:
   m_ObjectHideFlags: 0
