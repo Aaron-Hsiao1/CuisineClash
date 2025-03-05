@@ -22,6 +22,9 @@ public class ThirdPersonCam : NetworkBehaviour
 	[SerializeField] private CameraStyle currentStyle;
 
 	[SerializeField] private FreeCam freeCam;
+
+	public KOTGAttack KOTGA;
+
 	public enum CameraStyle
 	{
 		Basic,
@@ -89,12 +92,12 @@ public class ThirdPersonCam : NetworkBehaviour
 			playerObj.forward = dirToCombatLookAt.normalized;
 		}
 
-		if (Input.GetKeyDown(KeyCode.L) && currentStyle == CameraStyle.Combat){ //switc h from combat -> basic
+		if (!KOTGA.isCharging && currentStyle == CameraStyle.Combat){ //switc h from combat -> basic
 			freeLookCamera.gameObject.SetActive(true);
 			currentStyle = CameraStyle.Basic;
 			combatCamera.gameObject.SetActive(false);
 		}
-		else if (Input.GetKeyDown(KeyCode.L) && currentStyle == CameraStyle.Basic){ //swtich from basic -> camera
+		else if (KOTGA.isCharging && currentStyle == CameraStyle.Basic){ //swtich from basic -> camera
 			combatCamera.gameObject.SetActive(true);
 			currentStyle = CameraStyle.Combat;
 			freeLookCamera.gameObject.SetActive(false);
