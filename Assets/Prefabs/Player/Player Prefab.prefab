@@ -992,7 +992,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5494688447873213992}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2600808, y: 0.2368432, z: -0.065967955, w: 0.933762}
+  m_LocalRotation: {x: 0.26008084, y: 0.23684323, z: -0.06596797, w: 0.933762}
   m_LocalPosition: {x: -0.4, y: 1.3899999, z: -4.7530003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1233,7 +1233,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5984974984442394559}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2600808, y: 0.23684318, z: -0.065967955, w: 0.933762}
+  m_LocalRotation: {x: 0.2600808, y: 0.23684321, z: -0.06596796, w: 0.933762}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1343,7 +1343,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6597933294330003569}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28176352, y: 0.23524205, z: -0.07146764, w: 0.92744964}
+  m_LocalRotation: {x: 0.28176364, y: 0.23524196, z: -0.07146764, w: 0.92744964}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1895,7 +1895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3579838098
+  GlobalObjectIdHash: 2920621066
   InScenePlacedSourceGlobalObjectIdHash: 1425304081
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -2080,7 +2080,7 @@ MonoBehaviour:
   DashScale: 15
   isCharging: 0
   cameraTransform: {fileID: 3761334760685269936}
-  cooldownTime: 5
+  cooldownTime: 2
   Orientation: {fileID: 9076327832988588039}
   dashSpeed: 0.5
   maxDashChargeTime: 5

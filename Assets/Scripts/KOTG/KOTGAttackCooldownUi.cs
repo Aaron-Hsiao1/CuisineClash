@@ -9,7 +9,7 @@ public class KOTGAttackCooldownUi : MonoBehaviour
     public KOTGAttack KOTGA;
 
     private bool isCooldown = false;
-    private float cooldownTime = 5.0f;
+    private float cooldownTime = 2.0f;
     private float cooldownTimer = 0.0f;
 
 
