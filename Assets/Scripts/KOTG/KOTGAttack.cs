@@ -14,7 +14,7 @@ public class KOTGAttack : MonoBehaviour
     private Vector3 cameraForward;
 
     private bool isCooldown = false;
-    public float cooldownTime = 5f;
+    public float cooldownTime = 1;
     private float timeSinceLastAction = 0f;
 
     public Transform Orientation;
