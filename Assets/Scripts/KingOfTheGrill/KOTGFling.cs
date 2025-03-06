@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class KOTGFling : MonoBehaviour
 {
-    public float horizontalLaunchForce = 500000f; // Stronger horizontal push
-    public float launchForceUp = 10f; // Reduced vertical force
+    public float horizontalLaunchForce = 0.001f; // Stronger horizontal push
+    public float launchForceUp = 0.001f; // Reduced vertical force
     private bool hit = false;
 
     private void OnTriggerEnter(Collider other)
