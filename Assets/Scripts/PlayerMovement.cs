@@ -179,16 +179,35 @@ public class PlayerMovement : NetworkBehaviour
 
     private void MovePlayer()
     {
-        moveDirection = orientation.forward * -verticalInput + orientation.right * -horizontalInput;
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
+        Vector3 newMoveDirection;
         Vector3 horizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        Debug.Log("horizontal Velocity: " + horizontalVelocity.magnitude);
 
-        Vector3 test = Vector3.Project(moveDirection, horizontalVelocity);
+        if (horizontalVelocity.magnitude < 0.3f)
+        {
+            newMoveDirection = Vector3.Project(moveDirection, horizontalVelocity);
 
-        if (horizontalVelocity.magnitude < 0.1f)
-            test = Vector3.zero;
+        }
+        else
+        {
+            newMoveDirection = horizontalVelocity + moveDirection;
+        }
 
-        rb.AddForce((test - moveDirection).normalized * 10f + new Vector3(0.0f, _verticalVelocity), ForceMode.VelocityChange);
+        Debug.Log("movedirection: " + moveDirection);
+
+        //Debug.Log("newmovedirection: " + newMoveDirection);
+        
+
+        Vector3 forceDirection = (newMoveDirection - horizontalVelocity);
+        Debug.Log("force di89rection: " + forceDirection);  
+        if (forceDirection.magnitude > 0.1f)
+        {
+            
+        } // Avoid tiny oscillations
+        rb.AddForce(forceDirection.normalized * 10f + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
+        //rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
 
     }
 
