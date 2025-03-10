@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FishSlapIndicator : MonoBehaviour
 {
     public Image indicatorImage;  // The image to represent the indicator
     public float growthSpeed = 0.5f; // Speed at which the indicator grows
     public float maxGrowth = 1f; // Maximum scale of the indicator (1 is 100%)
+
+    public GameObject attackIcon;
 
     private bool isGrowing = false;
 
@@ -16,6 +19,11 @@ public class FishSlapIndicator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (SceneManager.GetActiveScene().name != "KingOfTheGrill")
+        {
+            attackIcon.SetActive(false);
+        }
+        
         if (indicatorImage == null)
         {
             indicatorImage = GetComponent<Image>();

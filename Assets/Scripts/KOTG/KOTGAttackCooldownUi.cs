@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class KOTGAttackCooldownUi : MonoBehaviour
 {
@@ -12,10 +13,16 @@ public class KOTGAttackCooldownUi : MonoBehaviour
     private float cooldownTime = 1.0f;
     private float cooldownTimer = 0.0f;
 
+    public GameObject attackIcon;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (SceneManager.GetActiveScene().name != "KingOfTheGrill")
+        {
+            attackIcon.SetActive(false);
+        }
+
         imageCooldown.fillAmount = 0.0f;
     }
 
