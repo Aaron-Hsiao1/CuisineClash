@@ -51,6 +51,9 @@ EditorBuildSettings:
     path: Assets/Scenes/GameEnded.unity
     guid: 1bf29d6827b58a1409a8d0855600a27b
   - enabled: 1
-    path: Assets/Scenes/GoGurt.unity
+    path: Assets/Scenes/GoGurtOG.unity
     guid: 23a460f98f75d514da44113c4cc1a477
+  - enabled: 1
+    path: Assets/Scenes/GoGurt.unity
+    guid: 5ae2013842372504cb5369cb22c73184
   m_configObjects: {}

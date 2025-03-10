@@ -1439,9 +1439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb53b65930e4cb5a6385afecf5be1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackSpline: {fileID: 0}
   totalLaps: 3
-  trackSplineName: GGTrackSpline
 --- !u!1 &8553117445126475787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,7 +1470,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 6.57, y: 40.7, z: 12.659999}
-  m_LocalScale: {x: 9, y: 9, z: 9}
+  m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1450547526149939384}

@@ -49,8 +49,6 @@ public class GoKartMovement : MonoBehaviour
 
     public TMP_Text countdownText; // Assign this in the Inspector
     public static bool canMove = false;
-
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
