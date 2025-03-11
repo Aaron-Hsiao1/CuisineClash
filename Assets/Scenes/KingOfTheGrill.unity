@@ -8117,6 +8117,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 72.381
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f998683c08e7420409838d3f4f18ccec, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f998683c08e7420409838d3f4f18ccec, type: 3}
       propertyPath: m_Name
       value: mushroom (5)
