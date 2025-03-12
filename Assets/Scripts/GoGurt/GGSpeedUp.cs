@@ -10,14 +10,14 @@ public class GGSpeedUp : MonoBehaviour
         if (trigger.gameObject.CompareTag("Player"))
         {
             Debug.Log("Boost activated");
-            trigger.gameObject.GetComponent<GoKartMovement>().CurrentSpeed = +500f;
+            trigger.gameObject.GetComponent<GoKartMovement>().CurrentSpeed = +100f;
         }
-        //StartCoroutine(BoostTimer());
+        StartCoroutine(BoostTimer());
     }
 
     IEnumerator BoostTimer()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         gameObject.GetComponent<GGSpeedUp>().enabled = false;
 
     }
