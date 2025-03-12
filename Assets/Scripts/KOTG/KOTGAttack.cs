@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class KOTGAttack : MonoBehaviour
 {
-    public float DashScale = 5f;
+    public float DashScale = 30f;
     private float dashTime = 0f;
     private float dashForce;
     public bool isCharging;
@@ -20,11 +20,11 @@ public class KOTGAttack : MonoBehaviour
 
     public Transform Orientation;
     // Start is called before the first frame update
-    public float dashSpeed = 15f; // Base speed of the dash
+    public float dashSpeed = 0.5f; // Base speed of the dash
     public float maxDashChargeTime = 5f; // Max time to charge the dash
-    public float dashChargeSpeed = 1f; // Speed at which the dash strength increases when charging
-    public float maxDashForce = 30f; // Max force when the dash is fully charged
-    public float dashDuration = 2f; // Duration of the dash
+    public float dashChargeSpeed = 5f; // Speed at which the dash strength increases when charging
+    public float maxDashForce = 1f; // Max force when the dash is fully charged
+    public float dashDuration = 0.25f; // Duration of the dash
     public float knockbackMultiplier = 5f; // Multiplier for knockback based on charge time
 
     [SerializeField] private PlayerMovement moveScript;
