@@ -9,10 +9,12 @@ public class KOTGScore : MonoBehaviour
     public TMP_Text myText;
 
     public Player player;
+    public ScoreManager SM;
+
     // Start is called before the first frame update
     void Start()
     {
-        myText.text = "1." + player.name;
+        myText.text = "1." + player.GetPlayerName() + ": ";
     }
 
     // Update is called once per frame
