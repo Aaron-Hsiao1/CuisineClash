@@ -4953,8 +4953,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a345aa14dcaeac45bfc296c4dd973e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalLaunchForce: 750
-  launchForceUp: 25
+  horizontalLaunchForce: 50
+  launchForceUp: 5
+  rb: {fileID: 0}
 --- !u!114 &6639898222136440737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4967,7 +4968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3391105048
+  GlobalObjectIdHash: 4006702707
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1

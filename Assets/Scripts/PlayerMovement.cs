@@ -45,6 +45,7 @@ public class PlayerMovement : NetworkBehaviour
     public KeyCode jumpKey = KeyCode.Space;
 
     [SerializeField] private HotPotatoManager hotPotatoManager;
+    private bool launching = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -84,8 +85,8 @@ public class PlayerMovement : NetworkBehaviour
 
         MyInput();
         
-        //SpeedControl();
-        
+
+
 
         // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
         if (_verticalVelocity < _terminalVelocity)
@@ -117,7 +118,13 @@ public class PlayerMovement : NetworkBehaviour
         {
             return;
         }
-        MovePlayer(); 
+        if (!launching)
+        {
+            SpeedControl();
+        }
+        //Debug.Log("Launching: " + launching);
+        MovePlayer();
+
 
     }
 
@@ -133,6 +140,13 @@ public class PlayerMovement : NetworkBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
+    }
+
+    private void MovePlayer()
+    {
+        //calculate movement direction
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
     }
 
     /*private void MovePlayer()
@@ -176,7 +190,7 @@ public class PlayerMovement : NetworkBehaviour
         }
 
     }*/
-
+    /*
     private void MovePlayer()
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
@@ -187,7 +201,7 @@ public class PlayerMovement : NetworkBehaviour
 
         if (horizontalVelocity.magnitude < 0.3f)
         {
-            newMoveDirection = Vector3.Project(moveDirection, horizontalVelocity);
+            newMoveDirection = Vector3.Project(new Vector3(moveDirection.x, 0, moveDirection.z), horizontalVelocity);
 
         }
         else
@@ -206,10 +220,10 @@ public class PlayerMovement : NetworkBehaviour
         {
             
         } // Avoid tiny oscillations
-        rb.AddForce(forceDirection.normalized * 10f + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
+        rb.AddForce(forceDirection.normalized * 20f + new Vector3(0.0f, _verticalVelocity), ForceMode.Force);
         //rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
 
-    }
+    }*/
 
     private void SpeedControl()
     {
@@ -272,5 +286,10 @@ public class PlayerMovement : NetworkBehaviour
     public bool IsGrounded()
     {
         return grounded;
+    }
+
+    public void SetLaunching(bool launching)
+    {
+        this.launching = launching;
     }
 }

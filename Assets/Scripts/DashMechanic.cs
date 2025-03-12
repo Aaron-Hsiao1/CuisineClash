@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class DashMechanic : MonoBehaviour
@@ -21,12 +22,12 @@ public class DashMechanic : MonoBehaviour
 		// Check if the Q key is pressed and the dash is not on cooldown
 		if (Input.GetKeyDown(KeyCode.Q) && Time.time > lastUsedTime + cooldownTime)
 		{
-			StartCoroutine(Dash());
+			Dash();
 			lastUsedTime = Time.time;
 		}
 	}
 
-	IEnumerator Dash()
+	private void Dash()
 	{
 		Rigidbody rb = GetComponent<Rigidbody>();
 		float startTime = Time.time;
@@ -36,13 +37,16 @@ public class DashMechanic : MonoBehaviour
 								moveScript.GetOrientation().right * moveScript.GetHorizontalInput();
 		dashDirection = dashDirection.normalized;
 
-		// Perform the dash
-		while (Time.time < startTime + dashTime)
-		{
-			rb.velocity = dashDirection * dashSpeed;
-			yield return null;
-		}
-
-		rb.velocity = Vector3.zero; // Stop movement after the dash
+		StartCoroutine(LaunchPlayer(dashDirection * 10f, rb));	
 	}
+
+
+    private IEnumerator LaunchPlayer(Vector3 totalForce, Rigidbody rb)
+    {
+        rb.gameObject.GetComponentInParent<PlayerMovement>().SetLaunching(true);
+		rb.velocity = new Vector3(0,0,0);
+        rb.AddForce(totalForce, ForceMode.Impulse);
+        yield return new WaitForSeconds(0.25f);
+        rb.gameObject.GetComponentInParent<PlayerMovement>().SetLaunching(false);
+    }
 }
