@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class GoKartWheel : MonoBehaviour
 {
     public Transform frontLeftTire;
@@ -48,3 +48,4 @@ public class GoKartWheel : MonoBehaviour
 
     }
 }
+*/

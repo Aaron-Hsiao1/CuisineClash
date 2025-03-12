@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GGCountdownTimer : MonoBehaviour
 {
-    public TMP_Text countdownText; // Assign in Inspector
+   
     [SerializeField] private List<RawImage> CountDown;
     public int countdownSeconds = 5; // Countdown duration
 
@@ -16,7 +16,6 @@ public class GGCountdownTimer : MonoBehaviour
         {
             if (CountDown[i] != null)
             {
-                // Use both methods to ensure visibility
                 CountDown[i].enabled = false;
                 CountDown[i].gameObject.SetActive(false);
             }
@@ -30,22 +29,22 @@ public class GGCountdownTimer : MonoBehaviour
 
         while (countdown > 0)
         {
-            // Switch to the corresponding Raw Image based on the countdown value
             CountDown[countdown - 1].enabled = true;
-
-            // Disable all other Raw Images
+            CountDown[countdown - 1].gameObject.SetActive(true);
             for (int i = 0; i < CountDown.Count; i++)
             {
                 if (i != countdown - 1)
                 {
                     CountDown[i].enabled = false;
+                    CountDown[i].gameObject.SetActive(false);
                 }
             }
 
             yield return new WaitForSeconds(1f);
             countdown--;
         }
-
+        CountDown[0].enabled = false;
+        CountDown[0].gameObject.SetActive(false);
         CountDown[5].enabled = true;
         CountDown[5].gameObject.SetActive(true); 
         yield return new WaitForSeconds(1f);
