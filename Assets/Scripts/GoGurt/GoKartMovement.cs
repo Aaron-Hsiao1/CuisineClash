@@ -258,8 +258,11 @@ public class GoKartMovement : MonoBehaviour
                 }
             }
             MaxSpeed = boostSpeed;
+            Debug.Log($"MaxSpeed: {MaxSpeed}");
+
 
             CurrentSpeed = Mathf.Lerp(CurrentSpeed, MaxSpeed, 1 * Time.deltaTime);
+            Debug.Log($"CurrentSpeed: {CurrentSpeed}"); 
         }
         else
         {
