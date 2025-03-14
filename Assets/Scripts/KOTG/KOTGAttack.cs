@@ -44,14 +44,14 @@ public class KOTGAttack : MonoBehaviour
     {
         cameraForward = cameraTransform.forward;
         // Input to start charging the dash (holding space bar)
-        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))
+        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name != "KingOfTheGrill"))
         {
             ChargeDash();
             isCharging = true; //for animation
         }
 
         // If Space is released, execute the dash
-        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))
+        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name != "KingOfTheGrill"))
         {
             ExecuteDash();
             isCharging = false; //for animation
@@ -90,6 +90,7 @@ public class KOTGAttack : MonoBehaviour
 
     private void ExecuteDash()
     {
+        moveScript.launching = true;
         // Calculate the dash force based on how much it has been charged
         dashForce = Mathf.Lerp(dashSpeed, maxDashForce, dashChargeTime / maxDashChargeTime);
 
@@ -104,8 +105,8 @@ public class KOTGAttack : MonoBehaviour
     {
         // Wait for the duration of the dash
         yield return new WaitForSeconds(dashDuration);
-
         // Reset after dash is finished
+        moveScript.launching = false;
         isDashing = false;
         dashChargeTime = 0f; // Reset the charge
     }

@@ -47,7 +47,7 @@ public class PlayerMovement : NetworkBehaviour
 	//public KOTGAttack KOTGA;
 
 	[SerializeField] private HotPotatoManager hotPotatoManager;
-    private bool launching = false;
+    public bool launching = false;
 
     public override void OnNetworkSpawn()
     {
