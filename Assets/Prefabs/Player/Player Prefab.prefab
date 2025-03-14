@@ -437,7 +437,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325825641374297174}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.043703206, y: 0.30246493, z: -0.013884345, w: 0.9520568}
+  m_LocalRotation: {x: 0.043703213, y: 0.30246493, z: -0.013884349, w: 0.9520568}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1971,17 +1971,16 @@ MonoBehaviour:
   jumpForce: 7
   jumpCooldown: 0.25
   airMultiplier: 0.4
-  canJump: 0
+  canJump: 1
   orientation: {fileID: 8464223066724782014}
   horizontalInput: 0
   verticalInput: 0
   JumpHeight: 1.5
   fallMultiplier: 50
   moveDirection: {x: 0, y: 0, z: 0}
-  rb: {fileID: 0}
+  rb: {fileID: 6774906967980962924}
   freeCam: {fileID: 6711636861366011777}
   jumpKey: 32
-  KOTGA: {fileID: 1842146885808940132}
   hotPotatoManager: {fileID: 0}
 --- !u!114 &7888669529665992022
 MonoBehaviour:
@@ -2114,22 +2113,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7039711912111513445}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a09c780bc003ce345abb00c8da529f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DashScale: 5
+  DashScale: 30
   isCharging: 0
   cameraTransform: {fileID: 3761334760685269936}
-  cooldownTime: 0
-  Orientation: {fileID: 9038978572319560915}
-  dashSpeed: 0
-  maxDashChargeTime: 0
-  dashChargeSpeed: 0
-  maxDashForce: 0
-  dashDuration: 0
-  knockbackMultiplier: 0
+  cooldownTime: 1
+  Orientation: {fileID: 9076327832988588039}
+  dashSpeed: 0.5
+  maxDashChargeTime: 5
+  dashChargeSpeed: 5
+  maxDashForce: 1
+  dashDuration: 0.25
+  knockbackMultiplier: 5
   moveScript: {fileID: 6354735150898331807}
   isDashing: 0
 --- !u!1 &7394634557177857571
@@ -2563,6 +2562,18 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5375714994066223905, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.0394897
+      objectReference: {fileID: 0}
+    - target: {fileID: 5375714994066223905, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.0394897
+      objectReference: {fileID: 0}
+    - target: {fileID: 5375714994066223905, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0394897
+      objectReference: {fileID: 0}
+    - target: {fileID: 5375714994066223905, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2592,11 +2603,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5375714994066223905, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -829
+      value: -467
       objectReference: {fileID: 0}
     - target: {fileID: 5375714994066223905, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -394
+      value: -236
       objectReference: {fileID: 0}
     - target: {fileID: 5375714994066223905, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3335,6 +3346,10 @@ PrefabInstance:
       propertyPath: KOTGA
       value: 
       objectReference: {fileID: 1842146885808940132}
+    - target: {fileID: 2110345767036616460, guid: c671eb1e021342f478e24a460436a4d8, type: 3}
+      propertyPath: attackIcon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7725472272305523900, guid: c671eb1e021342f478e24a460436a4d8, type: 3}
       propertyPath: m_Name
       value: IndicatorAimer

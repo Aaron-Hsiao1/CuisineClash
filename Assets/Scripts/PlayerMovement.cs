@@ -44,7 +44,7 @@ public class PlayerMovement : NetworkBehaviour
 
     public KeyCode jumpKey = KeyCode.Space;
 
-	public KOTGAttack KOTGA;
+	//public KOTGAttack KOTGA;
 
 	[SerializeField] private HotPotatoManager hotPotatoManager;
     private bool launching = false;
@@ -159,6 +159,7 @@ public class PlayerMovement : NetworkBehaviour
     private void Jump()
     {
         //rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        Debug.Log("jumping");
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
         _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * -9.81f);

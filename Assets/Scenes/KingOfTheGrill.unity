@@ -13910,6 +13910,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed563ad8fe65b8c47964bc7ff0ca1f29, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 8513859187771203891, guid: ed563ad8fe65b8c47964bc7ff0ca1f29, type: 3}
       propertyPath: m_Layer
       value: 6

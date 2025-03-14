@@ -11,7 +11,7 @@ public class KOTGAttack : MonoBehaviour
     private float dashForce;
     public bool isCharging;
 
-    public Transform cameraTransform = Camera.main.transform; // Reference to the camera
+    public Transform cameraTransform; // Reference to the camera
     private Vector3 cameraForward;
 
     private bool isCooldown = false;
