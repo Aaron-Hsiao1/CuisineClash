@@ -183,8 +183,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
+  m_sharedMaterial: {fileID: 7828103452043414876, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -578,7 +578,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_9
@@ -858,7 +858,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_6
@@ -1529,7 +1529,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_1
@@ -1971,7 +1971,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_5
@@ -2398,7 +2398,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_7
@@ -2879,7 +2879,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1611299170915080848, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1687040031498899584, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
       propertyPath: m_LocalScale.x
@@ -3880,7 +3880,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_4
@@ -4085,7 +4085,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1764853809
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4316,7 +4316,7 @@ MonoBehaviour:
   m_text: You have been kicked by the host
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 7828103452043414876, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4777,7 +4777,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_2
@@ -4913,7 +4913,7 @@ GameObject:
   - component: {fileID: 2071642199}
   - component: {fileID: 2071642198}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Camera Follow Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5108,7 +5108,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_3
@@ -5226,7 +5226,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_8
@@ -5332,7 +5332,7 @@ PrefabInstance:
     - target: {fileID: 2961032103304329196, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6904c0f912233e146ac738dbb6cb6855, type: 3}
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7613611572098245823, guid: 3b4690b041e4fa741b8b5e342c236534, type: 3}
       propertyPath: m_Name
       value: Color_0
@@ -5529,6 +5529,6 @@ SceneRoots:
   - {fileID: 222247750}
   - {fileID: 1083871908}
   - {fileID: 1700356250}
-  - {fileID: 2071642201}
   - {fileID: 2031307076}
   - {fileID: 1202330772}
+  - {fileID: 2071642201}

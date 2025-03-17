@@ -2113,7 +2113,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7039711912111513445}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a09c780bc003ce345abb00c8da529f11, type: 3}
   m_Name: 
@@ -2529,6 +2529,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: KOTGAttackUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2229395831406746789, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
+      propertyPath: KOTGA
+      value: 
+      objectReference: {fileID: 1842146885808940132}
+    - target: {fileID: 2229395831406746789, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
+      propertyPath: attackIcon
+      value: 
+      objectReference: {fileID: 311902059568664382}
     - target: {fileID: 5375714994066223905, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2634,6 +2642,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
+--- !u!1 &311902059568664382 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 391470490403448861, guid: 81d89a88638ca0240852ca726e74d752, type: 3}
+  m_PrefabInstance: {fileID: 88613022385710883}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1747426297720091232 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1836003989679641923, guid: 81d89a88638ca0240852ca726e74d752, type: 3}

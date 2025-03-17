@@ -46,7 +46,7 @@ public class CharacterSelectPlayer : MonoBehaviour
 
 			PlayerData playerData = CuisineClashMultiplayer.Instance.GetPlayerDataFromPlayerIndex(playerIndex);
 			playerVisual.SetPlayerColor(CuisineClashMultiplayer.Instance.GetPlayerOuterColor(playerData.outerColorId), CuisineClashMultiplayer.Instance.GetPlayerInnerColor(playerData.innerColorId));
-
+			Debug.Log("Player Name: " + playerData.playerName.ToString());
 			playerNameText.text = playerData.playerName.ToString();
 		}
 		else

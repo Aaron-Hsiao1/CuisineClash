@@ -7,8 +7,13 @@ using static System.TimeZoneInfo;
 
 public class MainMenuUI : MonoBehaviour
 {
+    [Header("UI")]
     [SerializeField] private Button playButton;
     [SerializeField] private Button quitButton;
+
+    [Header("Transition")]
+    public Animator transition;
+    public float transitionTime = 1f;
 
     private void Awake()
     {
@@ -22,10 +27,7 @@ public class MainMenuUI : MonoBehaviour
             Application.Quit();
         });
     }
-
-    public Animator transition;
-
-    public float transitionTime = 1f;
+    
     public void LoadNextLevel()
     {
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
