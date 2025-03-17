@@ -14,14 +14,11 @@ public class UIScriptManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void UpdateCamera(CinemachineVirtualCamera target)
+    
+    void UpdateCamera(CinemachineVirtualCamera target)
     {
         currentCamera.Priority--;
         currentCamera = target;
         currentCamera.Priority++;
-    }
-    void Update()
-    {
-        
     }
 }
