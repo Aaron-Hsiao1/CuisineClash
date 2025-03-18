@@ -19,7 +19,6 @@ public class GGLapCounter : MonoBehaviour
         }
         else
         {
-            Debug.Log($" {other.name} does not have a checkpoint component");
         }
 
     }

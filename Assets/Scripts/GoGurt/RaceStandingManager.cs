@@ -17,17 +17,10 @@ public class RaceStandingsManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        // Log detailed network spawn information
-        Debug.Log($"RaceStandingsManager NetworkSpawn Details:");
-        Debug.Log($"IsServer: {IsServer}");
-        Debug.Log($"IsHost: {IsHost}");
-        Debug.Log($"IsClient: {IsClient}");
-        Debug.Log($"Local Client ID: {NetworkManager.Singleton.LocalClientId}");
 
         // Log place images
         if (placesImage == null)
         {
-            Debug.LogError("CRITICAL: placesImage list is NULL!");
         }
         else
         {
@@ -36,7 +29,6 @@ public class RaceStandingsManager : NetworkBehaviour
             {
                 if (placesImage[i] != null)
                 {
-                    Debug.Log($"Place Image {i}: {placesImage[i].gameObject.name} - Active: {placesImage[i].gameObject.activeInHierarchy}");
                 }
                 else
                 {
@@ -48,7 +40,6 @@ public class RaceStandingsManager : NetworkBehaviour
 
     void Start()
     {
-        Debug.Log($"RaceStandingsManager Start - IsServer: {IsServer}, IsHost: {IsHost}, IsClient: {IsClient}");
 
         // Comprehensive reset of place images
         ResetPlaceImages();
@@ -58,11 +49,8 @@ public class RaceStandingsManager : NetworkBehaviour
     {
         if (placesImage == null)
         {
-            Debug.LogError("Cannot reset place images - list is NULL!");
             return;
         }
-
-        Debug.Log($"Resetting {placesImage.Count} place images");
 
         for (int i = 0; i < placesImage.Count; i++)
         {
@@ -72,7 +60,6 @@ public class RaceStandingsManager : NetworkBehaviour
                 placesImage[i].enabled = false;
                 placesImage[i].gameObject.SetActive(false);
 
-                Debug.Log($"Reset place image {i}: {placesImage[i].gameObject.name}");
             }
             else
             {
@@ -108,15 +95,11 @@ public class RaceStandingsManager : NetworkBehaviour
             return;
         }
 
-        Debug.Log($"Updating standings for {racers.Count} racers");
-
         // Safely sort racers, handling potential null or uninitialized progress
         var validRacers = racers
             .Where(r => r != null && r.progress != null)
             .OrderByDescending(r => r.progress.Value)
             .ToList();
-
-        Debug.Log($"Valid racers after sorting: {validRacers.Count}");
 
         List<ulong> playerIds = new List<ulong>();
         List<int> ranks = new List<int>();
@@ -126,7 +109,6 @@ public class RaceStandingsManager : NetworkBehaviour
             GGStanding racer = validRacers[i];
             int newRank = i + 1;
 
-            Debug.Log($"Racer {racer.OwnerClientId} - Progress: {racer.progress.Value}, Rank: {newRank}");
 
             playerIds.Add(racer.OwnerClientId);
             ranks.Add(newRank);
@@ -141,14 +123,11 @@ public class RaceStandingsManager : NetworkBehaviour
         racers.Clear();
         var foundRacers = FindObjectsOfType<GGStanding>();
 
-        Debug.Log($"Found {foundRacers.Length} potential racers in the scene");
-
         foreach (var racer in foundRacers)
         {
             if (racer.IsSpawned)
             {
                 racers.Add(racer);
-                Debug.Log($"Added racer: {racer.name}, Owner: {racer.OwnerClientId}");
             }
         }
     }
@@ -156,7 +135,6 @@ public class RaceStandingsManager : NetworkBehaviour
     [ClientRpc]
     private void UpdateStandingsClientRpc(ulong[] playerIds, int[] ranks)
     {
-        Debug.Log($"UpdateStandingsClientRpc called - Local Client ID: {NetworkManager.Singleton.LocalClientId}");
 
         // Clear previous positions
         playerPositions.Clear();
@@ -165,7 +143,6 @@ public class RaceStandingsManager : NetworkBehaviour
         for (int i = 0; i < playerIds.Length; i++)
         {
             playerPositions[playerIds[i]] = ranks[i];
-            Debug.Log($"Player {playerIds[i]} ranked {ranks[i]}");
         }
 
         // Update place images for local client
@@ -174,19 +151,16 @@ public class RaceStandingsManager : NetworkBehaviour
 
     private void UpdateLocalPlayerPlaceImage()
     {
-        Debug.Log("Updating local player place image");
 
         // Reset all images first
         ResetPlaceImages();
 
         // Get local client ID
         ulong localClientId = NetworkManager.Singleton.LocalClientId;
-        Debug.Log($"Local Client ID: {localClientId}");
 
         // Check if local client has a position
         if (playerPositions.TryGetValue(localClientId, out int rank))
         {
-            Debug.Log($"Local client rank: {rank}");
 
             // Ensure rank is valid and within image list
             if (rank > 0 && rank <= placesImage.Count)
@@ -196,21 +170,17 @@ public class RaceStandingsManager : NetworkBehaviour
                 {
                     placesImage[rank - 1].enabled = true;
                     placesImage[rank - 1].gameObject.SetActive(true);
-                    Debug.Log($"Enabled place image for rank {rank}");
                 }
                 else
                 {
-                    Debug.LogError($"Place image for rank {rank} is NULL!");
                 }
             }
             else
             {
-                Debug.LogWarning($"Rank {rank} is out of bounds. Max places: {placesImage.Count}");
             }
         }
         else
         {
-            Debug.LogWarning($"No position found for local client {localClientId}");
         }
     }
 }

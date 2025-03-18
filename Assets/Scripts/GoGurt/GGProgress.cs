@@ -18,7 +18,6 @@ public class GGProgress : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        Debug.Log($"GGProgress NetworkSpawn - IsOwner: {IsOwner}, IsServer: {IsServer}, IsClient: {IsClient}");
 
         // Attempt to initialize immediately after spawn
         InitializeTrackData();
@@ -56,8 +55,6 @@ public class GGProgress : NetworkBehaviour
             Debug.LogError($"CRITICAL: GGStanding component missing from player {gameObject.name}!");
             return;
         }
-
-        Debug.Log($"Track spline initialized. Spline count: {trackSpline.Splines.Count}");
     }
 
     void Update()
@@ -71,7 +68,6 @@ public class GGProgress : NetworkBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"Error in UpdateProgress: {e.Message}\n{e.StackTrace}");
         }
     }
 
@@ -79,21 +75,18 @@ public class GGProgress : NetworkBehaviour
     {
         if (trackSpline == null)
         {
-            Debug.LogWarning("Spline is null in UpdateProgress!");
             InitializeTrackData();
             return;
         }
 
         if (standing == null)
         {
-            Debug.LogWarning("Standing is null in UpdateProgress!");
             return;
         }
 
         // Ensure we have at least one spline
         if (trackSpline.Splines.Count == 0)
         {
-            Debug.LogError("No splines in SplineContainer!");
             return;
         }
 
@@ -101,14 +94,12 @@ public class GGProgress : NetworkBehaviour
         float currentSplinePosition = GetDistanceAlongSpline(transform.position);
 
         // Debug logging for spline position
-        Debug.Log($"Current Spline Position: {currentSplinePosition}, Last Position: {lastSplinePosition}");
 
         // Detect lap completion
         if (currentSplinePosition < 0.1f && lastSplinePosition > 0.9f)
         {
             currentLap++;
             hasCompletedFirstPass = true;
-            Debug.Log($"Lap completed! Current Lap: {currentLap}");
         }
 
         // Prevent lap count from exceeding total laps
@@ -122,7 +113,6 @@ public class GGProgress : NetworkBehaviour
         standing.progress.Value = Mathf.Clamp01(overallProgress);
 
         // Debug logging for progress
-        Debug.Log($"Progress Updated - Lap: {currentLap}, Spline Position: {lapProgress}, Overall Progress: {overallProgress}");
 
         // Store current position for next frame's comparison
         lastSplinePosition = currentSplinePosition;
