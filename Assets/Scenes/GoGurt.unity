@@ -1649,6 +1649,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2454643922256474032, guid: 48b59842722accb49b5a9a42e084f57c, type: 3}
+--- !u!114 &290162878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5108376130456321144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4a4fd0191b864345bda41579b4f6377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackSpline: {fileID: 679470812}
+  recoveryHeight: 12
+  liftDuration: 0.8
+  hoverDuration: 0.6
+  dropDuration: 0.1
+  dropHeight: 6
+  liftCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dropCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  GoUp: {fileID: 0}
+  debugMode: 1
 --- !u!64 &304736243
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11637,74 +11705,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &1441943830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5108376130456321144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4a4fd0191b864345bda41579b4f6377, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trackSpline: {fileID: 679470812}
-  recoveryHeight: 3
-  liftDuration: 1
-  hoverDuration: 0.5
-  dropDuration: 0.1
-  dropHeight: 5
-  liftCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1.036499
-      value: 1.1742325
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  dropCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  GoUp: {fileID: 0}
-  debugMode: 1
 --- !u!1 &1442416600
 GameObject:
   m_ObjectHideFlags: 0
@@ -21363,7 +21363,7 @@ PrefabInstance:
       addedObject: {fileID: 1441943829}
     - targetCorrespondingSourceObject: {fileID: 2493958856124414428, guid: 8f19d74acd0606e4496b3cb0f822b643, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1441943830}
+      addedObject: {fileID: 290162878}
     - targetCorrespondingSourceObject: {fileID: 2207161358396216428, guid: 8f19d74acd0606e4496b3cb0f822b643, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1620004568}
