@@ -21,7 +21,7 @@ public class GGSpeedUp : MonoBehaviour
                         trigger.gameObject.GetComponent<GoKartMovement>().boostFire.GetChild(i).GetComponent<ParticleSystem>().Play();
                     }
                 }
-                trigger.gameObject.GetComponent<GoKartMovement>().MaxSpeed = 900f;
+                trigger.gameObject.GetComponent<GoKartMovement>().MaxSpeed = 200f;
 
 
                 trigger.gameObject.GetComponent<GoKartMovement>().CurrentSpeed = Mathf.Lerp(trigger.gameObject.GetComponent<GoKartMovement>().CurrentSpeed, 900, 1 * Time.deltaTime);
