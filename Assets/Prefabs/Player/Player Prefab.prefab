@@ -2126,8 +2126,8 @@ MonoBehaviour:
   dashSpeed: 0.5
   maxDashChargeTime: 5
   dashChargeSpeed: 5
-  maxDashForce: 1
-  dashDuration: 0.25
+  maxDashForce: 5
+  dashDuration: 0.5
   knockbackMultiplier: 5
   moveScript: {fileID: 6354735150898331807}
   isDashing: 0

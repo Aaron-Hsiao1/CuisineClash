@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
-public class KOTGAttack : MonoBehaviour
+public class KOTGAttack : NetworkBehaviour
 {
     public float DashScale = 5f;
     private float dashTime = 0f;
@@ -44,24 +47,19 @@ public class KOTGAttack : MonoBehaviour
     {
         cameraForward = cameraTransform.forward;
         // Input to start charging the dash (holding space bar)
-        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))
+        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
         {
             ChargeDash();
             isCharging = true; //for animation
         }
-
+        UpdateDashDirection();
         // If Space is released, execute the dash
-        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))
+        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
         {
             ExecuteDash();
             isCharging = false; //for animation
         }
-        UpdateDashDirection();
-
-        if (isDashing)
-        {
-            Dash();
-        }
+        //UpdateDashDirection();
 
          if (isCooldown)
         {
@@ -80,11 +78,11 @@ public class KOTGAttack : MonoBehaviour
         if (dashChargeTime < maxDashChargeTime)
         {
             dashChargeTime += dashChargeSpeed * Time.deltaTime; // Increase charge time
-            Debug.Log("chargining up");
+            //Debug.Log("chargining up");
         }
         else
         {
-            Debug.Log("Max charge");
+            //Debug.Log("Max charge");
         }
     }
 
@@ -95,18 +93,26 @@ public class KOTGAttack : MonoBehaviour
 
         // Start cooldown for dash
         isDashing = true;
+        Debug.Log("Execute dash isdashing = true");
+        Dash();
         StartCoroutine(DashCooldown());
         isCooldown = true;
         timeSinceLastAction = 0f;
     }
 
-    private System.Collections.IEnumerator DashCooldown()
+    private IEnumerator DashCooldown()
     {
         // Wait for the duration of the dash
         yield return new WaitForSeconds(dashDuration);
-
+        moveScript.SetLaunching(false);
+        Debug.Log("isdashing reset");
         // Reset after dash is finished
-        isDashing = false;
+        if (isDashing)
+        {
+            Debug.Log("dashcooldown isdahing = false");
+            isDashing = false;
+        }
+           
         dashChargeTime = 0f; // Reset the charge
     }
     private void UpdateDashDirection()
@@ -116,7 +122,10 @@ public class KOTGAttack : MonoBehaviour
     }
     void Dash() 
     {
-        rb.velocity = cameraForward * dashForce * DashScale;
+        //Debug.Log("Dash direction: " + cameraForward);
+        moveScript.SetLaunching(true);
+        rb.AddForce(cameraForward * dashForce * 5f, ForceMode.Impulse);
+        //rb.velocity = cameraForward * dashForce * DashScale;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -124,29 +133,67 @@ public class KOTGAttack : MonoBehaviour
         // If the dash is active, apply knockback to the object collided with
         if (isDashing)
         {
+            isDashing = false;
+            Debug.Log("oncollisionenter isDashing = false");
             // Calculate knockback force based on the charge time
             float knockbackForce = Mathf.Lerp(0, knockbackMultiplier, dashChargeTime / maxDashChargeTime);
-
             // Apply knockback force to the collided object
             Rigidbody hitRb = collision.gameObject.GetComponent<Rigidbody>(); // Get Rigidbody of the object hit
-            if (hitRb != null)
+            if (hitRb.GetComponent<NetworkObject>().OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
-                /*
-                IHitable hitable = collision.gameObject.GetComponent<IHitable>();
-                {
-                    if(hitable != null)
-                    {
-                        hitable.Execute(transform);
-                    }
-                }
-                */
+                return;
+            }
+
+            if (hitRb != null )
+            {
                 
                 Vector3 knockbackDirection = collision.transform.position - transform.position;
                 knockbackDirection.Normalize();
+                Debug.Log("Attackign: " + hitRb.GetComponent<NetworkObject>().OwnerClientId);
 
-                hitRb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+                if (IsHost)
+                {
+                    AttackPlayerClientRpc(hitRb.GetComponent<NetworkObject>().NetworkObjectId, knockbackDirection * knockbackForce);
+                }
+                else if (IsClient)
+                {
+                    AttackPlayerServerRpc(hitRb.GetComponent<NetworkObject>().NetworkObjectId, knockbackDirection * knockbackForce);
+                }
+
+
+                AttackPlayerClientRpc(hitRb.GetComponent<NetworkObject>().NetworkObjectId, knockbackDirection * knockbackForce);
                 
             }
         }
+    }
+
+    [ClientRpc()]
+    private void AttackPlayerClientRpc(ulong networkObjectId, Vector3 pushDirection) //called on player that gets the force applied to them
+    {
+        Debug.Log("attack player client rpc called");
+        Debug.Log("Player to pusH: " + networkObjectId);
+        GameObject playerToPush = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
+
+        if (playerToPush.GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId)
+        {
+            return;
+        }
+        Debug.Log("pushing: " + playerToPush.GetComponent<NetworkObject>().OwnerClientId);
+        playerToPush.GetComponent<Rigidbody>().AddForce(pushDirection.normalized * 100f, ForceMode.Impulse);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void AttackPlayerServerRpc(ulong networkObjectId, Vector3 pushDirection) //called on player that gets the force applied to them
+    {
+        Debug.Log("attack player client rpc called");
+        Debug.Log("Player to pusH: " + networkObjectId);
+        GameObject playerToPush = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
+
+        if (playerToPush.GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId)
+        {
+            return;
+        }
+        Debug.Log("pushing: " + playerToPush.GetComponent<NetworkObject>().OwnerClientId);
+        playerToPush.GetComponent<Rigidbody>().AddForce(pushDirection.normalized * 100f, ForceMode.Impulse);
     }
 }

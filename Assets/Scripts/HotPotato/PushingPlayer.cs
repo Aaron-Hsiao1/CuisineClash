@@ -48,10 +48,7 @@ public class PlayerPush : NetworkBehaviour
 
         if (rb != null)
         {
-            Debug.Log("rb not null adding force");
             Vector3 pushDirection = (player.transform.position - transform.position).normalized;
-            Debug.Log("rb networkobject id that hit: " + rb.gameObject.GetComponent<NetworkObject>().NetworkObjectId);
-            Debug.Log("rb owner id: " + rb.gameObject.GetComponent<NetworkObject>().OwnerClientId); 
 
             if (IsHost)
             {
