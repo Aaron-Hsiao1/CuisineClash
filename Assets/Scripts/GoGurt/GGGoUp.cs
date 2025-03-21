@@ -31,7 +31,6 @@ public class PlayerRecoverySystem : NetworkBehaviour
     private void Start()
     {
         Debug.Log("Code is working for Go Up");
-        // Check if we have a valid spline reference
         if (trackSpline == null)
         {
             Debug.LogError("TrackSpline reference is missing! Please assign it in the inspector.");
