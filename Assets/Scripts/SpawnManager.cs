@@ -33,4 +33,11 @@ public class SpawnManager : NetworkBehaviour
 		//Debug.Log("no spaw poitns ofund");
 		return new Vector3(0, 0, 0);
 	}
+
+	public Vector3 GetRandomSpawnPoint()
+	{
+		int index = Random.Range(0, spawnPoints.Count() - 1);
+		Vector3 randomSpawnPoint = spawnPoints[index].transform.position;
+		return randomSpawnPoint;
+	}
 }
