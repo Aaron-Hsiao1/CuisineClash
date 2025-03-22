@@ -92,12 +92,14 @@ public class ThirdPersonCam : NetworkBehaviour
 			playerObj.forward = dirToCombatLookAt.normalized;
 		}
 
-		if (!KOTGA.isCharging && currentStyle == CameraStyle.Combat){ //switc h from combat -> basic
+		if (!KOTGA.isCharging && currentStyle == CameraStyle.Combat)
+		{ //switc h from combat -> basic
 			freeLookCamera.gameObject.SetActive(true);
 			currentStyle = CameraStyle.Basic;
 			combatCamera.gameObject.SetActive(false);
 		}
-		else if (KOTGA.isCharging && currentStyle == CameraStyle.Basic){ //swtich from basic -> camera
+		else if (KOTGA.isCharging && currentStyle == CameraStyle.Basic)
+		{ //swtich from basic -> camera
 			combatCamera.gameObject.SetActive(true);
 			currentStyle = CameraStyle.Combat;
 			freeLookCamera.gameObject.SetActive(false);

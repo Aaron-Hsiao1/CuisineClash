@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
-public class FishSlapIndicator : MonoBehaviour
+public class FishSlapIndicator : NetworkBehaviour
 {
     public Image indicatorImage;  // The image to represent the indicator
     public float growthSpeed = 0.5f; // Speed at which the indicator grows
@@ -19,16 +20,20 @@ public class FishSlapIndicator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!IsLocalPlayer)
+        {
+            indicatorImage.gameObject.SetActive(false);
+        }
         if (SceneManager.GetActiveScene().name != "KingOfTheGrill")
         {
             attackIcon.SetActive(false);
         }
-        
+
         if (indicatorImage == null)
         {
             indicatorImage = GetComponent<Image>();
         }
-        
+
         indicatorImage.fillAmount = 0f;
     }
 
@@ -44,7 +49,7 @@ public class FishSlapIndicator : MonoBehaviour
             isGrowing = false;
             indicatorImage.fillAmount = 0f;
         }
-        
+
 
         if (isGrowing)
         {

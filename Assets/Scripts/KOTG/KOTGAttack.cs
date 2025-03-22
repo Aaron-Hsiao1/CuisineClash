@@ -36,7 +36,7 @@ public class KOTGAttack : NetworkBehaviour
     private float dashChargeTime = 0f; // Time for which dash has been charged
     private Rigidbody rb; // Reference to Rigidbody for movement
     private Vector3 dashDirection;
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody>(); // Get the Rigidbody component for movement
@@ -47,21 +47,21 @@ public class KOTGAttack : NetworkBehaviour
     {
         cameraForward = cameraTransform.forward;
         // Input to start charging the dash (holding space bar)
-        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
+        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown)//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
         {
             ChargeDash();
             isCharging = true; //for animation
         }
         UpdateDashDirection();
         // If Space is released, execute the dash
-        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
+        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown)//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
         {
             ExecuteDash();
             isCharging = false; //for animation
         }
         //UpdateDashDirection();
 
-         if (isCooldown)
+        if (isCooldown)
         {
             timeSinceLastAction += Time.deltaTime; // Increase the time by the time passed since last frame
 
@@ -112,7 +112,7 @@ public class KOTGAttack : NetworkBehaviour
             Debug.Log("dashcooldown isdahing = false");
             isDashing = false;
         }
-           
+
         dashChargeTime = 0f; // Reset the charge
     }
     private void UpdateDashDirection()
@@ -120,7 +120,7 @@ public class KOTGAttack : NetworkBehaviour
         // The dash direction is the player's forward direction (relative to their current rotation)
         dashDirection = Orientation.transform.forward; // Direction the player is currently facing
     }
-    void Dash() 
+    void Dash()
     {
         //Debug.Log("Dash direction: " + cameraForward);
         moveScript.SetLaunching(true);
@@ -144,9 +144,9 @@ public class KOTGAttack : NetworkBehaviour
                 return;
             }
 
-            if (hitRb != null )
+            if (hitRb != null)
             {
-                
+
                 Vector3 knockbackDirection = collision.transform.position - transform.position;
                 knockbackDirection.Normalize();
                 Debug.Log("Attackign: " + hitRb.GetComponent<NetworkObject>().OwnerClientId);
@@ -162,7 +162,7 @@ public class KOTGAttack : NetworkBehaviour
 
 
                 AttackPlayerClientRpc(hitRb.GetComponent<NetworkObject>().NetworkObjectId, knockbackDirection * knockbackForce);
-                
+
             }
         }
     }
