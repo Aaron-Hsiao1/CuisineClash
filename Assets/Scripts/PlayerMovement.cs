@@ -44,9 +44,9 @@ public class PlayerMovement : NetworkBehaviour
 
     public KeyCode jumpKey = KeyCode.Space;
 
-	//public KOTGAttack KOTGA;
+    //public KOTGAttack KOTGA;
 
-	[SerializeField] private HotPotatoManager hotPotatoManager;
+    [SerializeField] private HotPotatoManager hotPotatoManager;
     private bool launching = false;
 
     public override void OnNetworkSpawn()
@@ -79,7 +79,7 @@ public class PlayerMovement : NetworkBehaviour
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
 
         MyInput();
-        
+
 
 
 
@@ -167,14 +167,19 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Sprint()
     {
-        float  targetSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            moveSpeed = sprintSpeed;
+        }
+        else
+        {
+            moveSpeed = walkSpeed;
+        }
 
         if (SceneManager.GetActiveScene().name == "HotPotato" && NetworkManager.Singleton.LocalClientId == hotPotatoManager.currentPlayerWithPotato.Value)
         {
             moveSpeed *= hasPotatoSpeedMultiplier;
         }
-
-        moveSpeed = Mathf.Lerp(moveSpeed, targetSpeed, Time.deltaTime * 10f);
     }
 
     public Vector3 GetMoveDirection()
