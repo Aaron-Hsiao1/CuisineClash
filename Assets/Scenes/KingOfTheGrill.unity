@@ -4187,6 +4187,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7791760726284605937, guid: c8b038f76f73da248a9a4e5f57307e64, type: 3}
   m_PrefabInstance: {fileID: 400651299}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &400651301 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6650560160305408947, guid: c8b038f76f73da248a9a4e5f57307e64, type: 3}
+  m_PrefabInstance: {fileID: 400651299}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &400651302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8123358771510808623, guid: c8b038f76f73da248a9a4e5f57307e64, type: 3}
+  m_PrefabInstance: {fileID: 400651299}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &401439758
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9481,6 +9497,11 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!20 &984451603 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6227584920203554593, guid: 6c5265a70522d7544bb6c0799d88dbf8, type: 3}
+  m_PrefabInstance: {fileID: 984451600}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &986086513
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -16714,6 +16735,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cuisine Clash Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 7442743567073781054, guid: e20b7a900f0fc6249b3ee3b555fb7e88, type: 3}
+      propertyPath: disconnectUI
+      value: 
+      objectReference: {fileID: 400651302}
+    - target: {fileID: 7442743567073781054, guid: e20b7a900f0fc6249b3ee3b555fb7e88, type: 3}
+      propertyPath: secondaryCamera
+      value: 
+      objectReference: {fileID: 984451603}
+    - target: {fileID: 7442743567073781054, guid: e20b7a900f0fc6249b3ee3b555fb7e88, type: 3}
+      propertyPath: returnToMainMenu
+      value: 
+      objectReference: {fileID: 400651301}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

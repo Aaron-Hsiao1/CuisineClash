@@ -78,7 +78,7 @@ public class KingOfTheGrillManager : NetworkBehaviour
 		}
 
 
-		SpawnPillarClientRpc();
+		SpawnPillarServerRpc();
 	}
 
 	private void Update()
@@ -193,14 +193,12 @@ public class KingOfTheGrillManager : NetworkBehaviour
 		pillarNetworkObject.Spawn(true);
 
 		indicatorPillarNetworkObject.Despawn(true);
-		Destroy(indicatorPillar);
+		//Destroy(indicatorPillar);
 
 		pillar.transform.parent = transform;
 
 		// Start moving the pillar upwards
 		StartCoroutine(MovePillar(pillar.transform, indicatorPillar.transform));
-
-
 	}
 
 	IEnumerator MovePillar(Transform pillarTransform, Transform indicatorTransform)
@@ -270,7 +268,8 @@ public class KingOfTheGrillManager : NetworkBehaviour
 	[ServerRpc]
 	private void SpawnPillarServerRpc()
 	{
-		SpawnPillarClientRpc();
+		//SpawnPillarClientRpc();
+		StartCoroutine(SpawnPillarLoop());
 		Debug.Log("spawn pillar server rpc");
 	}
 
