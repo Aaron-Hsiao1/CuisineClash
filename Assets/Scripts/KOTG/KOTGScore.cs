@@ -14,12 +14,12 @@ public class KOTGScore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myText.text = "1." + player.GetPlayerName() + ": ";
+        myText.text = "1." + ": " + SM.ReturnPlayerPoints();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        myText.text = "1." + ": " + SM.ReturnPlayerPoints();
     }
 }
