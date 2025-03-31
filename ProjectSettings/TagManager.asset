@@ -16,6 +16,7 @@ TagManager:
   - Ladder
   - Water
   - PlayerPush
+  - KOTGAttackCollider
   layers:
   - Default
   - TransparentFX

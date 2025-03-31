@@ -2289,6 +2289,61 @@ MonoBehaviour:
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
+--- !u!1 &8244711405074326296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7287385216877308503}
+  - component: {fileID: 1806591181074114599}
+  m_Layer: 2
+  m_Name: KOTGCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7287385216877308503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244711405074326296}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9076327832988588039}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1806591181074114599
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244711405074326296}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.84298533
+  m_Height: 1.9034879
+  m_Direction: 1
+  m_Center: {x: 0.008473694, y: 0, z: 0.018569708}
 --- !u!1 &8252333008981968330
 GameObject:
   m_ObjectHideFlags: 0
@@ -2824,6 +2879,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7006023881434061018, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
       insertIndex: -1
       addedObject: {fileID: 820082491688228371}
+    - targetCorrespondingSourceObject: {fileID: 7006023881434061018, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7287385216877308503}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5126600664880378802, guid: 738550b2201b38f4fb37edffd733b9af, type: 3}
       insertIndex: -1

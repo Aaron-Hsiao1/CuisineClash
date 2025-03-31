@@ -47,14 +47,14 @@ public class KOTGAttack : NetworkBehaviour
     {
         cameraForward = cameraTransform.forward;
         // Input to start charging the dash (holding space bar)
-        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
+        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown)//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
         {
             ChargeDash();
             isCharging = true; //for animation
         }
         UpdateDashDirection();
         // If Space is released, execute the dash
-        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
+        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown)//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
         {
             ExecuteDash();
             isCharging = false; //for animation
@@ -130,6 +130,11 @@ public class KOTGAttack : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        
+        if (collision.gameObject.CompareTag("KOTGAttackCollider"))
+        {
+            Debug.Log("COllided with kotg collider");
+        }
         // If the dash is active, apply knockback to the object collided with
         if (isDashing)
         {
