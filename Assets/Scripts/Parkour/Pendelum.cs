@@ -26,8 +26,8 @@ public class Pendulum : MonoBehaviour
 
     void Update()
     {
-        float angle = swingAngle * Mathf.Sin((Time.time - startTime) * speed);
-        transform.localRotation = Quaternion.Euler(0, 0, angle);
+        float angle = -swingAngle * Mathf.Sin((Time.time - startTime) * speed);
+        transform.localRotation = Quaternion.Euler(0 , -60.214f, angle+180);
     }
 
     private void OnCollisionEnter(Collision collision)
