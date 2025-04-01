@@ -184,12 +184,12 @@ public class HotPotatoManager : NetworkBehaviour
 		timerText.gameObject.SetActive(false);
 		secondaryCamera.gameObject.SetActive(true);
 		gameOverText.gameObject.SetActive(true);
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(3.3f);
 		gameOverText.gameObject.SetActive(false);
 		UpdateLeaderboardClientRpc();
 		leaderboard.SetActive(true);
 
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(5f);
 
 		if (GamemodeManager.Instance.GetGamemodeList().Count > 0)
 		{

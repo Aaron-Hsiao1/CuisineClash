@@ -1213,7 +1213,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -5, y: -4}
+  m_AnchoredPosition: {x: -5, y: -12}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721626063
@@ -1238,8 +1238,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ASDF
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
-  m_sharedMaterial: {fileID: 7828103452043414876, guid: 5b5e9242493c448409b24c6c002bdca9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 741c9b1639afa8e4bbe518339de4813a, type: 2}
+  m_sharedMaterial: {fileID: -1078266140135182415, guid: 741c9b1639afa8e4bbe518339de4813a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1263,8 +1263,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2879,7 +2879,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1611299170915080848, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1687040031498899584, guid: 1efda48f46768aa47a5bd4e88d07d838, type: 3}
       propertyPath: m_LocalScale.x
