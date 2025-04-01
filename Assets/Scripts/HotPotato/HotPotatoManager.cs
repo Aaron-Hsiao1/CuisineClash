@@ -133,12 +133,14 @@ public class HotPotatoManager : NetworkBehaviour
 	}
 
 	[ClientRpc]
-	private void StartSpectatingClientRpc()
+	private void StartSpectatingClientRpc(ulong clientId)
 	{
-		if (NetworkManager.Singleton.LocalClientId == currentPlayerWithPotato.Value)
+		if (NetworkManager.Singleton.LocalClientId == clientId)
 		{
-			spectateManager.RemovePlayerFromSpectatingList(currentPlayerWithPotato.Value);
-			spectateManager.StartSpectating(currentPlayerWithPotato.Value);
+			Debug.Log($"Client {clientId} started spectating");
+			spectateManager.RemovePlayerFromSpectatingList(clientId);
+			Debug.Log("player removed from spectating list");
+			spectateManager.StartSpectating(clientId);
 		}
 	}
 
@@ -156,7 +158,7 @@ public class HotPotatoManager : NetworkBehaviour
 			{
 				Debug.Log("EXPLOSION");
 
-				StartSpectatingClientRpc();
+				StartSpectatingClientRpc(currentPlayerWithPotato.Value);
 				player.Eliminate(); // Call the player's elimination method
 
 				if (alivePlayerIds.Count <= 3)
