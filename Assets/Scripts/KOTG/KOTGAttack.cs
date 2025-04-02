@@ -128,7 +128,7 @@ public class KOTGAttack : NetworkBehaviour
         //rb.velocity = cameraForward * dashForce * DashScale;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
 
         if (collision.gameObject.CompareTag("KOTGAttackCollider"))
@@ -168,6 +168,33 @@ public class KOTGAttack : NetworkBehaviour
 
                 AttackPlayerClientRpc(hitRb.GetComponent<NetworkObject>().NetworkObjectId, knockbackDirection * knockbackForce);
 
+            }
+        }
+    }*/
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isDashing && other.gameObject.CompareTag("KOTGAttackCollider"))
+        {
+            // Check if the other object has a Rigidbody (this is important to apply force)
+            if (other.GetComponent<Rigidbody>() != null)
+            {
+                float knockbackForce = Mathf.Lerp(0, knockbackMultiplier, dashChargeTime / maxDashChargeTime);
+                Rigidbody rb = other.GetComponentInParent<Rigidbody>();
+
+                // Calculate the direction from the center of the area to the object's position
+                Vector3 flingDirection = (other.transform.position - transform.position).normalized;
+
+                // Apply force to fling the object away from the area
+                if (IsHost)
+                {
+                    AttackPlayerClientRpc(rb.GetComponent<NetworkObject>().NetworkObjectId, flingDirection * knockbackForce);
+                }
+                else if (IsClient)
+                {
+                    AttackPlayerServerRpc(rb.GetComponent<NetworkObject>().NetworkObjectId, flingDirection * knockbackForce);
+                }
+                Debug.Log("flinging");
             }
         }
     }
