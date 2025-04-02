@@ -27,23 +27,19 @@ public class KOTGFling : MonoBehaviour
                 EditorGUIUtility.PingObject(other);
 #endif
                 StartCoroutine(LaunchPlayer(other, totalForce, rb));
-                
 
-                
+
+
             }
         }
     }
 
     private IEnumerator LaunchPlayer(Collider other, Vector3 totalForce, Rigidbody rb)
     {
-        Debug.Log("ddd");
-        Debug.Log("total force; " + totalForce);
         other.gameObject.GetComponentInParent<PlayerMovement>().SetLaunching(true);
-        Debug.Log(" rb name: " + rb.name);
         rb.velocity = new Vector3(0, 0, 0);
         rb.AddForce(totalForce, ForceMode.Impulse);
         hit = true;
-        Debug.Log("force added");
         yield return new WaitForSeconds(0.5f);
         other.gameObject.GetComponentInParent<PlayerMovement>().SetLaunching(false);
     }

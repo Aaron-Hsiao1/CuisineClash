@@ -130,7 +130,7 @@ public class KOTGAttack : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+
         if (collision.gameObject.CompareTag("KOTGAttackCollider"))
         {
             Debug.Log("COllided with kotg collider");
@@ -172,6 +172,15 @@ public class KOTGAttack : NetworkBehaviour
         }
     }
 
+    private IEnumerator LaunchPlayer(GameObject player, Vector3 totalForce, Rigidbody rb)
+    {
+        player.gameObject.GetComponentInParent<PlayerMovement>().SetLaunching(true);
+        rb.velocity = new Vector3(0, 0, 0);
+        rb.AddForce(totalForce, ForceMode.Impulse);
+        yield return new WaitForSeconds(0.5f);
+        player.gameObject.GetComponentInParent<PlayerMovement>().SetLaunching(false);
+    }
+
     [ClientRpc()]
     private void AttackPlayerClientRpc(ulong networkObjectId, Vector3 pushDirection) //called on player that gets the force applied to them
     {
@@ -184,7 +193,8 @@ public class KOTGAttack : NetworkBehaviour
             return;
         }
         Debug.Log("pushing: " + playerToPush.GetComponent<NetworkObject>().OwnerClientId);
-        playerToPush.GetComponent<Rigidbody>().AddForce(pushDirection.normalized * 100f, ForceMode.Impulse);
+        StartCoroutine(LaunchPlayer(playerToPush, pushDirection.normalized * 25f, playerToPush.GetComponent<Rigidbody>()));
+        //playerToPush.GetComponent<Rigidbody>().AddForce(pushDirection.normalized * 100f, ForceMode.Impulse);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -199,6 +209,7 @@ public class KOTGAttack : NetworkBehaviour
             return;
         }
         Debug.Log("pushing: " + playerToPush.GetComponent<NetworkObject>().OwnerClientId);
-        playerToPush.GetComponent<Rigidbody>().AddForce(pushDirection.normalized * 100f, ForceMode.Impulse);
+        StartCoroutine(LaunchPlayer(playerToPush, pushDirection.normalized * 25f, playerToPush.GetComponent<Rigidbody>()));
+        //playerToPush.GetComponent<Rigidbody>().AddForce(pushDirection.normalized * 100f, ForceMode.Impulse);
     }
 }
