@@ -84,14 +84,14 @@ public class SpectateManager : NetworkBehaviour
 	public void StartSpectating(ulong spectator)
 	{
 		isSpectating = true;
-        Debug.Log("Starting spectating sequ4ence");
+		Debug.Log("Starting spectating sequ4ence");
 		if (!IsHost)
 		{
 			StartSpectatingServerRpc(spectator);
 			return;
 
-        }
-        StartSpectatingClientRpc(spectator);
+		}
+		StartSpectatingClientRpc(spectator);
 	}
 
 	[ServerRpc(RequireOwnership = false)]
@@ -107,7 +107,7 @@ public class SpectateManager : NetworkBehaviour
 		{
 			return;
 		}
-		
+
 		currentIndexBeingSpectated = 0;
 		currentPlayerBeingSpectated = availableToSpectateList[currentIndexBeingSpectated];
 		SpectatePlayer(currentPlayerBeingSpectated);
@@ -122,8 +122,19 @@ public class SpectateManager : NetworkBehaviour
 	private void RemovePlayerFromSpectatingListServerRpc(ulong clientId)
 	{
 		availableToSpectateList.Remove(clientId);
+		UpdateSpectatingPlayersClientRpc();
 	}
 
+	[ClientRpc]
+	private void UpdateSpectatingPlayersClientRpc()
+	{
+		if (isSpectating)
+		{
+			currentIndexBeingSpectated = 0;
+			currentPlayerBeingSpectated = availableToSpectateList[currentIndexBeingSpectated];
+			SpectatePlayer(currentPlayerBeingSpectated);
+		}
+	}
 
 	public void SpectatePlayer(ulong clientId)
 	{
@@ -140,7 +151,7 @@ public class SpectateManager : NetworkBehaviour
 	{
 		if (NetworkManager.Singleton.LocalClientId == recieverId)
 		{
-			
+
 			GameObject playerGameObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
 			Debug.Log($"{recieverId} is currently spectating");
 			currentSpectatorCamera = playerGameObject.transform.Find("CameraHolder/Main Camera").gameObject;
@@ -150,7 +161,7 @@ public class SpectateManager : NetworkBehaviour
 			currentSpectatorFreeLookCamera.gameObject.SetActive(true);
 		}
 
-    }
+	}
 
 	[ServerRpc(RequireOwnership = false)]
 	private void SpectatePlayerServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
