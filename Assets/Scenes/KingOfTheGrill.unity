@@ -10664,6 +10664,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 939683695430664214, guid: 3c2f5c23fa460c74480fed12c23af92e, type: 3}
   m_PrefabInstance: {fileID: 1224087254}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1224087256 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5377622356368857455, guid: 3c2f5c23fa460c74480fed12c23af92e, type: 3}
+  m_PrefabInstance: {fileID: 1224087254}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &1238587043
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -14575,9 +14586,9 @@ MonoBehaviour:
   timerText: {fileID: 367965337}
   startTime:
     m_InternalValue: 10
-  gameOverText: {fileID: 0}
-  leaderboard: {fileID: 0}
-  leaderboardText: {fileID: 0}
+  gameOverText: {fileID: 1224087256}
+  leaderboard: {fileID: 1897595720}
+  leaderboardText: {fileID: 1897595719}
   scoreText: {fileID: 145557743}
   cuisineClashManager: {fileID: 2051956499}
   scoreManager: {fileID: 1672747020}
@@ -15850,6 +15861,22 @@ PrefabInstance:
 --- !u!224 &1897595718 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 910019231359602580, guid: f6e4fbc93807dca4f9cc4abf8525f53c, type: 3}
+  m_PrefabInstance: {fileID: 1897595717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1897595719 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7344105568028303782, guid: f6e4fbc93807dca4f9cc4abf8525f53c, type: 3}
+  m_PrefabInstance: {fileID: 1897595717}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1897595720 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4242463621862813861, guid: f6e4fbc93807dca4f9cc4abf8525f53c, type: 3}
   m_PrefabInstance: {fileID: 1897595717}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &1920449850
