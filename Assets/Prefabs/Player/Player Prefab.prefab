@@ -1937,7 +1937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3579838098
+  GlobalObjectIdHash: 2920621066
   InScenePlacedSourceGlobalObjectIdHash: 1425304081
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -2298,7 +2298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7287385216877308503}
-  - component: {fileID: 1806591181074114599}
+  - component: {fileID: 3100084833204189927}
   m_Layer: 2
   m_Name: KOTGCollider
   m_TagString: KOTGAttackCollider
@@ -2321,8 +2321,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9076327832988588039}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1806591181074114599
-CapsuleCollider:
+--- !u!65 &3100084833204189927
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2339,11 +2339,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.84298533
-  m_Height: 1.9034879
-  m_Direction: 1
-  m_Center: {x: 0.008473694, y: 0, z: 0.018569708}
+  serializedVersion: 3
+  m_Size: {x: 2.7682676, y: 2.038542, z: 2.7417989}
+  m_Center: {x: -0.027033627, y: 0.050728917, z: 0.042368174}
 --- !u!1 &8252333008981968330
 GameObject:
   m_ObjectHideFlags: 0
@@ -3457,7 +3455,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: a1c87fc7035fcc4408362b499f20028f, type: 3}
     - target: {fileID: 2062062278527864346, guid: 2c793179c57d892448f35551749bb768, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2144896755910050934, guid: 2c793179c57d892448f35551749bb768, type: 3}
       propertyPath: m_Sprite
