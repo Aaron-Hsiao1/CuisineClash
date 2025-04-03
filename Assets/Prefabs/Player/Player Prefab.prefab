@@ -437,7 +437,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325825641374297174}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.043703213, y: 0.30246493, z: -0.013884349, w: 0.9520568}
+  m_LocalRotation: {x: 0.043703202, y: 0.30246493, z: -0.013884345, w: 0.9520568}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1937,7 +1937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2920621066
+  GlobalObjectIdHash: 3579838098
   InScenePlacedSourceGlobalObjectIdHash: 1425304081
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1980,6 +1980,7 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   rb: {fileID: 6774906967980962924}
   freeCam: {fileID: 6711636861366011777}
+  cinemachineFreeLook: {fileID: 1826043248698794286}
   jumpKey: 32
   hotPotatoManager: {fileID: 0}
 --- !u!114 &7888669529665992022

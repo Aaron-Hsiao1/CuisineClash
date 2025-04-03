@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,6 +42,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private Rigidbody rb;
     [SerializeField] private FreeCam freeCam;
+    [SerializeField] private CinemachineFreeLook cinemachineFreeLook;
 
     public KeyCode jumpKey = KeyCode.Space;
 

@@ -15,9 +15,9 @@ public class GamemodeManager : NetworkBehaviour
 	private enum Gamemode
 	{
 		//MultiplayerTesting,
-		//RainingMeatball,
+		RainingMeatball,
 		KingOfTheGrill,
-		//HotPotato
+		HotPotato
 		//LoadIntoHP
 		//TutorialHP
 		//GameEnded
@@ -35,12 +35,14 @@ public class GamemodeManager : NetworkBehaviour
 
 	public override void OnNetworkSpawn()
 	{
-		//Debug.Log("on netowrk spawn: " + IsHost);
+		//Debug.Log("on netowrk spawn: gamemode manager");
 		if (IsHost)
 		{
+			//Debug.Log("List of enum: " + Enum.GetValues(typeof(Gamemode)).Length);
 			foreach (Gamemode gamemode in Enum.GetValues(typeof(Gamemode)))
 			{
 				//Debug.Log("insantianteing gamemodeList...");
+				//Debug.Log("Adding gamemode: " + gamemode.ToString());
 				gamemodeList.Add(gamemode.ToString());
 				//gamemodeListInstantiated = true;
 			}
@@ -75,8 +77,15 @@ public class GamemodeManager : NetworkBehaviour
 
 			//Debug.Log("Random index chosen: " + random);
 			//Debug.Log("Selected nextGamemode: " + nextGamemode);
-
-			gamemodeList.RemoveAt(random);
+			Debug.Log("Gamemode " + nextGamemode + " removed");
+			Debug.Log("Gamemdoe list count: " + gamemodeList.Count);
+            foreach (Gamemode gamemode in Enum.GetValues(typeof(Gamemode)))
+            {
+				//Debug.Log("insantianteing gamemodeList...");
+				Debug.Log("Gamemode: " + gamemode.ToString());
+                //gamemodeListInstantiated = true;
+            }
+            gamemodeList.RemoveAt(random);
 			//Debug.Log("gamemode removed");
 			return nextGamemode;
 		}
