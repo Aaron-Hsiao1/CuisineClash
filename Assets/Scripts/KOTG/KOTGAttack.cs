@@ -47,14 +47,14 @@ public class KOTGAttack : NetworkBehaviour
     {
         cameraForward = cameraTransform.forward;
         // Input to start charging the dash (holding space bar)
-        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown)//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
+        if (Input.GetKey(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
         {
             ChargeDash();
             isCharging = true; //for animation
         }
         UpdateDashDirection();
         // If Space is released, execute the dash
-        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown)//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
+        if (Input.GetKeyUp(KeyCode.Mouse0) && !isDashing && !isCooldown && (SceneManager.GetActiveScene().name == "KingOfTheGrill"))//&& (SceneManager.GetActiveScene().name == "KingOfTheGrill")
         {
             ExecuteDash();
             isCharging = false; //for animation
@@ -201,6 +201,7 @@ public class KOTGAttack : NetworkBehaviour
     {
         player.gameObject.GetComponentInParent<PlayerMovement>().SetLaunching(true);
         rb.velocity = new Vector3(0, 0, 0);
+        rb.AddForce(Vector3.up * 10f, ForceMode.Impulse);
         rb.AddForce(totalForce, ForceMode.Impulse);
         yield return new WaitForSeconds(0.5f);
         player.gameObject.GetComponentInParent<PlayerMovement>().SetLaunching(false);
