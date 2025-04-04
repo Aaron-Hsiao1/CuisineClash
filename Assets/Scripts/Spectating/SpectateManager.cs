@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using UnityEditor;
 
 public class SpectateManager : NetworkBehaviour
 {
@@ -153,7 +154,11 @@ public class SpectateManager : NetworkBehaviour
 		{
 
 			GameObject playerGameObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
-			Debug.Log($"{recieverId} is currently spectating: " + currentIndexBeingSpectated	);
+
+#if UNITY_EDITOR
+			EditorGUIUtility.PingObject(playerGameObject);
+#endif
+			Debug.Log($"{recieverId} is currently spectating: " + currentIndexBeingSpectated);
 			currentSpectatorCamera = playerGameObject.transform.Find("CameraHolder/Main Camera").gameObject;
 			currentSpectatorFreeLookCamera = playerGameObject.transform.Find("FreeLook Camera").gameObject;
 
