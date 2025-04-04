@@ -42,7 +42,8 @@ public class DeathZone : NetworkBehaviour
 	private void RemoveFromPlayerListServerRpc(ServerRpcParams serverRpcParams = default)
 	{
 		var clientId = serverRpcParams.Receive.SenderClientId;
-		Destroy(NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject);
+
+        Destroy(NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject);
 		meatballManager.EliminatePlayer(clientId);
 
 		Debug.Log("Player removed: " + clientId);

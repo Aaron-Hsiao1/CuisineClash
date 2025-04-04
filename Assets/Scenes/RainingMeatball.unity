@@ -5545,6 +5545,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23d1c8a105e26a847a2facb837e01c75, type: 3}
+--- !u!114 &688980366 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1300227795722248155, guid: 23d1c8a105e26a847a2facb837e01c75, type: 3}
+  m_PrefabInstance: {fileID: 688980365}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd2161055f71764199e890b66f78e33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &691166756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10137,6 +10148,10 @@ PrefabInstance:
       propertyPath: secondaryCamera
       value: 
       objectReference: {fileID: 872593471}
+    - target: {fileID: 4176346093104246727, guid: 0d20e8f9b015cf642b1827efa26c4bc3, type: 3}
+      propertyPath: spectateManager
+      value: 
+      objectReference: {fileID: 688980366}
     - target: {fileID: 4176346093104246727, guid: 0d20e8f9b015cf642b1827efa26c4bc3, type: 3}
       propertyPath: rainingMeatballManager
       value: 

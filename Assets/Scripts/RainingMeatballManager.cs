@@ -19,6 +19,8 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 
 	[SerializeField] private GameObject leaderboard;
 	[SerializeField] private TMP_Text leaderboardText;
+
+	[SerializeField] private SpectateManager spectateManager;
 	//private NetworkVariable<FixedString128Bytes> leaderboardString = new NetworkVariable<FixedString128Bytes>("");
 
 	[SerializeField] private Camera secondaryCamera;
@@ -89,6 +91,10 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 			if (currentTime.Value <= 0 || alivePlayers.Count <= 1)
 			{
 				currentTime.Value = 0;
+				if (alivePlayers.Count == 1)
+				{
+					EliminatePlayer(alivePlayers[0]);
+				}
 				OnGameEnd?.Invoke(this, EventArgs.Empty);
 			}
 
@@ -168,11 +174,25 @@ public class RainingMeatballManager : NetworkBehaviour, INetworkSerializeByMemcp
 	public void EliminatePlayer(ulong clientId) // Only when game is running
 	{
 		playerPlacements[alivePlayers.Count] = clientId;
+		Debug.Log("alivePlayers.COunt: " + alivePlayers.Count);
 		alivePlayers.Remove(clientId);
-		Debug.Log("Player eliminated: " + clientId);
+		StartSpectatingClientRpc(clientId);
+        Debug.Log("Player eliminated: " + clientId);
 	}
 
-	public int AlivePlayerCount()
+    [ClientRpc]
+    private void StartSpectatingClientRpc(ulong clientId)
+    {
+        if (NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            Debug.Log($"Client {clientId} started spectating");
+            spectateManager.RemovePlayerFromSpectatingList(clientId);
+            Debug.Log("player removed from spectating list");
+            spectateManager.StartSpectating(clientId);
+        }
+    }
+
+    public int AlivePlayerCount()
 	{
 		return alivePlayers.Count;
 	}
