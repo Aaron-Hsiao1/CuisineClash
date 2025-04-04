@@ -153,13 +153,14 @@ public class SpectateManager : NetworkBehaviour
 		{
 
 			GameObject playerGameObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId].gameObject;
-			Debug.Log($"{recieverId} is currently spectating");
+			Debug.Log($"{recieverId} is currently spectating: " + currentIndexBeingSpectated	);
 			currentSpectatorCamera = playerGameObject.transform.Find("CameraHolder/Main Camera").gameObject;
 			currentSpectatorFreeLookCamera = playerGameObject.transform.Find("FreeLook Camera").gameObject;
 
 			currentSpectatorCamera.SetActive(true);
 			currentSpectatorFreeLookCamera.gameObject.SetActive(true);
-		}
+
+        }
 
 	}
 

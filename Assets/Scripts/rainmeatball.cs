@@ -32,7 +32,7 @@ public class MeatballSpawner : NetworkBehaviour
 		{
 			return;
 		}
-		SpawnMeatballServerRpc();
+		//SpawnMeatballServerRpc();
 	}
 
 	[ServerRpc]
