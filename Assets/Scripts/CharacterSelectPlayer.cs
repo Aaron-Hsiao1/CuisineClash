@@ -6,18 +6,20 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterSelectPlayer : MonoBehaviour
+public class CharacterSelectPlayer : NetworkBehaviour
 {
 	[SerializeField] private int playerIndex;
 	[SerializeField] private PlayerVisual playerVisual;
 	[SerializeField] private Button kickButton;
 	[SerializeField] private TextMeshPro playerNameText;
+	[SerializeField] private GameObject youIndicator;
 
 	private void Start()
 	{
 		CuisineClashMultiplayer.Instance.OnPlayerDataNetworkListChanged += CuisineClashMultiplayer_OnPlayerDataNetworkListChanged;
 
 		kickButton.gameObject.SetActive(NetworkManager.Singleton.IsServer);
+		youIndicator.SetActive(((int)NetworkManager.Singleton.LocalClientId) == playerIndex);
 
 		UpdatePlayer();
 	}

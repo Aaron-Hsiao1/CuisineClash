@@ -172,10 +172,18 @@ public class PlayerMovement : NetworkBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             moveSpeed = sprintSpeed;
+            if (Camera.main.fieldOfView >= 50)
+            {
+                cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(cinemachineFreeLook.m_Lens.FieldOfView, 60, 10 * Time.deltaTime);
+            }
         }
         else
         {
             moveSpeed = walkSpeed;
+            if (Camera.main.fieldOfView <= 60)
+            {
+                cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(cinemachineFreeLook.m_Lens.FieldOfView, 50, 10 * Time.deltaTime);
+            }
         }
 
         if (SceneManager.GetActiveScene().name == "HotPotato" && NetworkManager.Singleton.LocalClientId == hotPotatoManager.currentPlayerWithPotato.Value)
@@ -183,7 +191,6 @@ public class PlayerMovement : NetworkBehaviour
             moveSpeed *= hasPotatoSpeedMultiplier;
         }
     }
-
     public Vector3 GetMoveDirection()
     {
         return moveDirection;

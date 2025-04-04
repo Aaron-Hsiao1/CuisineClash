@@ -79,13 +79,13 @@ public class GamemodeManager : NetworkBehaviour
 			//Debug.Log("Selected nextGamemode: " + nextGamemode);
 			Debug.Log("Gamemode " + nextGamemode + " removed");
 			Debug.Log("Gamemdoe list count: " + gamemodeList.Count);
-            foreach (Gamemode gamemode in Enum.GetValues(typeof(Gamemode)))
-            {
+			foreach (Gamemode gamemode in Enum.GetValues(typeof(Gamemode)))
+			{
 				//Debug.Log("insantianteing gamemodeList...");
 				Debug.Log("Gamemode: " + gamemode.ToString());
-                //gamemodeListInstantiated = true;
-            }
-            gamemodeList.RemoveAt(random);
+				//gamemodeListInstantiated = true;
+			}
+			gamemodeList.RemoveAt(random);
 			//Debug.Log("gamemode removed");
 			return nextGamemode;
 		}
