@@ -36,6 +36,7 @@ public class HotPotatoManager : NetworkBehaviour
 	public event EventHandler OnGameEnd;
 
 	[SerializeField] private SpectateManager spectateManager;
+	[SerializeField] private SpawnManager spawnManager;
 
 	public override void OnNetworkSpawn()
 	{
@@ -60,7 +61,7 @@ public class HotPotatoManager : NetworkBehaviour
 			timerRunning.Value = false;
 			PotatoTimerEnd?.Invoke(this, EventArgs.Empty);
 
-			StartCoroutine(ReassignPotatoAfterCooldown());
+			StartCoroutine(RestartGameAfterExplosion());
 			Debug.Log("Current player with potato disconnected! Reassigning player with potato..."); //add this to the screen as text to let palyers know
 			alivePlayerIds.Remove(clientId);
 		}
@@ -85,7 +86,7 @@ public class HotPotatoManager : NetworkBehaviour
 			timerRunning.Value = false;
 			PotatoTimerEnd?.Invoke(this, EventArgs.Empty);
 
-			StartCoroutine(ReassignPotatoAfterCooldown());
+			StartCoroutine(RestartGameAfterExplosion());
 			Debug.Log("Potato Manually Detonated by Host!");
 		}
 
@@ -174,7 +175,7 @@ public class HotPotatoManager : NetworkBehaviour
 					OnGameEnd?.Invoke(this, EventArgs.Empty);
 				}
 
-				StartCoroutine(ReassignPotatoAfterCooldown());
+				StartCoroutine(RestartGameAfterExplosion());
 				break;
 			}
 		}
@@ -348,11 +349,26 @@ public class HotPotatoManager : NetworkBehaviour
 		}
 	}
 
-	private IEnumerator ReassignPotatoAfterCooldown()
+	private IEnumerator RestartGameAfterExplosion()
 	{
 		Debug.Log("Reassigning potato");
-		yield return new WaitForSeconds(repeatDelay); // Wait for the cooldown time
+		yield return new WaitForSeconds(1f);
+		foreach (var clientId in alivePlayerIds)
+		{
+            Vector3 newPosition = spawnManager.GetRandomSpawnPoint() + new Vector3(0, 2, 0);
+			ResetPlayerPositionClientRpc(newPosition, clientId, NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.NetworkObjectId);
+		}
+        yield return new WaitForSeconds(repeatDelay); // Wait for the cooldown time
 		AssignRandomPlayerWithPotato(); // Reassign to a random player
+	}
+
+	[ClientRpc]
+	private void ResetPlayerPositionClientRpc(Vector3 position, ulong clientId, ulong playerObjectId)
+	{
+		if (NetworkManager.Singleton.LocalClientId == clientId)
+		{
+			NetworkManager.SpawnManager.SpawnedObjects[playerObjectId].GetComponent<Rigidbody>().position = position;
+		}
 	}
 
 	public ulong GetPlayerWithPotato()
