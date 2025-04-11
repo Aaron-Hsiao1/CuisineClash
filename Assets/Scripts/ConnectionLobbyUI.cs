@@ -17,6 +17,8 @@ public class ConnectionLobbyUI : NetworkBehaviour
 	[SerializeField] private Button hideLobbyCodeButton;
 	[SerializeField] private Button showLobbyCodeButton;
 
+	[SerializeField] private GamemodeManager gamemodeManager;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -32,10 +34,13 @@ public class ConnectionLobbyUI : NetworkBehaviour
 
 	private void Awake()
 	{
-		startGameButton.onClick.AddListener(() =>
+		gamemodeManager = gamemodeManager = GameObject.FindGameObjectWithTag("Gamemode Manager").GetComponent<GamemodeManager>();
+        string gamemode = gamemodeManager.GamemodeSelector();
+
+        startGameButton.onClick.AddListener(() =>
 		{
 			CuisineClashLobby.Instance.DeleteLobby();
-			Loader.LoadNetwork(Loader.Scene.PregameLobby.ToString());
+			Loader.LoadNetwork(gamemode);
 		});
 		mainMenuButton.onClick.AddListener(() =>
 		{
