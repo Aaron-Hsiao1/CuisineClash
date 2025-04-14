@@ -20,8 +20,7 @@ public static class Loader
 		HotPotato,
 		LoadIntoHP,
 		TutorialHP,
-		GameEnded,
-		CaptureTheCake
+		GameEnded
 	}
 	private static Scene targetScene;
 

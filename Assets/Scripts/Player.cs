@@ -35,13 +35,13 @@ public class Player : NetworkBehaviour
 		}
 	}
 
-	private void Update()
-	{
-		//Debug.Log("Player position: " + transform.position.ToString());
-	}
+    private void Update()
+    {
+        //Debug.Log("Player position: " + transform.position.ToString());
+    }
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
 	{
 		if (IsLocalPlayer)
 		{
@@ -84,25 +84,6 @@ public class Player : NetworkBehaviour
 	public void SetPlayerLocation(float x, float y, float z)
 	{
 		SetPlayerLocationClientRpc(x, y, z);
-	}
-
-	public void KillPlayer(float x, float y, float z)
-	{
-		KillPlayerClientRpc(x, y, z);
-	}
-
-	[ClientRpc]
-	private void KillPlayerClientRpc(float x, float y, float z)
-	{
-		rb.position = new Vector3(x, y, z);
-		Debug.Log("New Position Set");
-		StartCoroutine(DeactivateAfterFrame());
-	}
-
-	private IEnumerator DeactivateAfterFrame()
-	{
-		yield return 1f; // Wait for one frame to ensure position update
-		transform.gameObject.SetActive(false);
 	}
 
 	private void NetworkManager_OnClientDisconnectCallback(ulong clientId)

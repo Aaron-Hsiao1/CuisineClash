@@ -12,7 +12,8 @@ public class ThirdPersonCam : NetworkBehaviour
 	[SerializeField] private Transform player;
 	[SerializeField] private Transform playerObj;
 	//[SerializeField] private Rigidbody rb;
-	[SerializeField] private CinemachineFreeLook fL = null;
+	[SerializeField] private CinemachineFreeLook freeLookCamera = null;
+	[SerializeField] private CinemachineFreeLook combatCamera;
 
 	[SerializeField] private float rotationSpeed;
 
@@ -21,6 +22,9 @@ public class ThirdPersonCam : NetworkBehaviour
 	[SerializeField] private CameraStyle currentStyle;
 
 	[SerializeField] private FreeCam freeCam;
+
+	public KOTGAttack KOTGA;
+
 	public enum CameraStyle
 	{
 		Basic,
@@ -35,27 +39,27 @@ public class ThirdPersonCam : NetworkBehaviour
 		}
 		if (IsOwner)
 		{
-			fL.Priority = 1;
+			freeLookCamera.Priority = 1;
 		}
 		else
 		{
-			fL.Priority = 0;
+			freeLookCamera.Priority = 0;
 		}
 		if (IsOwner && currentStyle == CameraStyle.Combat)
 		{
 			Debug.Log("fl used");
 			Transform cameraTarget = combatLookAt;
 			Transform cameraFollow = transform;
-			if (fL = null)
+			if (freeLookCamera = null)
 			{
 				Debug.Log("null");
-				fL = FindObjectOfType<CinemachineFreeLook>();
+				freeLookCamera = FindObjectOfType<CinemachineFreeLook>();
 			}
-			if (fL != null)
+			if (freeLookCamera != null)
 			{
 				Debug.Log("Not null");
-				fL.Follow = cameraFollow;
-				fL.LookAt = cameraTarget;
+				freeLookCamera.Follow = cameraFollow;
+				freeLookCamera.LookAt = cameraTarget;
 			}
 		}
 	}
@@ -86,6 +90,19 @@ public class ThirdPersonCam : NetworkBehaviour
 			orientation.forward = dirToCombatLookAt.normalized;
 
 			playerObj.forward = dirToCombatLookAt.normalized;
+		}
+
+		if (!KOTGA.isCharging && currentStyle == CameraStyle.Combat)
+		{ //switc h from combat -> basic
+			freeLookCamera.gameObject.SetActive(true);
+			currentStyle = CameraStyle.Basic;
+			combatCamera.gameObject.SetActive(false);
+		}
+		else if (KOTGA.isCharging && currentStyle == CameraStyle.Basic)
+		{ //swtich from basic -> camera
+			combatCamera.gameObject.SetActive(true);
+			currentStyle = CameraStyle.Combat;
+			freeLookCamera.gameObject.SetActive(false);
 		}
 	}
 }

@@ -16,7 +16,7 @@ TagManager:
   - Ladder
   - Water
   - PlayerPush
-  - Cake
+  - KOTGAttackCollider
   layers:
   - Default
   - TransparentFX
@@ -28,7 +28,7 @@ TagManager:
   - No Collisionwefewfewfwefwefwe
   - PostProcessing
   - Ladder
-  - 
+  - KOTGAttack
   - 
   - 
   - 

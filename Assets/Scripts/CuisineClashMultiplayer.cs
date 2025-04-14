@@ -212,7 +212,7 @@ public class CuisineClashMultiplayer : NetworkBehaviour
 		return NetworkManager.Singleton.ConnectedClients[playerId].PlayerObject.gameObject;
 	}
 
-    [ServerRpc(RequireOwnership = false)]
+	[ServerRpc(RequireOwnership = false)]
 	public void ChangePlayerColorServerRpc(int outerColorId, int innerColorId, ServerRpcParams serverRpcParams = default)
 	{
 		if (!IsColorAvailable(outerColorId, innerColorId))

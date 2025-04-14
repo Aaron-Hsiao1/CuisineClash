@@ -43,6 +43,7 @@ public class PlayerPush : NetworkBehaviour
 
     void PushPlayer(GameObject player)
     {
+        Debug.Log("push player called");
         Rigidbody rb = player.GetComponentInParent<Rigidbody>();
 
         if (rb != null)

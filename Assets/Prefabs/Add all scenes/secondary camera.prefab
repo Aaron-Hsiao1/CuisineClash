@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6227584920203554593}
   - component: {fileID: 5088594870287346299}
   - component: {fileID: 4692179161760211443}
-  - component: {fileID: 366082835065965183}
+  - component: {fileID: -4760050820608959097}
   m_Layer: 0
   m_Name: secondary camera
   m_TagString: Untagged
@@ -115,7 +115,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &366082835065965183
+--- !u!114 &-4760050820608959097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

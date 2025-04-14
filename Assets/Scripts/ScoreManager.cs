@@ -34,7 +34,7 @@ public class ScoreManager : NetworkBehaviour
 	[ClientRpc]
 	private void AddPointClientRpc()
 	{
-		//kingOfTheGrillManager.AddScore(1);
+		kingOfTheGrillManager.AddScore(1);
 	}
 
 	public int ReturnPlayerPoints()

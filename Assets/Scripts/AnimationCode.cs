@@ -15,6 +15,7 @@ public class AnimationCode : NetworkBehaviour
 	public float playerHeight;
 	public KeyCode jumpKey = KeyCode.Space;
 	public HotPotatoExplosion HPT;
+	public KOTGAttack KOTGA;
 
 	[SerializeField] private PlayerMovement playerMovement;
 
@@ -67,7 +68,18 @@ public class AnimationCode : NetworkBehaviour
 					//Debug.Log("DOES NOT HAVE HOT POTATO");
 				}
 			}
-
+			if (KOTGA.isCharging)
+			{
+                mAnimator.SetBool("IsCharging", true);
+            }
+			else
+			{
+                mAnimator.SetBool("IsCharging", false);
+            }
+			if (KOTGA.isDashing)
+			{
+				mAnimator.SetTrigger("IsHitting");
+			}
 		}
 	}
 }
