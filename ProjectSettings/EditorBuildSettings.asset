@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameEnded.unity
     guid: 1bf29d6827b58a1409a8d0855600a27b
+  - enabled: 1
+    path: Assets/Scenes/lobby test.unity
+    guid: 94cc6ca8cb277d64286aba95d2372cb4
   m_configObjects: {}
