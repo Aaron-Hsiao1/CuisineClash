@@ -2582,8 +2582,8 @@ MonoBehaviour:
   createLobbyButton: {fileID: 98228222}
   quickJoinButton: {fileID: 449694997}
   lobbyCreateUI: {fileID: 205866249}
-  lobbyContainer: {fileID: 0}
-  lobbyTemplate: {fileID: 0}
+  lobbyContainer: {fileID: 1504242744}
+  lobbyTemplate: {fileID: 1504242743}
   joinCodeButton: {fileID: 1356713112}
   joinCodeInputField: {fileID: 0}
   playerNameInputField: {fileID: 0}
@@ -5978,6 +5978,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59bd4e0127a14e544b6099a157145ba4, type: 3}
+--- !u!224 &1504242743 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 347989732565897156, guid: 59bd4e0127a14e544b6099a157145ba4, type: 3}
+  m_PrefabInstance: {fileID: 1504242742}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1504242744 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7035191815350504649, guid: 59bd4e0127a14e544b6099a157145ba4, type: 3}
+  m_PrefabInstance: {fileID: 1504242742}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1510053330
 GameObject:
   m_ObjectHideFlags: 0
